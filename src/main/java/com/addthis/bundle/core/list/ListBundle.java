@@ -18,8 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.addthis.basis.util.Parameter;
-
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleException;
 import com.addthis.bundle.core.BundleField;
@@ -29,8 +27,8 @@ import com.addthis.bundle.value.ValueObject;
 
 public class ListBundle implements Bundle {
 
-    private static final boolean debugToString = Parameter.boolValue("bundle.list.verbose", false);
-    private static final ValueObject skip = ValueFactory.create("__skip__");
+    //marker object for fields in the format but not in this bundle to allow lazy consistency
+    private static final ValueObject SKIP = ValueFactory.create("__skip__");
 
     private final List<ValueObject> bundle;
     private final ListBundleFormat format;
@@ -45,47 +43,31 @@ public class ListBundle implements Bundle {
     }
 
     public ListBundle(ListBundleFormat format, int size) {
+        this(format, new ArrayList<ValueObject>(size));
+    }
+
+    public ListBundle (ListBundleFormat format, List<ValueObject> list) {
         this.format = format;
-        this.bundle = createList(size);
+        this.bundle = list;
     }
 
     @Override
     public String toString() {
-        if (!debugToString) {
-            return bundle.toString();
-        }
-        StringBuilder sb = new StringBuilder();
-        for (BundleField field : format) {
-            if (field.getIndex() >= bundle.size()) {
-                continue;
-            }
-            if (sb.length() > 0) {
-                sb.append(", ");
-            }
-            sb.append(field.getName()).append("=").append(bundle.get(field.getIndex()));
-        }
-        return sb.toString();
-    }
-
-    /**
-     * override this in subclasses to use another list type
-     */
-    protected List<ValueObject> createList(int size) {
-        return new ArrayList<ValueObject>(size);
+        return bundle.toString();
     }
 
     @Override
     public Iterator<BundleField> iterator() {
         return new Iterator<BundleField>() {
             private final Iterator<BundleField> iter = format.iterator();
-            private BundleField peek;
+            private BundleField peek = null;
 
             @Override
             public boolean hasNext() {
                 while (peek == null && iter.hasNext()) {
                     BundleField next = iter.next();
                     ValueObject value = getRawValue(next);
-                    if (value == skip) {
+                    if (value == SKIP) {
                         continue;
                     }
                     peek = next;
@@ -106,7 +88,7 @@ public class ListBundle implements Bundle {
 
             @Override
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException("Field iterator is read-only");
             }
 
         };
@@ -115,8 +97,8 @@ public class ListBundle implements Bundle {
     @Override
     public ValueObject getValue(BundleField field) throws BundleException {
         ValueObject value = getRawValue(field);
-        if (value == skip) {
-            value = null;
+        if (value == SKIP) {
+            return null;
         }
         return value;
     }
@@ -124,8 +106,10 @@ public class ListBundle implements Bundle {
     private ValueObject getRawValue(BundleField field) throws BundleException {
         if (field != null) {
             Integer index = field.getIndex();
-            if (index != null && index < bundle.size()) {
+            if (index < bundle.size()) {
                 return bundle.get(index);
+            } else {
+                return SKIP;
             }
         }
         return null;
@@ -141,10 +125,10 @@ public class ListBundle implements Bundle {
             Integer index = field.getIndex();
             if (index != null) {
                 while (bundle.size() <= index) {
-                    bundle.add(skip);
+                    bundle.add(SKIP);
                 }
                 ValueObject prev = bundle.set(index, value);
-                if (prev == skip) {
+                if (prev == SKIP) {
                     count++;
                 }
             }
@@ -157,7 +141,7 @@ public class ListBundle implements Bundle {
 
     @Override
     public void removeValue(BundleField field) throws BundleException {
-        set(field, skip);
+        set(field, SKIP);
         count--;
     }
 
