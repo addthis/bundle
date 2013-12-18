@@ -30,7 +30,7 @@ import com.addthis.bundle.value.ValueObject;
 public class ListBundle implements Bundle {
 
     private static final boolean debugToString = Parameter.boolValue("bundle.list.verbose", false);
-    private static final ValueObject skip = ValueFactory.create("");
+    private static final ValueObject skip = ValueFactory.create("__skip__");
 
     private final List<ValueObject> bundle;
     private final ListBundleFormat format;
