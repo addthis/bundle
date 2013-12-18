@@ -62,6 +62,9 @@ public class DataTableListWrapper implements DataTable {
     private Bundle ensureCompatibility(Bundle row) {
         if (row.getFormat() != format) {
             Bundle replace = createBundle();
+            for (BundleField field : row.getFormat()) {
+                format.getField(field.getName());
+            }
             for (BundleField field : row) {
                 replace.setValue(format.getField(field.getName()), row.getValue(field));
             }
