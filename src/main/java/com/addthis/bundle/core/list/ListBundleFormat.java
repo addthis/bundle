@@ -16,6 +16,7 @@ package com.addthis.bundle.core.list;
 import javax.annotation.Nonnull;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class ListBundleFormat implements BundleFormat {
 
     private static class State {
 
+        private static final BundleField[] EMPTY_LIST_FIELDS = new ListBundleField[0];
+
         @Nonnull
         final Map<String, BundleField> fieldMap;
 
@@ -43,9 +46,7 @@ public class ListBundleFormat implements BundleFormat {
         final Object version;
 
         State() {
-            fieldMap = new HashMap<>();
-            fieldArray = new ListBundleField[0];
-            version = new Object();
+            this(Collections.<String, BundleField>emptyMap(), EMPTY_LIST_FIELDS);
         }
 
         State(Map<String, BundleField> fieldMap, BundleField[] fieldArray) {
@@ -58,7 +59,7 @@ public class ListBundleFormat implements BundleFormat {
     @Override
     public String toString() {
         State currentState = state.get();
-        return currentState.fieldMap.toString();
+        return currentState.fieldArray.toString();
     }
 
     @Override
@@ -85,8 +86,7 @@ public class ListBundleFormat implements BundleFormat {
             int size = currentState.fieldArray.length;
 
             String name = prefix + size;
-            BundleField field = currentState.fieldMap.get(name);
-            if (field != null) {
+            if (currentState.fieldMap.containsKey(name)) {
                 continue;
             }
             Map<String, BundleField> newMap = new HashMap<>(currentState.fieldMap);
