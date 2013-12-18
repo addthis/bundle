@@ -1,0 +1,53 @@
+# bundle
+
+## packets, packets, everywhere
+
+`bundle` is a java library for creating and accessing internal
+representations of individual packets or bundles of data.  The
+canonical use is for log lines.
+
+Elements are represented as using primitives and basic structures
+(arrays, maps).  Bundle's *raison d'être* is to allow fast (no hash)
+access to basic but arbitrary structured data like (no ahead of time
+POJOs).  This depends on the format for a stream of bundles not
+changing too often (again, like log lines).
+
+Bundles can be serialized for exchange through an analytic pipeline.
+They can also serve as the native or original log format, but there is
+no schema support to assist with this.  They cannot do POJO
+data-binding and are not intended as a general purpose java
+serialization library.
+
+
+## Building
+
+`mvn test`
+
+## Use
+
+```xml
+<dependency>
+  <groupId>com.addthis</groupId>
+  <artifactId>bundle</artifactId>
+  <version>latest-and-greatest</version>
+</dependency>
+```
+
+You can either install locally, or releases will eventually make their
+way to maven central.
+
+## Administrative
+
+### Versioning
+
+It's x.y.z where:
+
+ * x: something major happened
+ * y: next release
+ * z: bug fix only
+
+### License
+
+bundle is released under the Apache License Version 2.0.  See
+[Apache](http://www.apache.org/licenses/LICENSE-2.0) or the LICENSE
+for details.
