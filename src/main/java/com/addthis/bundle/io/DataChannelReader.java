@@ -13,6 +13,7 @@
  */
 package com.addthis.bundle.io;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,7 +24,7 @@ import com.addthis.bundle.core.BundleFactory;
 import com.addthis.bundle.io.DataChannelCodec.ClassIndexMap;
 import com.addthis.bundle.io.DataChannelCodec.FieldIndexMap;
 
-public class DataChannelReader {
+public class DataChannelReader implements Closeable {
 
     private final BundleFactory factory;
     private final InputStream in;
@@ -39,6 +40,7 @@ public class DataChannelReader {
         return DataChannelCodec.decodeBundle(factory.createBundle(), Bytes.readBytes(in), fieldMap, classMap);
     }
 
+    @Override
     public void close() throws IOException {
         in.close();
     }

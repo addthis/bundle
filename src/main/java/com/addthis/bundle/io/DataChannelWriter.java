@@ -13,6 +13,7 @@
  */
 package com.addthis.bundle.io;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -22,7 +23,7 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.io.DataChannelCodec.ClassIndexMap;
 import com.addthis.bundle.io.DataChannelCodec.FieldIndexMap;
 
-public class DataChannelWriter {
+public class DataChannelWriter implements Closeable {
 
     private final OutputStream out;
     private final ClassIndexMap classMap = DataChannelCodec.createClassIndexMap();
@@ -37,6 +38,7 @@ public class DataChannelWriter {
         Bytes.writeBytes(DataChannelCodec.encodeBundle(row, fieldMap, classMap), out);
     }
 
+    @Override
     public void close() throws IOException {
         closed = true;
         out.close();
