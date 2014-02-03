@@ -19,6 +19,4 @@ public interface ValueBytes extends ValueObject {
     public int size();
 
     public byte[] getBytes();
-
-    public void setBytes(byte[] val);
 }

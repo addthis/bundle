@@ -13,19 +13,8 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueArray extends ValueObject, Iterable<ValueObject> {
+import java.util.List;
 
-    public int size();
+public interface ValueArray extends ValueObject, List<ValueObject> {
 
-    public ValueObject get(int pos);
-
-    public ValueObject set(int pos, ValueObject val);
-
-    public void insert(int before, ValueObject val);
-
-    public void append(ValueObject val);
-
-    public ValueObject remove(int pos);
-
-    public void clear();
 }

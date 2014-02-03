@@ -13,11 +13,8 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueMapEntry {
+import java.util.Map;
 
-    public String getKey();
+public interface ValueMapEntry extends Map.Entry<String, ValueObject> {
 
-    public ValueObject getValue();
-
-    public ValueObject setValue(ValueObject val);
 }

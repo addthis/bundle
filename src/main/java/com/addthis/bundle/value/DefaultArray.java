@@ -63,16 +63,6 @@ public class DefaultArray extends ArrayList<ValueObject> implements ValueArray {
     }
 
     @Override
-    public void insert(int before, ValueObject val) {
-        super.add(before, val);
-    }
-
-    @Override
-    public void append(ValueObject val) {
-        super.add(val);
-    }
-
-    @Override
     public ValueCustom asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }

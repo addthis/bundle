@@ -347,7 +347,7 @@ public final class DataChannelCodec {
                 int len = (int) Bytes.readLength(in);
                 ValueArray arr = ValueFactory.createArray(len);
                 for (int i = 0; i < len; i++) {
-                    arr.append(decodeValue(in, classMap));
+                    arr.add(decodeValue(in, classMap));
                 }
                 return arr;
             case MAP:

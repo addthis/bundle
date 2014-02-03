@@ -81,7 +81,7 @@ public final class DefaultLong implements ValueLong {
     @Override
     public ValueArray asArray() throws ValueTranslationException {
         ValueArray arr = ValueFactory.createArray(1);
-        arr.append(this);
+        arr.add(this);
         return arr;
     }
 
@@ -111,13 +111,8 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public Long getLong() {
+    public long getLong() {
         return value;
-    }
-
-    @Override
-    public void setLong(Long val) {
-        this.value = val;
     }
 
     @Override

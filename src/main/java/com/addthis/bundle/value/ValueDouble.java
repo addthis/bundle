@@ -15,7 +15,5 @@ package com.addthis.bundle.value;
 
 public interface ValueDouble extends ValueNumber {
 
-    public Double getDouble();
-
-    public void setDouble(Double val);
+    public double getDouble();
 }

@@ -16,15 +16,6 @@ package com.addthis.bundle.value;
 import java.util.Map;
 import java.util.Set;
 
-public interface ValueMap extends ValueObject, Iterable<ValueMapEntry> {
+public interface ValueMap extends ValueObject, Iterable<ValueMapEntry>, Map<String, ValueObject> {
 
-    public ValueObject get(String key);
-
-    public ValueObject remove(String key);
-
-    public ValueObject put(String key, ValueObject val);
-
-    public int size();
-
-    public Set<Map.Entry<String, ValueObject>> entrySet();
 }

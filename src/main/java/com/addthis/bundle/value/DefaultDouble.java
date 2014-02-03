@@ -81,7 +81,7 @@ public final class DefaultDouble implements ValueDouble {
     @Override
     public ValueArray asArray() throws ValueTranslationException {
         ValueArray arr = ValueFactory.createArray(1);
-        arr.append(this);
+        arr.add(this);
         return arr;
     }
 
@@ -111,13 +111,8 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public Double getDouble() {
+    public double getDouble() {
         return value;
-    }
-
-    @Override
-    public void setDouble(Double val) {
-        this.value = val;
     }
 
     @Override

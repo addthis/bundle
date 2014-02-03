@@ -60,7 +60,7 @@ public class ValueFactory {
     public static ValueArray createValueArray(List<String> array) {
         ValueArray out = ValueFactory.createArray(array.size());
         for (String val : array) {
-            out.append(ValueFactory.create(val));
+            out.add(ValueFactory.create(val));
         }
 
         return out;
@@ -92,7 +92,7 @@ public class ValueFactory {
                 case ARRAY:
                     ValueArray valueArray = ValueFactory.createArray(valueObject.asArray().size());
                     for (ValueObject vo : valueObject.asArray()) {
-                        valueArray.append(ValueFactory.copyValue(vo));
+                        valueArray.add(ValueFactory.copyValue(vo));
                     }
                     newValueObject = valueArray;
                     break;
@@ -111,7 +111,6 @@ public class ValueFactory {
                         e.printStackTrace();
                     }
                     break;
-                default:
             }
         }
         return newValueObject;

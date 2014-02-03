@@ -19,13 +19,9 @@ import com.addthis.bundle.util.ValueUtil;
 
 public class DefaultString implements ValueString {
 
-    private String value;
+    private final String value;
 
-    protected DefaultString(String value) {
-        this.value = value;
-    }
-
-    protected void setValue(String value) {
+    public DefaultString(String value) {
         this.value = value;
     }
 
@@ -90,11 +86,6 @@ public class DefaultString implements ValueString {
     @Override
     public String getString() {
         return value;
-    }
-
-    @Override
-    public void setString(String value) {
-        this.value = value;
     }
 
     @Override

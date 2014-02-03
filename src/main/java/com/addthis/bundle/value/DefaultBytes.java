@@ -17,7 +17,7 @@ import com.addthis.basis.util.Bytes;
 
 public class DefaultBytes implements ValueBytes {
 
-    private byte[] value;
+    private final byte[] value;
 
     protected DefaultBytes(byte[] value) {
         this.value = value;
@@ -36,7 +36,7 @@ public class DefaultBytes implements ValueBytes {
     @Override
     public ValueArray asArray() {
         ValueArray arr = ValueFactory.createArray(1);
-        arr.append(this);
+        arr.add(this);
         return arr;
     }
 
@@ -76,11 +76,6 @@ public class DefaultBytes implements ValueBytes {
     @Override
     public byte[] getBytes() {
         return value;
-    }
-
-    @Override
-    public void setBytes(byte[] value) {
-        this.value = value;
     }
 
     @Override

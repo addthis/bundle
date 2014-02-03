@@ -15,7 +15,5 @@ package com.addthis.bundle.value;
 
 public interface ValueLong extends ValueNumber {
 
-    public Long getLong();
-
-    public void setLong(Long val);
+    public long getLong();
 }

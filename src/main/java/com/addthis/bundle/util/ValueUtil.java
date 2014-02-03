@@ -64,7 +64,7 @@ public final class ValueUtil {
             return v.asArray();
         }
         ValueArray arr = ValueFactory.createArray(1);
-        arr.append(v);
+        arr.add(v);
         return arr;
     }
 

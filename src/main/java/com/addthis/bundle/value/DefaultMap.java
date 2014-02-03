@@ -102,16 +102,6 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
     }
 
     @Override
-    public ValueObject get(String key) {
-        return super.get(key);
-    }
-
-    @Override
-    public ValueObject remove(String key) {
-        return super.remove(key);
-    }
-
-    @Override
     public ValueCustom asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }

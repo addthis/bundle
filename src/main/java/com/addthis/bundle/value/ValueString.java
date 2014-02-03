@@ -16,6 +16,4 @@ package com.addthis.bundle.value;
 public interface ValueString extends ValueSimple {
 
     public String getString();
-
-    public void setString(String value);
 }
