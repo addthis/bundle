@@ -84,10 +84,11 @@ public class ListBundleFormat implements BundleFormat {
         while (true) {
             State currentState = state.get();
             int size = currentState.fieldArray.length;
-
-            String name = prefix + size;
-            if (currentState.fieldMap.containsKey(name)) {
-                continue;
+            int accumulate = 0;
+            String name = prefix + (size + accumulate);
+            while (currentState.fieldMap.containsKey(name)) {
+                accumulate++;
+                name = prefix + (size + accumulate);
             }
             Map<String, BundleField> newMap = new HashMap<>(currentState.fieldMap);
             BundleField[] newArray = Arrays.copyOf(currentState.fieldArray, size + 1);

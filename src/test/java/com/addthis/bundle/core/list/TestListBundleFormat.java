@@ -47,19 +47,14 @@ public class TestListBundleFormat {
         assertEquals(1, (int) field1.getIndex());
     }
 
-
-    /**
-     * ignoring this test to not break builds as it is unlikely to go off in practice.
-     * Should probably still be fixed. Suggest using some kind of sweet VROW append list.
-     */
-    @Ignore @Test(timeout = 500)
+    @Test
     public void testCreateNewFieldCollision() {
         ListBundleFormat format = new ListBundleFormat();
         BundleField field0 = format.getField("1");
         assertEquals("1", field0.getName());
         assertEquals(0, (int) field0.getIndex());
-        format.createNewField("");
-        //assert previous call will never finish
+        BundleField field1 = format.createNewField("");
+        assertEquals("2", field1.getName());
     }
 
     @Test
