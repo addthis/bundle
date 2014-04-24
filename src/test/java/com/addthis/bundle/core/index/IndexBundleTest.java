@@ -1,5 +1,9 @@
 package com.addthis.bundle.core.index;
 
+import java.util.Iterator;
+
+import com.addthis.bundle.core.BundleField;
+
 import com.google.common.collect.Iterators;
 
 import org.junit.Assert;
@@ -26,6 +30,15 @@ public class IndexBundleTest {
 
         Assert.assertEquals("Index Bundle should iterate over only columns set for that bundle",
                 1, Iterators.size(bundle.iterator()));
+
+        Iterator<BundleField> iterator = bundle.iterator();
+
+        Assert.assertTrue("Iterator hasNext() should not advance iterator", iterator.hasNext());
+        Assert.assertTrue("Iterator hasNext() should not advance iterator", iterator.hasNext());
+        Assert.assertNotNull(iterator.next());
+        Assert.assertFalse("Iterator hasNext() should not advance iterator", iterator.hasNext());
+        Assert.assertFalse("Iterator hasNext() should not advance iterator", iterator.hasNext());
+
     }
 
     @Test
