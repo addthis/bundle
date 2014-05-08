@@ -21,7 +21,7 @@ import com.addthis.bundle.value.ValueObject;
  * multiple fields.  Iterator returns a list of fields with bound values.
  * Field iterators MUST obey the same constraints as the getFormat() call.
  */
-public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFactory {
+public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFactory, IndexBundle {
 
     /**
      * gets the specified field as a String value.

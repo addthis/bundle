@@ -69,8 +69,8 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public TYPE getObjectType() {
-        return TYPE.INT;
+    public ValueType getObjectType() {
+        return ValueType.INT;
     }
 
     @Override

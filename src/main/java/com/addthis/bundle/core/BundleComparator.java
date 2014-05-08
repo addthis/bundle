@@ -15,6 +15,7 @@ package com.addthis.bundle.core;
 
 import java.util.Comparator;
 
+import com.addthis.bundle.value.ValueType;
 import com.addthis.codec.Codec;
 import com.addthis.bundle.value.ValueObject;
 
@@ -75,9 +76,9 @@ public class BundleComparator implements Comparator<Bundle> {
             if (vRight == null) {
                 return asc ? -1 : 1;
             }
-            final ValueObject.TYPE tLeft = vLeft.getObjectType();
-            final ValueObject.TYPE tRight = vRight.getObjectType();
-            if (tLeft != tRight || tLeft == ValueObject.TYPE.STRING) {
+            final ValueType tLeft = vLeft.getObjectType();
+            final ValueType tRight = vRight.getObjectType();
+            if (tLeft != tRight || tLeft == ValueType.STRING) {
                 final int val = vLeft.toString().compareTo(vRight.toString());
                 if (val != 0) {
                     return asc ? val : -val;

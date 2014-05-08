@@ -20,7 +20,7 @@ package com.addthis.bundle.core;
  * unless the underlying format has changed.  A change in format object
  * is used by many stream clients to perform re-binding.
  */
-public interface BundleFormat extends Iterable<BundleField> {
+public interface BundleFormat extends Iterable<BundleField>, IndexFormat {
 
     /**
      * returns a field for the given name.  creates a new field
@@ -40,11 +40,6 @@ public interface BundleFormat extends Iterable<BundleField> {
      * @return a bound field
      */
     public BundleField getField(int pos);
-
-    /**
-     * @return numnber of bound fields in this format
-     */
-    public int getFieldCount();
 
     /**
      * @return an object that changes only when the format changes

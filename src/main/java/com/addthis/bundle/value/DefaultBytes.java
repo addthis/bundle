@@ -29,8 +29,8 @@ public class DefaultBytes implements ValueBytes {
     }
 
     @Override
-    public TYPE getObjectType() {
-        return TYPE.BYTES;
+    public ValueType getObjectType() {
+        return ValueType.BYTES;
     }
 
     @Override

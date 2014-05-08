@@ -23,8 +23,8 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
     }
 
     @Override
-    public TYPE getObjectType() {
-        return TYPE.MAP;
+    public ValueType getObjectType() {
+        return ValueType.MAP;
     }
 
     @Override

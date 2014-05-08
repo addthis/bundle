@@ -13,6 +13,7 @@
  */
 package com.addthis.bundle.util;
 
+import com.addthis.bundle.value.ValueType;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueNumber;
@@ -36,21 +37,21 @@ public final class ValueUtil {
      * return true if null value or value is equivalent to an empty string
      */
     public static boolean isEmpty(ValueObject v) {
-        return v == null || (v.getObjectType() == ValueObject.TYPE.STRING && v.toString().length() == 0);
+        return v == null || (v.getObjectType() == ValueType.STRING && v.toString().length() == 0);
     }
 
     /**
      * @return String or null if it is null or not convertible
      */
     public static String asNativeString(ValueObject v) {
-        return v != null ? v.getObjectType() == ValueObject.TYPE.STRING ? v.asString().getString() : v.toString() : null;
+        return v != null ? v.getObjectType() == ValueType.STRING ? v.asString().getString() : v.toString() : null;
     }
 
     /**
      * @return String or null if it is null or not convertible
      */
     public static ValueString asString(ValueObject v) {
-        return v != null ? v.getObjectType() == ValueObject.TYPE.STRING ? v.asString() : ValueFactory.create(v.toString()) : null;
+        return v != null ? v.getObjectType() == ValueType.STRING ? v.asString() : ValueFactory.create(v.toString()) : null;
     }
 
     /**
@@ -60,7 +61,7 @@ public final class ValueUtil {
         if (v == null) {
             return null;
         }
-        if (v.getObjectType() == ValueObject.TYPE.ARRAY) {
+        if (v.getObjectType() == ValueType.ARRAY) {
             return v.asArray();
         }
         ValueArray arr = ValueFactory.createArray(1);
@@ -73,11 +74,11 @@ public final class ValueUtil {
      */
     public static ValueNumber asNumber(ValueObject v) {
         if (v != null) {
-            ValueObject.TYPE t = v.getObjectType();
-            if (t == ValueObject.TYPE.INT) {
+            ValueType t = v.getObjectType();
+            if (t == ValueType.INT) {
                 return v.asLong();
             }
-            if (t == ValueObject.TYPE.FLOAT) {
+            if (t == ValueType.FLOAT) {
                 return v.asDouble();
             }
             if (v instanceof ValueNumber) {

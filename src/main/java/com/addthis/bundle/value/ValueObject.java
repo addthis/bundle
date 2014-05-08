@@ -19,11 +19,7 @@ package com.addthis.bundle.value;
  */
 public interface ValueObject {
 
-    public static enum TYPE {
-        STRING, INT, FLOAT, BYTES, ARRAY, MAP, CUSTOM
-    };
-
-    public TYPE getObjectType();
+    public ValueType getObjectType();
 
     public ValueBytes asBytes() throws ValueTranslationException;
 

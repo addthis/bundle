@@ -26,6 +26,7 @@ import com.addthis.basis.util.Bytes;
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.table.DataTable;
+import com.addthis.bundle.value.ValueType;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueCustom;
 import com.addthis.bundle.value.ValueFactory;
@@ -176,7 +177,7 @@ public final class DataChannelCodec {
             out.write(TYPE.NULL.val);
             return;
         }
-        ValueObject.TYPE objectType = val.getObjectType();
+        ValueType objectType = val.getObjectType();
         switch (objectType) {
             case CUSTOM:
                 ValueCustom custom = val.asCustom();

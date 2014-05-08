@@ -36,8 +36,8 @@ public class DefaultString implements ValueString {
     }
 
     @Override
-    public TYPE getObjectType() {
-        return TYPE.STRING;
+    public ValueType getObjectType() {
+        return ValueType.STRING;
     }
 
     @Override

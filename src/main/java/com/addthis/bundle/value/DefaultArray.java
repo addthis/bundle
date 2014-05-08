@@ -23,8 +23,8 @@ public class DefaultArray extends ArrayList<ValueObject> implements ValueArray {
     }
 
     @Override
-    public TYPE getObjectType() {
-        return TYPE.ARRAY;
+    public ValueType getObjectType() {
+        return ValueType.ARRAY;
     }
 
     @Override

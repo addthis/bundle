@@ -103,16 +103,20 @@ public class ListBundle implements Bundle {
         return value;
     }
 
-    private ValueObject getRawValue(BundleField field) throws BundleException {
-        if (field != null) {
-            Integer index = field.getIndex();
-            if (index < bundle.size()) {
-                return bundle.get(index);
-            } else {
-                return SKIP;
-            }
+    private ValueObject getRawValueByIndex(int index) throws BundleException {
+        if (index < bundle.size()) {
+            return bundle.get(index);
+        } else {
+            return SKIP;
         }
-        return null;
+    }
+
+    private ValueObject getRawValue(BundleField field) throws BundleException {
+        if (field == null) {
+            return null;
+        }
+        int index = field.getIndex();
+        return getRawValueByIndex(index);
     }
 
     @Override
@@ -158,5 +162,24 @@ public class ListBundle implements Bundle {
     @Override
     public Bundle createBundle() {
         return new ListBundle(format);
+    }
+
+    @Override
+    public ValueObject value(int index) {
+        ValueObject value = getRawValueByIndex(index);
+        if (value == SKIP) {
+            return null;
+        }
+        return value;
+    }
+
+    @Override
+    public void value(int index, ValueObject value) {
+
+    }
+
+    @Override
+    public BundleFormat format() {
+        return getFormat();
     }
 }
