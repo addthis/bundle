@@ -1,18 +1,22 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package com.addthis.bundle.util;
 
+import java.util.Map;
+
+import com.addthis.bundle.value.DefaultArray;
+import com.addthis.bundle.value.DefaultDouble;
+import com.addthis.bundle.value.DefaultLong;
+import com.addthis.bundle.value.DefaultMap;
+import com.addthis.bundle.value.DefaultString;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueNumber;
@@ -30,6 +34,49 @@ public final class ValueUtil {
             return false;
         }
         return v1.equals(v2);
+    }
+
+    public static boolean isDeeplyEqual(ValueObject a, ValueObject b) {
+        if (a == null && b == null) {
+            return true;
+        } else if (a == null || b == null) {
+            return false;
+        }
+        if (a.getObjectType() == b.getObjectType()) {
+            if (a.getObjectType() == ValueObject.TYPE.STRING) {
+                DefaultString sa = (DefaultString) a, sb = (DefaultString) b;
+                return sa.getString().equals(sb.getString());
+            } else if (a.getObjectType() == ValueObject.TYPE.INT) {
+                DefaultLong la = (DefaultLong) a, lb = (DefaultLong) b;
+                return la.asLong().equals(lb);
+            } else if (a.getObjectType() == ValueObject.TYPE.FLOAT) {
+                DefaultDouble da = (DefaultDouble) a, db = (DefaultDouble) b;
+                return da.asDouble().equals(db);
+            } else if (a.getObjectType() == ValueObject.TYPE.ARRAY) {
+                DefaultArray aa = (DefaultArray) a, ab = (DefaultArray) b;
+                if (aa.asArray().size() != ab.asArray().size()) {
+                    return false;
+                }
+                for (int i = 0; i < aa.asArray().size(); i++) {
+                    if (!isDeeplyEqual(aa.asArray().get(i), ab.asArray().get(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            } else if (a.getObjectType() == ValueObject.TYPE.MAP) {
+                DefaultMap ma = (DefaultMap) a, mb = (DefaultMap) b;
+                if (ma.asMap().size() != mb.asMap().size()) {
+                    return false;
+                }
+                for (Map.Entry<String, ValueObject> entry : ma.asMap().entrySet()) {
+                    if (!isDeeplyEqual(entry.getValue(), mb.asMap().get(entry.getKey()))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
