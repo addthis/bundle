@@ -14,14 +14,11 @@
 package com.addthis.bundle.core;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
 import com.addthis.bundle.util.ValueUtil;
 import com.addthis.bundle.value.ValueFactory;
-
-import com.google.common.collect.Sets;
 
 public class Bundles {
 
@@ -80,16 +77,12 @@ public class Bundles {
     }
 
     public static boolean equals(Bundle a, Bundle b) {
-        Set<String> fields = new HashSet<>();
-        for (BundleField field : a) {
-            fields.add(field.getName());
+        if (a.getCount() != b.getCount()) {
+            return false;
         }
-        for (BundleField field : b) {
-            fields.add(field.getName());
-        }        
-        for (String field : fields) {
-            if (!ValueUtil.isDeeplyEqual(a.getValue(a.getFormat().getField(field)),
-                    b.getValue(b.getFormat().getField(field)))) {
+        for (BundleField aField : a) {
+            BundleField bField = b.getFormat().getField(aField.getName());
+            if (!Objects.equals(a.getValue(aField), b.getValue(bField))) {
                 return false;
             }
         }
