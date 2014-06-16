@@ -69,8 +69,8 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public TYPE getObjectType() {
-        return TYPE.FLOAT;
+    public ValueType getObjectType() {
+        return ValueType.FLOAT;
     }
 
     @Override

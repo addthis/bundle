@@ -22,7 +22,7 @@ public class ValueFactory {
         return val != null ? new DefaultString(val) : null;
     }
 
-    public static ValueBytes create(byte val[]) {
+    public static ValueBytes create(byte[] val) {
         return val != null ? new DefaultBytes(val) : null;
     }
 
@@ -75,7 +75,7 @@ public class ValueFactory {
     public static ValueObject copyValue(ValueObject valueObject) {
         ValueObject newValueObject = null;
         if (valueObject != null) {
-            ValueObject.TYPE type = valueObject.getObjectType();
+            ValueType type = valueObject.getObjectType();
             switch (type) {
                 case STRING:
                     newValueObject = ValueFactory.create(valueObject.asString().getString());

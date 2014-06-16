@@ -88,4 +88,19 @@ public final class KVBundle implements Bundle {
     public Bundle createBundle() {
         return new KVBundle(format);
     }
+
+    @Override
+    public ValueObject value(int index) {
+        throw new UnsupportedOperationException("KV Bundles are map-only");
+    }
+
+    @Override
+    public void value(int index, ValueObject value) {
+        throw new UnsupportedOperationException("KV Bundles are map-only");
+    }
+
+    @Override
+    public BundleFormat format() {
+        return getFormat();
+    }
 }
