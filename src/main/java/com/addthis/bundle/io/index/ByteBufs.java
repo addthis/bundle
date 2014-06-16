@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -48,9 +49,11 @@ public class ByteBufs {
     }
 
     public static void writeString(String string, ByteBuf to) {
-        ByteBuf stringBuf = ByteBufs.fromString(string);
-        writeLength((long) stringBuf.readableBytes(), to);
-        to.writeBytes(stringBuf);
+//        ByteBuf stringBuf = ByteBufs.fromString(string);
+        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+        writeLength((long) bytes.length, to);
+        to.writeBytes(bytes);
+//        stringBuf.release();
     }
 
     public static String readString(ByteBuf from) throws IOException {
