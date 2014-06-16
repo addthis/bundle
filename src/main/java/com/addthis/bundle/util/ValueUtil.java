@@ -1,24 +1,26 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.addthis.bundle.util;
 
+import java.util.Arrays;
 import java.util.Map;
 
-import com.addthis.bundle.value.DefaultArray;
-import com.addthis.bundle.value.DefaultDouble;
-import com.addthis.bundle.value.DefaultLong;
-import com.addthis.bundle.value.DefaultMap;
-import com.addthis.bundle.value.DefaultString;
 import com.addthis.bundle.value.ValueArray;
+import com.addthis.bundle.value.ValueBytes;
+import com.addthis.bundle.value.ValueCustom;
 import com.addthis.bundle.value.ValueFactory;
+import com.addthis.bundle.value.ValueMap;
 import com.addthis.bundle.value.ValueNumber;
 import com.addthis.bundle.value.ValueObject;
 import com.addthis.bundle.value.ValueString;
@@ -43,37 +45,49 @@ public final class ValueUtil {
             return false;
         }
         if (a.getObjectType() == b.getObjectType()) {
-            if (a.getObjectType() == ValueObject.TYPE.STRING) {
-                DefaultString sa = (DefaultString) a, sb = (DefaultString) b;
-                return sa.getString().equals(sb.getString());
-            } else if (a.getObjectType() == ValueObject.TYPE.INT) {
-                DefaultLong la = (DefaultLong) a, lb = (DefaultLong) b;
-                return la.asLong().equals(lb);
-            } else if (a.getObjectType() == ValueObject.TYPE.FLOAT) {
-                DefaultDouble da = (DefaultDouble) a, db = (DefaultDouble) b;
-                return da.asDouble().equals(db);
-            } else if (a.getObjectType() == ValueObject.TYPE.ARRAY) {
-                DefaultArray aa = (DefaultArray) a, ab = (DefaultArray) b;
-                if (aa.asArray().size() != ab.asArray().size()) {
-                    return false;
-                }
-                for (int i = 0; i < aa.asArray().size(); i++) {
-                    if (!isDeeplyEqual(aa.asArray().get(i), ab.asArray().get(i))) {
+            switch (a.getObjectType()) {
+                case STRING:
+                    String sa = a.asString().getString(), sb = b.asString().getString();
+                    if (sa == null && sb == null) {
+                        return true;
+                    } else if (sa == null || sb == null) {
                         return false;
                     }
-                }
-                return true;
-            } else if (a.getObjectType() == ValueObject.TYPE.MAP) {
-                DefaultMap ma = (DefaultMap) a, mb = (DefaultMap) b;
-                if (ma.asMap().size() != mb.asMap().size()) {
-                    return false;
-                }
-                for (Map.Entry<String, ValueObject> entry : ma.asMap().entrySet()) {
-                    if (!isDeeplyEqual(entry.getValue(), mb.asMap().get(entry.getKey()))) {
+                    return sa.equals(sb);
+                case INT:
+                    return a.asLong().equals(b);
+                case FLOAT:
+                    return a.asDouble().equals(b);
+                case ARRAY:
+                    ValueArray aa = a.asArray(), ab = b.asArray();
+                    if (aa.size() != ab.size()) {
                         return false;
                     }
-                }
-                return true;
+                    for (int i = 0; i < aa.size(); i++) {
+                        if (!isDeeplyEqual(aa.get(i), ab.get(i))) {
+                            return false;
+                        }
+                    }
+                    return true;
+                case MAP:
+                    ValueMap ma = a.asMap(), mb = b.asMap();
+                    if (ma.size() != mb.size()) {
+                        return false;
+                    }
+                    for (Map.Entry<String, ValueObject> entry : ma.entrySet()) {
+                        if (!isDeeplyEqual(entry.getValue(), mb.get(entry.getKey()))) {
+                            return false;
+                        }
+                    }
+                    return true;
+                case BYTES:
+                    ValueBytes ba = a.asBytes(), bb = b.asBytes();
+                    return Arrays.equals(ba.getBytes(), bb.getBytes());
+                case CUSTOM:
+                    ValueCustom ca = a.asCustom(), cb = b.asCustom();
+                    return ca.equals(cb);
+                default:
+                    throw new IllegalStateException("Unexpected value type " + a.getObjectType());
             }
         }
         return false;
