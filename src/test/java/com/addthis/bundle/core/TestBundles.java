@@ -56,8 +56,8 @@ public class TestBundles {
     }
     
     @Test
-    public void testShallowCopyBundleReplace() {
-        Bundle c = Bundles.shallowCopyBundle(a, b, true);
+    public void testaddAllReplace() {
+        Bundle c = Bundles.addAll(a, b, true);
         assertEquals(b, c);
         assertEquals(b.getValue(b.getFormat().getField("abc")), "def");
         assertEquals(b.getValue(b.getFormat().getField("ghi")), "jkl");
@@ -67,8 +67,8 @@ public class TestBundles {
     }
     
     @Test
-    public void testShallowCopyBundleNoReplace() {
-        Bundle c = Bundles.shallowCopyBundle(a, b, false);
+    public void testaddAllNoReplace() {
+        Bundle c = Bundles.addAll(a, b, false);
         assertEquals(b, c);
         assertEquals(b.getValue(b.getFormat().getField("abc")), "pqr");
         assertEquals(b.getValue(b.getFormat().getField("ghi")), "jkl");
@@ -78,8 +78,8 @@ public class TestBundles {
     }
     
     @Test
-    public void testShallowCopyBundleReplaceString() {
-        Bundle c = Bundles.shallowCopyBundle(a, b, "_new");
+    public void testaddAllReplaceString() {
+        Bundle c = Bundles.addAll(a, b, "_new");
         assertEquals(b.getValue(b.getFormat().getField("abc")), "pqr");
         assertEquals(b.getValue(b.getFormat().getField("abc_new")), "def");
         assertEquals(b.getValue(b.getFormat().getField("ghi")), "jkl");

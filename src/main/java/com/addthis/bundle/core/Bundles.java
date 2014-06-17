@@ -51,8 +51,19 @@ public class Bundles {
         }
         return shell;
     }
-
-    public static Bundle shallowCopyBundle(Bundle fromBundle, Bundle toBundle, boolean replace) {
+    
+    /**
+     * Copies all fields from <code>fromBundle</code> to <code>toBundle</code>,
+     * replacing fields with the same name if <code>replace</code> is true. If
+     * <code>replace</code> is false, the original value in <code>toBundle</code>
+     * will be retained in case of name conflicts.
+     * <b>Note: The toBundle field WILL BE MODIFIED by this method!</b> 
+     * @param fromBundle source of the fields to copy
+     * @param toBundle destination for the copied fields, modified in-place
+     * @param replace true to keep toBundle fields in case of conflict, false for fromBundle fields
+     * @return the modified <code>toBundle</code>
+     */
+    public static Bundle addAll(Bundle fromBundle, Bundle toBundle, boolean replace) {
         for (BundleField fromField : fromBundle) {
             // set field if replace is true or if field is not set.
             BundleField toField = toBundle.getFormat().getField(fromField.getName());
@@ -63,7 +74,18 @@ public class Bundles {
         return toBundle;
     }
 
-    public static Bundle shallowCopyBundle(Bundle fromBundle, Bundle toBundle, String replaceSuffix) {
+    
+    /**
+     * Copies all fields from <code>fromBundle</code> to <code>toBundle</code>,
+     * renaming copied fields using the <code>replaceSuffix</code> if there are conflicts.
+     * <b>Note: The toBundle field WILL BE MODIFIED by this method!</b>
+     * <b>Note: If used more than once, this method could overwrite previously suffixed conflicting fields.</b>
+     * @param fromBundle
+     * @param toBundle
+     * @param replaceSuffix
+     * @return the modified <code>toBundle</code>
+     */
+    public static Bundle addAll(Bundle fromBundle, Bundle toBundle, String replaceSuffix) {
         for (BundleField fromField : fromBundle) {
             // set field if replace is true or if field is not set.
             String actualSuffix = "";
