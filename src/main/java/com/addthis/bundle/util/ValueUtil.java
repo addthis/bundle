@@ -21,7 +21,8 @@ import com.addthis.bundle.value.ValueString;
 
 public final class ValueUtil {
 
-    /** */
+    /** @deprecated Use {@link java.util.Objects#equals(Object, Object)} */
+    @Deprecated
     public static boolean isEqual(ValueObject v1, ValueObject v2) {
         if (v1 == v2) {
             return true;

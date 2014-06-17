@@ -15,6 +15,7 @@ package com.addthis.bundle.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import com.addthis.bundle.util.ValueUtil;
 import com.addthis.bundle.value.ValueFactory;
@@ -49,5 +50,63 @@ public class Bundles {
             shell.setValue(shell.getFormat().getField(bundleField.getName()), bundle.getValue(bundleField));
         }
         return shell;
+    }
+
+    /**
+     * Copies all fields from <code>fromBundle</code> to <code>toBundle</code>,
+     * replacing fields with the same name if <code>replace</code> is true. If
+     * <code>replace</code> is false, the original value in <code>toBundle</code>
+     * will be retained in case of name conflicts.
+     * <b>Note: The toBundle field WILL BE MODIFIED by this method!</b> 
+     * @param fromBundle source of the fields to copy
+     * @param toBundle destination for the copied fields, modified in-place
+     * @param replace true to keep toBundle fields in case of conflict, false for fromBundle fields
+     * @return the modified <code>toBundle</code>
+     */
+    public static Bundle addAll(Bundle fromBundle, Bundle toBundle, boolean replace) {
+        for (BundleField fromField : fromBundle) {
+            // set field if replace is true or if field is not set.
+            BundleField toField = toBundle.getFormat().getField(fromField.getName());
+            if (replace || toBundle.getValue(toField) == null) {
+                toBundle.setValue(toField, fromBundle.getValue(fromField));
+            }
+        }
+        return toBundle;
+    }
+
+    /**
+     * Copies all fields from <code>fromBundle</code> to <code>toBundle</code>,
+     * renaming copied fields using the <code>replaceSuffix</code> if there are conflicts.
+     * <b>Note: The toBundle field WILL BE MODIFIED by this method!</b>
+     * <b>Note: If used more than once, this method could overwrite previously suffixed conflicting fields.</b>
+     * @param fromBundle source of the fields to copy
+     * @param toBundle destination for the copied fields, modified in-place
+     * @param replaceSuffix suffix to append to name of conflicting copied fields.
+     * @return the modified <code>toBundle</code>
+     */
+    public static Bundle addAll(Bundle fromBundle, Bundle toBundle, String replaceSuffix) {
+        for (BundleField fromField : fromBundle) {
+            // set field if replace is true or if field is not set.
+            String actualSuffix = "";
+            BundleField toField = toBundle.getFormat().getField(fromField.getName());
+            if (toBundle.getValue(toField) != null) {
+                actualSuffix = replaceSuffix;
+            }
+            toBundle.setValue(toBundle.getFormat().getField(fromField.getName() + actualSuffix), fromBundle.getValue(fromField));
+        }
+        return toBundle;
+    }
+
+    public static boolean equals(Bundle a, Bundle b) {
+        if (a.getCount() != b.getCount()) {
+            return false;
+        }
+        for (BundleField aField : a) {
+            BundleField bField = b.getFormat().getField(aField.getName());
+            if (!Objects.equals(a.getValue(aField), b.getValue(bField))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

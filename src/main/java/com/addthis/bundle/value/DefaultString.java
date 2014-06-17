@@ -13,6 +13,8 @@
  */
 package com.addthis.bundle.value;
 
+import java.util.Objects;
+
 import com.addthis.basis.util.Bytes;
 
 import com.addthis.bundle.util.ValueUtil;
@@ -31,8 +33,10 @@ public class DefaultString implements ValueString {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o == value || (o != null && value != null && o.toString().equals(value));
+    public boolean equals(Object obj) {
+        String other = (obj != null) ? obj.toString() : null;
+        String self  = this.toString();
+        return Objects.equals(self, other);
     }
 
     @Override
