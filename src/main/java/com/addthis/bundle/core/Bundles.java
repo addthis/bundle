@@ -51,7 +51,7 @@ public class Bundles {
         }
         return shell;
     }
-    
+
     /**
      * Copies all fields from <code>fromBundle</code> to <code>toBundle</code>,
      * replacing fields with the same name if <code>replace</code> is true. If
@@ -74,15 +74,14 @@ public class Bundles {
         return toBundle;
     }
 
-    
     /**
      * Copies all fields from <code>fromBundle</code> to <code>toBundle</code>,
      * renaming copied fields using the <code>replaceSuffix</code> if there are conflicts.
      * <b>Note: The toBundle field WILL BE MODIFIED by this method!</b>
      * <b>Note: If used more than once, this method could overwrite previously suffixed conflicting fields.</b>
-     * @param fromBundle
-     * @param toBundle
-     * @param replaceSuffix
+     * @param fromBundle source of the fields to copy
+     * @param toBundle destination for the copied fields, modified in-place
+     * @param replaceSuffix suffix to append to name of conflicting copied fields.
      * @return the modified <code>toBundle</code>
      */
     public static Bundle addAll(Bundle fromBundle, Bundle toBundle, String replaceSuffix) {
