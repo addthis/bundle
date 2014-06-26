@@ -17,7 +17,7 @@ package com.addthis.bundle.value;
  * translation exceptions are runtime exceptions since you should
  * protect calls to them with a getObjectType call first.
  */
-public interface ValueObject {
+public interface ValueObject<T> {
 
     public static enum TYPE {
         STRING, INT, FLOAT, BYTES, ARRAY, MAP, CUSTOM
@@ -25,13 +25,15 @@ public interface ValueObject {
 
     public TYPE getObjectType();
 
+    public T asNative();
+
     public ValueBytes asBytes() throws ValueTranslationException;
 
     public ValueArray asArray() throws ValueTranslationException;
 
     public ValueMap asMap() throws ValueTranslationException;
 
-    public ValueNumber asNumber() throws ValueTranslationException;
+    public ValueNumber<?> asNumber() throws ValueTranslationException;
 
     public ValueLong asLong() throws ValueTranslationException;
 
@@ -39,5 +41,5 @@ public interface ValueObject {
 
     public ValueString asString() throws ValueTranslationException;
 
-    public ValueCustom asCustom() throws ValueTranslationException;
+    public ValueCustom<?> asCustom() throws ValueTranslationException;
 }

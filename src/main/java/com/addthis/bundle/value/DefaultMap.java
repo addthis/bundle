@@ -15,9 +15,9 @@ package com.addthis.bundle.value;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-@SuppressWarnings("serial")
-public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap {
+public class DefaultMap extends HashMap<String, ValueObject<?>> implements ValueMap {
 
     protected DefaultMap() {
     }
@@ -25,6 +25,11 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
     @Override
     public TYPE getObjectType() {
         return TYPE.MAP;
+    }
+
+    @Override
+    public Map<String, ValueObject<?>> asNative() {
+        return this;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
     }
 
     @Override
-    public ValueNumber asNumber() throws ValueTranslationException {
+    public ValueNumber<?> asNumber() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
@@ -65,7 +70,8 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
     @Override
     public Iterator<ValueMapEntry> iterator() {
         return new Iterator<ValueMapEntry>() {
-            private final Iterator<java.util.Map.Entry<String, ValueObject>> iter = DefaultMap.super.entrySet().iterator();
+            private final Iterator<Map.Entry<String, ValueObject<?>>> iter =
+                    DefaultMap.super.entrySet().iterator();
 
             @Override
             public boolean hasNext() {
@@ -75,7 +81,7 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
             @Override
             public ValueMapEntry next() {
                 return new ValueMapEntry() {
-                    final java.util.Map.Entry<String, ValueObject> next = iter.next();
+                    final Map.Entry<String, ValueObject<?>> next = iter.next();
 
                     @Override
                     public String getKey() {
@@ -102,7 +108,7 @@ public class DefaultMap extends HashMap<String, ValueObject> implements ValueMap
     }
 
     @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
+    public ValueCustom<?> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }

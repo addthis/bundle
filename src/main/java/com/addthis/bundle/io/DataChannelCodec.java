@@ -180,7 +180,7 @@ public final class DataChannelCodec {
         switch (objectType) {
             case CUSTOM:
                 ValueCustom custom = val.asCustom();
-                Class<? extends ValueObject> type = custom.getContainerClass();
+                Class<? extends ValueObject> type = custom.getClass();
                 Integer classID = classIndex.getObjectIndex(type);
                 if (classID == null) {
                     classID = classIndex.createObjectIndex(type);
@@ -212,11 +212,11 @@ public final class DataChannelCodec {
                 break;
             case STRING:
                 out.write(TYPE.STRING.val);
-                Bytes.writeString(val.asString().getString(), out);
+                Bytes.writeString(val.asString().asNative(), out);
                 break;
             case BYTES:
                 out.write(TYPE.BYTES.val);
-                Bytes.writeBytes(val.asBytes().getBytes(), out);
+                Bytes.writeBytes(val.asBytes().asNative(), out);
                 break;
             case INT:
                 long lv = val.asLong().getLong();

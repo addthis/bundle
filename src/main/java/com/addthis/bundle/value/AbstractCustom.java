@@ -13,23 +13,31 @@
  */
 package com.addthis.bundle.value;
 
-import java.util.ArrayList;
-import java.util.List;
+public abstract class AbstractCustom<T> implements ValueCustom<T> {
 
-public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArray {
+    protected T heldObject;
 
-    protected DefaultArray(int size) {
-        super(size);
+    public AbstractCustom(T objectToHold) {
+        this.heldObject = objectToHold;
     }
 
     @Override
     public TYPE getObjectType() {
-        return TYPE.ARRAY;
+        return TYPE.CUSTOM;
     }
 
     @Override
-    public List<?> asNative() {
-        return this;
+    public T asNative() {
+        return heldObject;
+    }
+
+    @Override
+    public ValueSimple<?> asSimple() {
+        try {
+            return asNumber();
+        } catch (ValueTranslationException ignored) {
+            return asString();
+        }
     }
 
     @Override
@@ -39,16 +47,11 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
 
     @Override
     public ValueArray asArray() throws ValueTranslationException {
-        return this;
-    }
-
-    @Override
-    public ValueMap asMap() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
     @Override
-    public ValueNumber asNumber() throws ValueTranslationException {
+    public ValueNumber<?> asNumber() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
@@ -68,20 +71,7 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        int count = 0;
-        for (ValueObject<?> valueObject : this) {
-            if (count++ > 0) {
-                sb.append(",");
-            }
-            sb.append(valueObject.toString());
-        }
-        return sb.toString();
+    public ValueCustom<T> asCustom() throws ValueTranslationException {
+        return this;
     }
 }

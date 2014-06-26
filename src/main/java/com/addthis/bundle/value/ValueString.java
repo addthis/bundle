@@ -13,7 +13,6 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueString extends ValueSimple {
+public interface ValueString extends ValueSimple<String> {
 
-    public String getString();
 }

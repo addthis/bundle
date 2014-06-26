@@ -34,6 +34,11 @@ public class DefaultBytes implements ValueBytes {
     }
 
     @Override
+    public byte[] asNative() {
+        return value;
+    }
+
+    @Override
     public ValueArray asArray() {
         ValueArray arr = ValueFactory.createArray(1);
         arr.add(this);
@@ -71,11 +76,6 @@ public class DefaultBytes implements ValueBytes {
     @Override
     public ValueString asString() {
         throw new ValueTranslationException();
-    }
-
-    @Override
-    public byte[] getBytes() {
-        return value;
     }
 
     @Override

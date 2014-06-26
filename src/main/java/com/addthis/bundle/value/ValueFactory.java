@@ -66,19 +66,20 @@ public class ValueFactory {
         return out;
     }
 
-    public static ValueCustom createCustom(Class<? extends ValueCustom> clazz, ValueMap map) throws InstantiationException, IllegalAccessException {
-        ValueCustom c = clazz.newInstance();
+    public static <C extends ValueCustom<T>, T> C createCustom(
+            Class<C> clazz, ValueMap map) throws InstantiationException, IllegalAccessException {
+        C c = clazz.newInstance();
         c.setValues(map);
         return c;
     }
 
-    public static ValueObject copyValue(ValueObject valueObject) {
+    public static <T> ValueObject<T> copyValue(ValueObject<T> valueObject) {
         ValueObject newValueObject = null;
         if (valueObject != null) {
             ValueObject.TYPE type = valueObject.getObjectType();
             switch (type) {
                 case STRING:
-                    newValueObject = ValueFactory.create(valueObject.asString().getString());
+                    newValueObject = ValueFactory.create(valueObject.asString().asNative());
                     break;
                 case INT:
                     newValueObject = ValueFactory.create(valueObject.asLong().getLong());
@@ -87,7 +88,7 @@ public class ValueFactory {
                     newValueObject = ValueFactory.create(valueObject.asDouble().getDouble());
                     break;
                 case BYTES:
-                    newValueObject = ValueFactory.create(valueObject.asBytes().getBytes());
+                    newValueObject = ValueFactory.create(valueObject.asBytes().asNative());
                     break;
                 case ARRAY:
                     ValueArray valueArray = ValueFactory.createArray(valueObject.asArray().size());
@@ -104,9 +105,9 @@ public class ValueFactory {
                     newValueObject = valueMap;
                     break;
                 case CUSTOM:
-                    ValueCustom custom = (ValueCustom) valueObject;
+                    ValueCustom<T> custom = (ValueCustom<T>) valueObject;
                     try {
-                        newValueObject = ValueFactory.createCustom(custom.getContainerClass(), valueObject.asMap());
+                        newValueObject = ValueFactory.createCustom(custom.getClass(), valueObject.asMap());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

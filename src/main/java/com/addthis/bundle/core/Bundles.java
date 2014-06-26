@@ -18,9 +18,52 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.addthis.bundle.util.ValueUtil;
+import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
+import com.addthis.bundle.value.ValueMap;
+import com.addthis.bundle.value.ValueObject;
+import com.addthis.maljson.JSONArray;
+import com.addthis.maljson.JSONException;
+import com.addthis.maljson.JSONObject;
 
 public class Bundles {
+
+    /**
+     * Create a new {@link JSONObject} as if calling the Bundle were a map passed to
+     * {@link JSONObject#JSONObject(Map)}. Fields containing {@link ValueArray} and
+     * {@link ValueMap} are recursively turned into {@link JSONArray}s and {@link JSONObject}s.
+     *
+     * The "JSONObject" capitalization scheme is kept to match the class name of the returned
+     * object.
+     */
+    public static JSONObject toJSONObject(Bundle row) {
+        JSONObject jsonRow = new JSONObject();
+        for (BundleField field : row) {
+            ValueObject<?> valueObject = row.getValue(field);
+            try {
+                jsonRow.put(field.getName(), jsonWrapValue(valueObject));
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        return jsonRow;
+    }
+
+    private static Object jsonWrapValue(ValueObject<?> valueObject) {
+        if (valueObject == null) {
+            return null;
+        } else {
+            return JSONObject.wrap(valueObject.asNative());
+        }
+    }
+
+    /**
+     * Return a {@link String} that is a valid JSON representation of the Bundle. Exactly
+     * the same as calling {@link #toJSONObject(Bundle)} and then {@link JSONObject#toString()}.
+     */
+    public static String toJsonString(Bundle row) {
+        return toJSONObject(row).toString();
+    }
 
     public static Map<String, String> getAsStringMapSlowly(Bundle b) {
         Map<String, String> map = new HashMap<String, String>();
@@ -36,7 +79,8 @@ public class Bundles {
 
     public static Bundle deepCopyBundle(Bundle bundle, Bundle shell) {
         for (BundleField bundleField : bundle.getFormat()) {
-            shell.setValue(shell.getFormat().getField(bundleField.getName()), ValueFactory.copyValue(bundle.getValue(bundleField)));
+            shell.setValue(shell.getFormat().getField(bundleField.getName()), ValueFactory.copyValue(
+                    bundle.getValue(bundleField)));
         }
         return shell;
     }
