@@ -15,6 +15,6 @@ package com.addthis.bundle.value;
 
 import java.util.List;
 
-public interface ValueArray extends ValueObject<List<?>>, List<ValueObject<?>> {
+public interface ValueArray extends ValueObject<List<ValueObject<?>>>, List<ValueObject<?>> {
 
 }

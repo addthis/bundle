@@ -28,7 +28,7 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public List<?> asNative() {
+    public List<ValueObject<?>> asNative() {
         return this;
     }
 
