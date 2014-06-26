@@ -19,11 +19,11 @@ import com.google.common.primitives.Longs;
 
 public final class DefaultLong implements ValueLong {
 
-    protected DefaultLong(long value) {
+    DefaultLong(long value) {
         this.value = value;
     }
 
-    private long value;
+    private final long value;
 
     @Override
     public int hashCode() {
@@ -39,28 +39,40 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueNumber avg(int count) {
+    public ValueLong avg(int count) {
         return new DefaultLong(value / Math.max(count, 1));
     }
 
     @Override
-    public ValueNumber diff(ValueNumber val) {
+    public ValueLong diff(ValueNumber<?> val) {
         return new DefaultLong(value - val.asLong().getLong());
     }
 
     @Override
-    public ValueNumber max(ValueNumber val) {
-        return new DefaultLong((val == null) ? value : Math.max(value, val.asLong().getLong()));
+    public ValueLong max(ValueNumber<?> val) {
+        if (val == null) {
+            return new DefaultLong(value);
+        } else {
+            return new DefaultLong(Math.max(value, val.asLong().getLong()));
+        }
     }
 
     @Override
-    public ValueNumber min(ValueNumber val) {
-        return new DefaultLong((val == null) ? value : Math.min(value, val.asLong().getLong()));
+    public ValueLong min(ValueNumber<?> val) {
+        if (val == null) {
+            return new DefaultLong(value);
+        } else {
+            return new DefaultLong(Math.min(value, val.asLong().getLong()));
+        }
     }
 
     @Override
-    public ValueNumber sum(ValueNumber val) {
-        return new DefaultLong(value + (val != null ? val.asLong().getLong() : 0));
+    public ValueLong sum(ValueNumber<?> val) {
+        if (val != null) {
+            return new DefaultLong(value + val.asLong().getLong());
+        } else {
+            return new DefaultLong(value + 0);
+        }
     }
 
     @Override
@@ -71,6 +83,11 @@ public final class DefaultLong implements ValueLong {
     @Override
     public TYPE getObjectType() {
         return TYPE.INT;
+    }
+
+    @Override
+    public Long asNative() {
+        return value;
     }
 
     @Override
@@ -91,7 +108,7 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueNumber asNumber() throws ValueTranslationException {
+    public ValueLong asNumber() throws ValueTranslationException {
         return this;
     }
 

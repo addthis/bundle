@@ -14,9 +14,7 @@
 package com.addthis.bundle.value;
 
 
-public interface ValueBytes extends ValueObject {
+public interface ValueBytes extends ValueObject<byte[]> {
 
     public int size();
-
-    public byte[] getBytes();
 }

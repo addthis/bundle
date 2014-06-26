@@ -16,6 +16,6 @@ package com.addthis.bundle.value;
 /**
  * simple value type that can be extended to any environment
  */
-public interface ValueSimple extends ValueObject {
+public interface ValueSimple<T> extends ValueObject<T> {
 
 }

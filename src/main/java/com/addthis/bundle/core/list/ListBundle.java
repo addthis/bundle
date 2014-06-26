@@ -22,6 +22,7 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleException;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
+import com.addthis.bundle.core.Bundles;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
 
@@ -53,7 +54,7 @@ public class ListBundle implements Bundle {
 
     @Override
     public String toString() {
-        return bundle.toString();
+        return Bundles.toJsonString(this);
     }
 
     @Override

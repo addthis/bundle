@@ -45,6 +45,11 @@ public class DefaultString implements ValueString {
     }
 
     @Override
+    public String asNative() {
+        return value;
+    }
+
+    @Override
     public ValueArray asArray() {
         return ValueUtil.asArray(this);
     }
@@ -84,11 +89,6 @@ public class DefaultString implements ValueString {
 
     @Override
     public String toString() {
-        return value;
-    }
-
-    @Override
-    public String getString() {
         return value;
     }
 

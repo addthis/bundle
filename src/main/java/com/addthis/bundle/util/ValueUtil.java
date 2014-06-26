@@ -44,7 +44,7 @@ public final class ValueUtil {
      * @return String or null if it is null or not convertible
      */
     public static String asNativeString(ValueObject v) {
-        return v != null ? v.getObjectType() == ValueObject.TYPE.STRING ? v.asString().getString() : v.toString() : null;
+        return v != null ? v.getObjectType() == ValueObject.TYPE.STRING ? v.asString().asNative() : v.toString() : null;
     }
 
     /**

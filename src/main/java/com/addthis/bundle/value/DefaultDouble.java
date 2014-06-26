@@ -19,11 +19,11 @@ import com.google.common.primitives.Doubles;
 
 public final class DefaultDouble implements ValueDouble {
 
-    protected DefaultDouble(double value) {
+    DefaultDouble(double value) {
         this.value = value;
     }
 
-    private double value;
+    private final double value;
 
     @Override
     public int hashCode() {
@@ -31,36 +31,41 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof DefaultDouble)) {
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DefaultDouble)) {
             return false;
         }
-        return ((DefaultDouble) o).value == value;
+        return ((DefaultDouble) obj).value == value;
     }
 
     @Override
-    public ValueNumber avg(int count) {
+    public ValueDouble avg(int count) {
         return new DefaultDouble(value / Math.max(count, 1));
     }
 
     @Override
-    public ValueNumber diff(ValueNumber val) {
+    public ValueDouble diff(ValueNumber<?> val) {
         return new DefaultDouble(value - val.asDouble().getDouble());
     }
 
     @Override
-    public ValueNumber max(ValueNumber val) {
+    public ValueDouble max(ValueNumber<?> val) {
         return new DefaultDouble(Math.max(value, val.asDouble().getDouble()));
     }
 
     @Override
-    public ValueNumber min(ValueNumber val) {
-        return value > 0 ? new DefaultDouble(Math.min(value, val.asDouble().getDouble())) : val.asDouble();
+    public ValueDouble min(ValueNumber<?> val) {
+        return value > 0 ?
+               new DefaultDouble(Math.min(value, val.asDouble().getDouble())) : val.asDouble();
     }
 
     @Override
-    public ValueNumber sum(ValueNumber val) {
-        return new DefaultDouble(value + (val != null ? val.asDouble().getDouble() : 0));
+    public ValueDouble sum(ValueNumber<?> val) {
+        if (val != null) {
+            return new DefaultDouble(value + val.asDouble().getDouble());
+        } else {
+            return new DefaultDouble(value + 0);
+        }
     }
 
     @Override
@@ -71,6 +76,11 @@ public final class DefaultDouble implements ValueDouble {
     @Override
     public TYPE getObjectType() {
         return TYPE.FLOAT;
+    }
+
+    @Override
+    public Double asNative() {
+        return value;
     }
 
     @Override
@@ -91,7 +101,7 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueNumber asNumber() throws ValueTranslationException {
+    public ValueDouble asNumber() throws ValueTranslationException {
         return this;
     }
 
@@ -116,7 +126,7 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
+    public ValueCustom<?> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }
