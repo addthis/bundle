@@ -71,17 +71,4 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     public ValueCustom asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        int count = 0;
-        for (ValueObject<?> valueObject : this) {
-            if (count++ > 0) {
-                sb.append(",");
-            }
-            sb.append(valueObject.toString());
-        }
-        return sb.toString();
-    }
 }
