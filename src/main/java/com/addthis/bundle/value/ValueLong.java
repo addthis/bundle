@@ -13,7 +13,7 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueLong extends ValueNumber<Long> {
+public interface ValueLong extends ValueNumber<Long, ValueLong> {
 
     public long getLong();
 }

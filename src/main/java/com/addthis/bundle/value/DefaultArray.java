@@ -43,12 +43,12 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public ValueMap asMap() throws ValueTranslationException {
+    public ValueMap<?> asMap() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
     @Override
-    public ValueNumber asNumber() throws ValueTranslationException {
+    public Numeric<?> asNumeric() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
@@ -68,7 +68,7 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
+    public ValueCustom<List<ValueObject<?>>> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }

@@ -20,12 +20,12 @@ public interface ValueCustom<T> extends ValueObject<T> {
      * and have a class that can be re-hydrated by supplying a map.
      */
     @Override
-    public ValueMap asMap();
+    public ValueMap<?> asMap();
 
     /**
      * re-hydration call
      */
-    public void setValues(ValueMap map);
+    public void setValues(ValueMap<?> map);
 
     /**
      * for translation to an environment where native encoding cannot be

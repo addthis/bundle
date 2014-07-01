@@ -47,7 +47,7 @@ public class BundlePrinter {
             builder.append('{');
             Iterator<ValueMapEntry> iterator = asMap.iterator();
             while (iterator.hasNext()) {
-                ValueMapEntry entry = iterator.next();
+                ValueMapEntry<?> entry = iterator.next();
                 builder.append('"');
                 builder.append(entry.getKey());
                 builder.append("\" : ");

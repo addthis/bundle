@@ -44,23 +44,23 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueDouble diff(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueDouble diff(P val) {
         return new DefaultDouble(value - val.asDouble().getDouble());
     }
 
     @Override
-    public ValueDouble max(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueDouble max(P val) {
         return new DefaultDouble(Math.max(value, val.asDouble().getDouble()));
     }
 
     @Override
-    public ValueDouble min(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueDouble min(P val) {
         return value > 0 ?
                new DefaultDouble(Math.min(value, val.asDouble().getDouble())) : val.asDouble();
     }
 
     @Override
-    public ValueDouble sum(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueDouble sum(P val) {
         if (val != null) {
             return new DefaultDouble(value + val.asDouble().getDouble());
         } else {
@@ -96,12 +96,12 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueMap asMap() throws ValueTranslationException {
+    public ValueMap<?> asMap() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
     @Override
-    public ValueDouble asNumber() throws ValueTranslationException {
+    public ValueDouble asNumeric() throws ValueTranslationException {
         return this;
     }
 
@@ -126,7 +126,7 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueCustom<?> asCustom() throws ValueTranslationException {
+    public ValueCustom<Double> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }

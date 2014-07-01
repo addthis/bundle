@@ -44,12 +44,12 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueLong diff(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueLong diff(P val) {
         return new DefaultLong(value - val.asLong().getLong());
     }
 
     @Override
-    public ValueLong max(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueLong max(P val) {
         if (val == null) {
             return new DefaultLong(value);
         } else {
@@ -58,7 +58,7 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueLong min(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueLong min(P val) {
         if (val == null) {
             return new DefaultLong(value);
         } else {
@@ -67,7 +67,7 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueLong sum(ValueNumber<?> val) {
+    public <P extends Numeric<?>> ValueLong sum(P val) {
         if (val != null) {
             return new DefaultLong(value + val.asLong().getLong());
         } else {
@@ -103,12 +103,12 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueMap asMap() throws ValueTranslationException {
+    public ValueMap<?> asMap() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
     @Override
-    public ValueLong asNumber() throws ValueTranslationException {
+    public ValueLong asNumeric() throws ValueTranslationException {
         return this;
     }
 
@@ -133,7 +133,7 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
+    public ValueCustom<Long> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }

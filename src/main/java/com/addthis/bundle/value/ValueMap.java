@@ -15,8 +15,8 @@ package com.addthis.bundle.value;
 
 import java.util.Map;
 
-public interface ValueMap extends ValueObject<Map<String, ValueObject<?>>>,
-                                  Map<String, ValueObject<?>>,
-                                  Iterable<ValueMapEntry> {
+public interface ValueMap<V> extends ValueObject<Map<String, ValueObject<V>>>,
+                                     Map<String, ValueObject<V>>,
+                                     Iterable<ValueMapEntry<V>> {
 
 }

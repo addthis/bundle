@@ -13,64 +13,16 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueNumber<N extends Number> extends ValueSimple<N> {
+public interface ValueNumber<N extends Number, V extends ValueNumber<N, V>>
+        extends ValueSimple<N>, Numeric<N> {
 
-    /**
-     * calculate the sum of the objects and return
-     * a new ValueNumber of the same type as this object.
-     *
-     * @param val
-     * @return the sum of this and the param val
-     */
-    public ValueNumber<?> sum(ValueNumber<?> val);
+    @Override <P extends Numeric<?>> V sum(P val);
 
-    /**
-     * calculate the difference of the two objects
-     * by subtracting val from this object's value
-     * and returning a new ValueNumber<?> of the same
-     * type as this object.
-     *
-     * @param val
-     * @return this value less the param val
-     */
-    public ValueNumber<?> diff(ValueNumber<?> val);
+    @Override <P extends Numeric<?>> V diff(P val);
 
-    /**
-     * calculate the average this numnber's value
-     * over a denominator returning a new ValueNumber<?>
-     * of the same type as this object.
-     *
-     * @param count
-     * @return the average of this over count
-     */
-    public ValueNumber<?> avg(int count);
+    @Override V avg(int count);
 
-    /**
-     * calculate the minimum of two numbers returning
-     * a new ValueNumber<?> of the same type as this object.
-     *
-     * @param val
-     * @return the lesser of this and the param val
-     */
-    public ValueNumber<?> min(ValueNumber<?> val);
+    @Override <P extends Numeric<?>> V min(P val);
 
-    /**
-     * calculate the maximum of two numbers returning
-     * a new ValueNumber<?> of the same type as this object.
-     *
-     * @param val
-     * @return the greater of this and the param val
-     */
-    public ValueNumber<?> max(ValueNumber<?> val);
-
-    /**
-     * @return long representation of this object
-     */
-    public ValueLong asLong();
-
-    /**
-     * @return double representation of this object
-     */
-    public ValueDouble asDouble();
-
+    @Override <P extends Numeric<?>> V max(P val);
 }

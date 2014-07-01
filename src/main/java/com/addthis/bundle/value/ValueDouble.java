@@ -13,7 +13,7 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueDouble extends ValueNumber<Double> {
+public interface ValueDouble extends ValueNumber<Double, ValueDouble> {
 
     public double getDouble();
 }

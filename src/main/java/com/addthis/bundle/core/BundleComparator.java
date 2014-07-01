@@ -15,8 +15,8 @@ package com.addthis.bundle.core;
 
 import java.util.Comparator;
 
-import com.addthis.codec.Codec;
 import com.addthis.bundle.value.ValueObject;
+import com.addthis.codec.annotations.FieldConfig;
 
 /**
  * Specifies one or more fields of the bundle that will be used in sorting.
@@ -29,17 +29,18 @@ public class BundleComparator implements Comparator<Bundle> {
     /**
      * A sequence of field names that will be used in sorting. This field is required.
      */
-    @Codec.Set(codable = true, required = true)
-    private String field[];
+    @FieldConfig(codable = true, required = true)
+    private String[] field;
 
     /**
-     * If specified, then a sequence of boolean values that determine if fields are sorted in ascending order.
+     * If specified, then a sequence of boolean values that determine if fields are sorted in
+     * ascending order.
      * This parameter must be of the same length as the 'field' parameter.
      */
-    @Codec.Set(codable = true)
+    @FieldConfig(codable = true)
     private boolean[] ascending;
 
-    @Codec.Set(codable = true)
+    @FieldConfig(codable = true)
     private int defaultValue = -1;
 
     @Override
@@ -49,11 +50,11 @@ public class BundleComparator implements Comparator<Bundle> {
         }
         final BundleFormat formatLeft = left.getFormat();
         final BundleFormat formatRight = right.getFormat();
-        BundleField fieldLeft[] = new BundleField[field.length];
+        BundleField[] fieldLeft = new BundleField[field.length];
         for (int i = 0; i < field.length; i++) {
             fieldLeft[i] = formatLeft.getField(field[i]);
         }
-        BundleField fieldRight[];
+        BundleField[] fieldRight;
         if (formatRight == formatLeft) {
             fieldRight = fieldLeft;
         } else {
