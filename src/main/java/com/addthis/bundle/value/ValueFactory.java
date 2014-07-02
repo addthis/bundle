@@ -22,7 +22,7 @@ public class ValueFactory {
         return val != null ? new DefaultString(val) : null;
     }
 
-    public static ValueBytes create(byte val[]) {
+    public static ValueBytes create(byte[] val) {
         return val != null ? new DefaultBytes(val) : null;
     }
 
@@ -47,8 +47,8 @@ public class ValueFactory {
         return defaultMap;
     }
 
-    public static ValueMap createMap() {
-        return new DefaultMap();
+    public static <T> ValueMap<T> createMap() {
+        return new DefaultMap<T>();
     }
 
     /**
@@ -99,7 +99,7 @@ public class ValueFactory {
                     break;
                 case MAP:
                     ValueMap valueMap = ValueFactory.createMap();
-                    for (ValueMapEntry vo : valueObject.asMap()) {
+                    for (ValueMapEntry<?> vo : valueObject.asMap()) {
                         valueMap.put(vo.getKey(), vo.getValue());
                     }
                     newValueObject = valueMap;

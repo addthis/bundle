@@ -21,7 +21,7 @@ public interface ValueObject<T> {
 
     public static enum TYPE {
         STRING, INT, FLOAT, BYTES, ARRAY, MAP, CUSTOM
-    };
+    }
 
     public TYPE getObjectType();
 
@@ -31,9 +31,9 @@ public interface ValueObject<T> {
 
     public ValueArray asArray() throws ValueTranslationException;
 
-    public ValueMap asMap() throws ValueTranslationException;
+    public ValueMap<?> asMap() throws ValueTranslationException;
 
-    public ValueNumber<?> asNumber() throws ValueTranslationException;
+    public Numeric<?> asNumeric() throws ValueTranslationException;
 
     public ValueLong asLong() throws ValueTranslationException;
 
@@ -41,5 +41,5 @@ public interface ValueObject<T> {
 
     public ValueString asString() throws ValueTranslationException;
 
-    public ValueCustom<?> asCustom() throws ValueTranslationException;
+    public ValueCustom<T> asCustom() throws ValueTranslationException;
 }

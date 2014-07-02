@@ -194,10 +194,10 @@ public final class DataChannelCodec {
                 encodeValue(custom.asMap(), out, classIndex);
                 break;
             case MAP:
-                ValueMap map = val.asMap();
+                ValueMap<?> map = val.asMap();
                 out.write(TYPE.MAP.val);
                 Bytes.writeLength(map.size(), out);
-                for (ValueMapEntry e : map) {
+                for (ValueMapEntry<?> e : map) {
                     encodeValue(ValueFactory.create(e.getKey()), out, classIndex);
                     encodeValue(e.getValue(), out, classIndex);
                 }
@@ -248,14 +248,14 @@ public final class DataChannelCodec {
     /**
      * for stateless decoding.  bytes MUST come from a stateless encode.
      */
-    public static Bundle decodeBundle(Bundle bundle, byte row[]) throws IOException {
+    public static Bundle decodeBundle(Bundle bundle, byte[] row) throws IOException {
         return decodeBundle(bundle, new ByteArrayInputStream(row), FIMNull, CIMNull);
     }
 
     /**
      * used in QueryChannelServer
      */
-    public static Bundle decodeBundle(Bundle bundle, byte row[], FieldIndexMap fieldMap, ClassIndexMap classMap) throws IOException {
+    public static Bundle decodeBundle(Bundle bundle, byte[] row, FieldIndexMap fieldMap, ClassIndexMap classMap) throws IOException {
         return decodeBundle(bundle, new ByteArrayInputStream(row), fieldMap, classMap);
     }
 
@@ -420,7 +420,7 @@ public final class DataChannelCodec {
     /**
      * decode results from bytes -- helper
      */
-    public static void fromBytes(DataTable result, byte raw[]) {
+    public static void fromBytes(DataTable result, byte[] raw) {
         ByteArrayInputStream in = new ByteArrayInputStream(raw);
         fromInputStream(result, in);
     }

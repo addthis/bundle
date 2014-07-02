@@ -13,9 +13,9 @@
  */
 package com.addthis.bundle.util;
 
+import com.addthis.bundle.value.Numeric;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
-import com.addthis.bundle.value.ValueNumber;
 import com.addthis.bundle.value.ValueObject;
 import com.addthis.bundle.value.ValueString;
 
@@ -72,17 +72,17 @@ public final class ValueUtil {
     /**
      * @return null if null or a number otherwise.
      */
-    public static ValueNumber asNumber(ValueObject v) {
+    public static Numeric asNumber(ValueObject v) {
         if (v != null) {
+            if (v instanceof Numeric) {
+                return (Numeric) v;
+            }
             ValueObject.TYPE t = v.getObjectType();
             if (t == ValueObject.TYPE.INT) {
                 return v.asLong();
             }
             if (t == ValueObject.TYPE.FLOAT) {
                 return v.asDouble();
-            }
-            if (v instanceof ValueNumber) {
-                return (ValueNumber) v;
             }
         }
         return null;
@@ -92,8 +92,8 @@ public final class ValueUtil {
      * return number if it's already one.  if not guess double or
      * long based on the presence of "." in string version and parse.
      */
-    public static ValueNumber asNumberOrParse(ValueObject v) {
-        ValueNumber n = asNumber(v);
+    public static Numeric asNumberOrParse(ValueObject v) {
+        Numeric n = asNumber(v);
         if (n == null && v != null) {
             String sv = v.toString();
             if (sv.indexOf(".") > 0) {
@@ -109,8 +109,8 @@ public final class ValueUtil {
      * return number if it's already one.  if not parse as long from
      * the string value using provided radix.
      */
-    public static ValueNumber asNumberOrParseLong(ValueObject v, int radix) {
-        ValueNumber n = asNumber(v);
+    public static Numeric asNumberOrParseLong(ValueObject v, int radix) {
+        Numeric n = asNumber(v);
         if (n == null && v != null) {
             return ValueFactory.create(Long.parseLong(v.toString(), radix));
         }
@@ -121,8 +121,8 @@ public final class ValueUtil {
      * return number if it's already one.  if not parse as double from
      * the string value.
      */
-    public static ValueNumber asNumberOrParseDouble(ValueObject v) {
-        ValueNumber n = asNumber(v);
+    public static Numeric asNumberOrParseDouble(ValueObject v) {
+        Numeric n = asNumber(v);
         if (n == null && v != null) {
             return ValueFactory.create(Double.parseDouble(v.toString()));
         }

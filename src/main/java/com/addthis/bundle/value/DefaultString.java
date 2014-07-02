@@ -60,7 +60,7 @@ public class DefaultString implements ValueString {
     }
 
     @Override
-    public ValueNumber asNumber() {
+    public Numeric<?> asNumeric() {
         return value == null ? new DefaultLong(0) : value.indexOf(".") >= 0 ? asDouble() : asLong();
     }
 
