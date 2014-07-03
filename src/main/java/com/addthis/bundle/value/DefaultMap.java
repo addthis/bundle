@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 public class DefaultMap<V> extends HashMap<String, ValueObject<V>> implements ValueMap<V> {
 
     protected DefaultMap() {
@@ -28,8 +30,8 @@ public class DefaultMap<V> extends HashMap<String, ValueObject<V>> implements Va
     }
 
     @Override
-    public Map<String, ValueObject<V>> asNative() {
-        return this;
+    public Map<String, V> asNative() {
+        return Maps.transformValues(this, AsNative.<V>getInstance());
     }
 
     @Override
@@ -108,7 +110,8 @@ public class DefaultMap<V> extends HashMap<String, ValueObject<V>> implements Va
     }
 
     @Override
-    public ValueCustom<Map<String, ValueObject<V>>> asCustom() throws ValueTranslationException {
+    public ValueCustom<Map<String, V>> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
+
 }

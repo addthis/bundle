@@ -48,7 +48,7 @@ public class ValueFactory {
     }
 
     public static <T> ValueMap<T> createMap() {
-        return new DefaultMap<T>();
+        return new DefaultMap<>();
     }
 
     /**
@@ -62,7 +62,6 @@ public class ValueFactory {
         for (String val : array) {
             out.add(ValueFactory.create(val));
         }
-
         return out;
     }
 

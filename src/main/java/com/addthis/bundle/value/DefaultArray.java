@@ -16,6 +16,9 @@ package com.addthis.bundle.value;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+
 public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArray {
 
     protected DefaultArray(int size) {
@@ -28,8 +31,9 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public List<ValueObject<?>> asNative() {
-        return this;
+    public List<?> asNative() {
+        Function<ValueObject<?>, ?> transformer = AsNative.INSTANCE;
+        return Lists.transform(this, transformer);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public ValueCustom<List<ValueObject<?>>> asCustom() throws ValueTranslationException {
+    public ValueCustom<List<?>> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }
