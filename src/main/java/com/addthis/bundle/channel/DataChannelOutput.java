@@ -17,27 +17,17 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleFactory;
 import com.addthis.bundle.core.BundleOutput;
 
-/**
- * the opposite of a source
- */
 public interface DataChannelOutput extends BundleFactory, BundleOutput {
 
     /**
      * a sink SHOULD require sent bundles to be from it's own factory.
-     * a sink MAY require sent bundles to use the same BundleFormat as bundles
-     * created from it's own factory.
+     * a sink MAY require sent bundles to use the same BundleFormat as bundles created from it's own factory.
      */
-    public void send(Bundle bundle) throws DataChannelError;
+    @Override public void send(Bundle bundle);
 
-    /**
-     * indicates a normal end of send. no more data.
-     */
-    public void sendComplete();
+    /** indicates a normal end of send. no more data. */
+    @Override public void sendComplete();
 
-    /**
-     * indicates end of send because of a source error
-     *
-     * @param er error encountered from the source
-     */
-    public void sourceError(DataChannelError er);
+    /** indicates end of send because of a source error */
+    public void sourceError(Throwable cause);
 }

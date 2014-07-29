@@ -24,8 +24,9 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.kvp.KVBundle;
 import com.addthis.bundle.core.kvp.KVBundleFormat;
-import com.addthis.bundle.channel.DataChannelError;
 import com.addthis.bundle.channel.DataChannelOutput;
+
+import com.google.common.base.Throwables;
 
 public class KVChannelOutput implements DataChannelOutput {
 
@@ -74,8 +75,8 @@ public class KVChannelOutput implements DataChannelOutput {
     }
 
     @Override
-    public void sourceError(DataChannelError er) {
-        throw new RuntimeException(er);
+    public void sourceError(Throwable cause) {
+        Throwables.propagate(cause);
     }
 
     @Override

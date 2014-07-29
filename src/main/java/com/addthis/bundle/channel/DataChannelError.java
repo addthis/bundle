@@ -16,10 +16,8 @@ package com.addthis.bundle.channel;
 @SuppressWarnings("serial")
 public class DataChannelError extends RuntimeException {
 
-    /**
-     * return DataChannelError or wrap/promote
-     */
-    public static DataChannelError promote(Exception ex) {
+    /** return DataChannelError or wrap/promote */
+    public static DataChannelError promote(Throwable ex) {
         if (ex instanceof DataChannelError) {
             return (DataChannelError) ex;
         }
