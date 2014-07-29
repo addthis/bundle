@@ -90,10 +90,11 @@ public class ListBundleFormat implements BundleFormat {
                 accumulate++;
                 name = prefix + (size + accumulate);
             }
+            String internedName = name.intern();
             Map<String, BundleField> newMap = new HashMap<>(currentState.fieldMap);
             BundleField[] newArray = Arrays.copyOf(currentState.fieldArray, size + 1);
-            ListBundleField newField = new ListBundleField(name, size);
-            newMap.put(name, newField);
+            ListBundleField newField = new ListBundleField(internedName, size);
+            newMap.put(internedName, newField);
             newArray[size] = newField;
             State newState = new State(newMap, newArray);
             if (state.compareAndSet(currentState, newState)) {
@@ -113,27 +114,30 @@ public class ListBundleFormat implements BundleFormat {
      * Either retrieves an existing bundle field with the given name,
      * or creates a bundle field with the given name if it does not
      * already exist.
-     *
-     * @param name requested field
-     * @return
      */
     @Override
     public BundleField getField(String name) {
+        State currentState = state.get();
+        BundleField field = currentState.fieldMap.get(name);
+        if (field != null) {
+            return field;
+        }
+        String internedName = name.intern();
         while (true) {
-            State currentState = state.get();
-            BundleField field = currentState.fieldMap.get(name);
-            if (field != null) {
-                return field;
-            }
             int size = currentState.fieldArray.length;
             Map<String, BundleField> newMap = new HashMap<>(currentState.fieldMap);
             BundleField[] newArray = Arrays.copyOf(currentState.fieldArray, size + 1);
-            ListBundleField newField = new ListBundleField(name, size);
-            newMap.put(name, newField);
+            ListBundleField newField = new ListBundleField(internedName, size);
+            newMap.put(internedName, newField);
             newArray[size] = newField;
             State newState = new State(newMap, newArray);
             if (state.compareAndSet(currentState, newState)) {
                 return newField;
+            }
+            currentState = state.get();
+            field = currentState.fieldMap.get(internedName);
+            if (field != null) {
+                return field;
             }
         }
     }
