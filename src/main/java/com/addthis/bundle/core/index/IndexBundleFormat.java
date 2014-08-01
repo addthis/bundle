@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
 
@@ -118,5 +119,9 @@ public class IndexBundleFormat implements BundleFormat {
     @Override
     public int getFieldCount() {
         return length;
+    }
+
+    @Override public Bundle createBundle() {
+        return new IndexBundle(this);
     }
 }

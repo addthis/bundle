@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
 
@@ -86,5 +87,9 @@ public class KVBundleFormat implements BundleFormat {
     @Override
     public int getFieldCount() {
         return fields.size();
+    }
+
+    @Override public Bundle createBundle() {
+        return new KVBundle(this);
     }
 }

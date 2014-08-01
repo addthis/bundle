@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
 
@@ -153,5 +154,9 @@ public class ListBundleFormat implements BundleFormat {
     public int getFieldCount() {
         State currentState = state.get();
         return currentState.fieldArray.length;
+    }
+
+    @Override public Bundle createBundle() {
+        return new ListBundle(this);
     }
 }

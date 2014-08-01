@@ -20,7 +20,7 @@ package com.addthis.bundle.core;
  * unless the underlying format has changed.  A change in format object
  * is used by many stream clients to perform re-binding.
  */
-public interface BundleFormat extends Iterable<BundleField> {
+public interface BundleFormat extends Iterable<BundleField>, BundleFactory {
 
     /**
      * returns a field for the given name.  creates a new field
