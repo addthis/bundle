@@ -15,8 +15,6 @@ package com.addthis.bundle.core;
 
 public interface BundleFormatted {
 
-    /**
-     * @return supported format of target
-     */
+    /** Returns the supported format of target. */
     public BundleFormat getFormat();
 }

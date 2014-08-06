@@ -13,58 +13,34 @@
  */
 package com.addthis.bundle.core;
 
+import java.util.Iterator;
+
 import com.addthis.bundle.value.ValueObject;
 
 
 /**
- * Represents one "line" or "packet" of data having
- * multiple fields.  Iterator returns a list of fields with bound values.
- * Field iterators MUST obey the same constraints as the getFormat() call.
+ * Represents one "line" or "packet" of data having multiple fields.
  */
 public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFactory {
 
-    /**
-     * gets the specified field as a String value.
-     *
-     * @param field
-     * @return String value of field
-     * @throws BundleBindingException
-     */
-    public ValueObject getValue(BundleField field) throws BundleException;
+    /** Gets the specified field. */
+    public ValueObject getValue(BundleField field);
 
-    /**
-     * sets the specified field to a String value.
-     *
-     * @param field
-     * @throws BundleException
-     */
-    public void setValue(BundleField field, ValueObject value) throws BundleException;
+    /** Sets the specified field. */
+    public void setValue(BundleField field, ValueObject value);
 
-    /**
-     * removes a field from a bundle
-     *
-     * @param field
-     * @throws BundleException
-     */
-    public void removeValue(BundleField field) throws BundleException;
+    /** Removes a field from a bundle. */
+    public void removeValue(BundleField field);
 
-    /**
-     * returns the format for this bundle.  maps to known fields.  the
-     * object returned by this call MUST NOT change unless the underlying
-     * stream or object has changed in an incompatible way.  the order
-     * of fields presented by this object MUST remain consistent.
-     *
-     * @return format object
-     */
-    public BundleFormat getFormat();
-
-    /**
-     * @return number of values in this bundle
-     */
+    /** Returns the number of values in this bundle. */
     public int getCount();
 
-    /**
-     * @return a new bundle from the same factory
-     */
-    public Bundle createBundle();
+    /** Returns the format for this bundle. This value should never change. */
+    @Override public BundleFormat getFormat();
+
+    /** Returns a new bundle from the same factory. Usually the same as getFormat().createBundle(). */
+    @Override public Bundle createBundle();
+
+    /** Iterates over the list of fields set in this bundle. May differ from getFormat().iterator(). */
+    @Override public Iterator<BundleField> iterator();
 }

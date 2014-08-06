@@ -13,9 +13,9 @@
  */
 package com.addthis.bundle.table;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import com.addthis.bundle.core.Bundle;
@@ -25,10 +25,12 @@ import com.addthis.bundle.core.BundleFormat;
 import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.core.list.ListBundleFormat;
 
+import com.google.common.collect.ForwardingList;
+
 /**
- * List<Bundle> wrapper that presents a table interface
+ * List<Bundle> wrapper that presents a table interface.
  */
-public class DataTableListWrapper implements DataTable {
+public class DataTableListWrapper extends ForwardingList<Bundle> implements DataTable {
 
     private final BundleFormat format;
     private final List<Bundle> list;
@@ -52,10 +54,7 @@ public class DataTableListWrapper implements DataTable {
         this.list = list;
     }
 
-    /**
-     * return list that backs this table
-     */
-    protected List<Bundle> getBackingList() {
+    @Override protected List<Bundle> delegate() {
         return list;
     }
 
@@ -73,60 +72,25 @@ public class DataTableListWrapper implements DataTable {
         return row;
     }
 
-    @Override
-    public void append(Bundle row) {
-        list.add(ensureCompatibility(row));
+    @Override public boolean add(Bundle row) {
+        return list.add(ensureCompatibility(row));
     }
 
-    @Override
-    public void append(DataTable result) {
-        for (Bundle row : result) {
-            append(row);
-        }
+    @Override public void add(int index, Bundle element) {
+        list.add(index, ensureCompatibility(element));
     }
 
-    @Override
-    public void insert(int index, Bundle row) {
-        if (index >= list.size()) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        list.add(index, ensureCompatibility(row));
+    @Override public boolean addAll(Collection<? extends Bundle> collection) {
+        return standardAddAll(collection);
+    }
+
+    @Override public boolean addAll(int index, Collection<? extends Bundle> collection) {
+        return standardAddAll(index, collection);
     }
 
     @Override
     public void sort(Comparator<Bundle> comp) {
         Collections.sort(list, comp);
-    }
-
-    @Override
-    public Iterator<Bundle> iterator() {
-        return list.iterator();
-    }
-
-    @Override
-    public int size() {
-        return list.size();
-    }
-
-    @Override
-    public Bundle get(int rownum) {
-        return rownum < list.size() ? list.get(rownum) : null;
-    }
-
-    @Override
-    public Bundle set(int rownum, Bundle row) {
-        if (rownum >= list.size()) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        return rownum < list.size() ? list.set(rownum, ensureCompatibility(row)) : null;
-    }
-
-    @Override
-    public Bundle remove(int rownum) {
-        if (rownum >= list.size()) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        return list.remove(rownum);
     }
 
     @Override
@@ -137,5 +101,19 @@ public class DataTableListWrapper implements DataTable {
     @Override
     public BundleFormat getFormat() {
         return format;
+    }
+
+    // DEPRECATED METHODS
+
+    @Override public void append(Bundle row) {
+        this.add(row);
+    }
+
+    @Override public void insert(int index, Bundle row) {
+        this.add(index, row);
+    }
+
+    @Override public void append(DataTable result) {
+        this.addAll(result);
     }
 }
