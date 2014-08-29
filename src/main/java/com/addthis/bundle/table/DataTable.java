@@ -36,5 +36,5 @@ public interface DataTable extends List<Bundle>, BundleFactory, BundleFormatted 
     @Deprecated public void append(DataTable table);
 
     /** Sort list with given comparator. */
-    public void sort(Comparator<Bundle> comp);
+    public void sort(Comparator<? super Bundle> comp);
 }

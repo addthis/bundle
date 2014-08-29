@@ -89,7 +89,7 @@ public class DataTableListWrapper extends ForwardingList<Bundle> implements Data
     }
 
     @Override
-    public void sort(Comparator<Bundle> comp) {
+    public void sort(Comparator<? super Bundle> comp) {
         Collections.sort(list, comp);
     }
 
