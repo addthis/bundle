@@ -13,15 +13,18 @@
  */
 package com.addthis.bundle.value;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Maps;
 
-public class DefaultMap<V> extends HashMap<String, ValueObject<V>> implements ValueMap<V> {
+public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>> implements ValueMap<V> {
 
-    protected DefaultMap() {
+    private final Map<String, ValueObject<V>> delegatee;
+
+    public DelegatingValueMap(Map<String, ValueObject<V>> m) {
+        delegatee = m;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class DefaultMap<V> extends HashMap<String, ValueObject<V>> implements Va
     public Iterator<ValueMapEntry<V>> iterator() {
         return new Iterator<ValueMapEntry<V>>() {
             private final Iterator<Map.Entry<String, ValueObject<V>>> iter =
-                    DefaultMap.super.entrySet().iterator();
+                    DelegatingValueMap.super.entrySet().iterator();
 
             @Override
             public boolean hasNext() {
@@ -114,4 +117,7 @@ public class DefaultMap<V> extends HashMap<String, ValueObject<V>> implements Va
         throw new ValueTranslationException();
     }
 
+    @Override protected Map<String, ValueObject<V>> delegate() {
+        return delegatee;
+    }
 }

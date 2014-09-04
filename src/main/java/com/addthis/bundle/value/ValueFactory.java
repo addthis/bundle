@@ -16,7 +16,11 @@ package com.addthis.bundle.value;
 import java.util.List;
 import java.util.Map;
 
+import com.typesafe.config.ConfigFactory;
+
 public class ValueFactory {
+    private static final boolean DEFAULT_TO_SORTED_MAPS =
+            ConfigFactory.load().getBoolean("com.addthis.bundle.value.ValueFactory.sorted-maps");
 
     public static ValueString create(String val) {
         return val != null ? new DefaultString(val) : null;
@@ -39,7 +43,7 @@ public class ValueFactory {
     }
 
     public static ValueMap createMap(Map<String, List<String>> map) {
-        DefaultMap defaultMap = new DefaultMap();
+        ValueMap defaultMap = createMap();
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             defaultMap.put(entry.getKey(), createValueArray(entry.getValue()));
         }
@@ -48,7 +52,11 @@ public class ValueFactory {
     }
 
     public static <T> ValueMap<T> createMap() {
-        return new DefaultMap<>();
+        if (DEFAULT_TO_SORTED_MAPS) {
+            return new TreeValueMap<>();
+        } else {
+            return new HashValueMap<>();
+        }
     }
 
     /**
