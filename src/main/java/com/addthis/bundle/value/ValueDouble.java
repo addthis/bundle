@@ -16,7 +16,19 @@ package com.addthis.bundle.value;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = DefaultDouble.class)
-public interface ValueDouble extends ValueNumber<Double, ValueDouble> {
+public interface ValueDouble extends ValueNumber {
+
+    @Override public Double asNative();
+
+    @Override ValueDouble sum(Numeric val);
+
+    @Override ValueDouble diff(Numeric val);
+
+    @Override ValueDouble avg(int count);
+
+    @Override ValueDouble min(Numeric val);
+
+    @Override ValueDouble max(Numeric val);
 
     public double getDouble();
 }

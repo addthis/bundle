@@ -17,21 +17,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
 
-public class AsNative implements Function<ValueObject<?>, Object> {
-    static final Function<ValueObject<?>, ?> INSTANCE = new AsNative();
-
-    @SuppressWarnings("unchecked")
-    public static <T> Function<ValueObject<T>, T> getInstance() {
-        return (Function) INSTANCE;
-    }
-
-    public static Function<ValueObject<?>, ?> getWildcardInstance() {
-        return INSTANCE;
-    }
+public class AsNative implements Function<ValueObject, Object> {
+    public static final Function<ValueObject, Object> INSTANCE = new AsNative();
 
     @Nullable
     @Override
-    public Object apply(@Nullable ValueObject<?> input) {
+    public Object apply(@Nullable ValueObject input) {
         if (input != null) {
             return input.asNative();
         } else {

@@ -21,8 +21,6 @@ import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueMap;
 import com.addthis.codec.config.Configs;
-import com.addthis.hydra.data.filter.bundle.BundleFilter;
-import com.addthis.hydra.data.filter.bundle.BundleFilterField;
 
 import org.junit.Test;
 
@@ -30,25 +28,25 @@ import static org.junit.Assert.assertEquals;
 
 public class ConstantFieldTest extends AutoFieldTest {
 
-    @Override protected BundleFilter createSampleFilter() throws IOException {
+    @Override protected SimpleCopyFilter createSampleFilter() throws IOException {
         return Configs.decodeObject(SimpleCopyFilter.class, "from.const {codec = good}, to = [b, sub-b]");
     }
 
-    @Override protected void setAndFilterBundle(Bundle bundle, BundleFilter filter) {
+    @Override protected void setAndFilterBundle(Bundle bundle, SimpleCopyFilter filter) {
         BundleField b = bundle.getFormat().getField("b");
         bundle.setValue(b, ValueFactory.createMap());
         filter.filter(bundle);
         filter.filter(bundle);
         filter.filter(bundle);
-        ValueMap<?> subB = bundle.getValue(b).asMap();
+        ValueMap subB = bundle.getValue(b).asMap();
         assertEquals("good", subB.get("sub-b").asMap().get("codec").toString());
     }
 
     @Test
     public void setKeyFromValue() throws Exception {
-        BundleFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from.const: foobar, to: MAP/mykey");
+        SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from.const: foobar, to: MAP/mykey");
         Bundle b = new ListBundle();
-        ValueMap<String> map = ValueFactory.createMap();
+        ValueMap map = ValueFactory.createMap();
         b.setValue(b.getFormat().getField("MAP"), map);
         b.setValue(b.getFormat().getField("MYFIELD"), ValueFactory.create("blah"));
         filter.filter(b);
@@ -57,9 +55,9 @@ public class ConstantFieldTest extends AutoFieldTest {
 
     @Test
     public void replaceKeyFromValue() throws Exception {
-        BundleFilter filter = Configs.decodeObject(BundleFilterField.class, "from.const:foobar, to:MAP.mykey");
+        SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from.const:foobar, to:MAP.mykey");
         Bundle b = new ListBundle();
-        ValueMap<String> map = ValueFactory.createMap();
+        ValueMap map = ValueFactory.createMap();
         map.put("mykey",ValueFactory.create("abc"));
         b.setValue(b.getFormat().getField("MAP"), map);
         b.setValue(b.getFormat().getField("MYFIELD"), ValueFactory.create("blah"));

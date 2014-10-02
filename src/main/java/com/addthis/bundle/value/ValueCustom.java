@@ -13,19 +13,16 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueCustom<T> extends ValueObject<T> {
+public interface ValueCustom<T> extends ValueObject {
 
     /**
      * custom objects MUST be able to represent themselves as a ValueMap object
      * and have a class that can be re-hydrated by supplying a map.
      */
-    @Override
-    public ValueMap<?> asMap();
+    @Override public ValueMap asMap();
 
-    /**
-     * re-hydration call
-     */
-    public void setValues(ValueMap<?> map);
+    /** re-hydration call */
+    public void setValues(ValueMap map);
 
     /**
      * for translation to an environment where native encoding cannot be
@@ -34,5 +31,5 @@ public interface ValueCustom<T> extends ValueObject<T> {
      * turned into a long value at egress from the query system to a browser or
      * other non-value-native environment
      */
-    public ValueSimple<?> asSimple();
+    public ValueSimple asSimple();
 }

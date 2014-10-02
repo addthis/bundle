@@ -13,16 +13,17 @@
  */
 package com.addthis.bundle.value;
 
-public interface ValueNumber<N extends Number, V extends ValueNumber<N, V>>
-        extends ValueSimple<N>, Numeric<N> {
+public interface ValueNumber extends ValueSimple, Numeric {
 
-    @Override <P extends Numeric<?>> V sum(P val);
+    @Override public Number asNative();
 
-    @Override <P extends Numeric<?>> V diff(P val);
+    @Override ValueNumber sum(Numeric val);
 
-    @Override V avg(int count);
+    @Override ValueNumber diff(Numeric val);
 
-    @Override <P extends Numeric<?>> V min(P val);
+    @Override ValueNumber avg(int count);
 
-    @Override <P extends Numeric<?>> V max(P val);
+    @Override ValueNumber min(Numeric val);
+
+    @Override ValueNumber max(Numeric val);
 }

@@ -26,7 +26,8 @@ import com.addthis.maljson.JSONArray;
 import com.addthis.maljson.JSONException;
 import com.addthis.maljson.JSONObject;
 
-public class Bundles {
+public final class Bundles {
+    private Bundles() {}
 
     /**
      * Create a new {@link JSONObject} as if calling the Bundle were a map passed to
@@ -39,7 +40,7 @@ public class Bundles {
     public static JSONObject toJSONObject(Bundle row) {
         JSONObject jsonRow = new JSONObject();
         for (BundleField field : row) {
-            ValueObject<?> valueObject = row.getValue(field);
+            ValueObject valueObject = row.getValue(field);
             try {
                 jsonRow.put(field.getName(), jsonWrapValue(valueObject));
             } catch (JSONException ex) {
@@ -49,7 +50,7 @@ public class Bundles {
         return jsonRow;
     }
 
-    private static Object jsonWrapValue(ValueObject<?> valueObject) {
+    private static Object jsonWrapValue(ValueObject valueObject) {
         if (valueObject == null) {
             return null;
         } else {

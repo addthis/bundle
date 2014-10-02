@@ -22,11 +22,11 @@ import com.google.common.collect.Lists;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArray {
+public class DefaultArray extends ArrayList<ValueObject> implements ValueArray {
 
     @JsonCreator protected DefaultArray() { super(); }
     @JsonCreator protected DefaultArray(int size) { super(size); }
-    @JsonCreator protected DefaultArray(Collection<ValueObject<?>> c) { super(c); }
+    @JsonCreator protected DefaultArray(Collection<ValueObject> c) { super(c); }
 
     @Override
     public TYPE getObjectType() {
@@ -34,8 +34,8 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public List<?> asNative() {
-        Function<ValueObject<?>, ?> transformer = AsNative.INSTANCE;
+    public List<Object> asNative() {
+        Function<ValueObject, Object> transformer = AsNative.INSTANCE;
         return Lists.transform(this, transformer);
     }
 
@@ -50,12 +50,12 @@ public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArra
     }
 
     @Override
-    public ValueMap<?> asMap() throws ValueTranslationException {
+    public ValueMap asMap() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
     @Override
-    public Numeric<?> asNumeric() throws ValueTranslationException {
+    public Numeric asNumeric() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 

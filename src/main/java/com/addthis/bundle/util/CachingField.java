@@ -51,12 +51,12 @@ public class CachingField implements AutoField {
         this.name = checkNotNull(name);
     }
 
-    @Override @Nullable public ValueObject<?> getValue(Bundle bundle) {
+    @Override @Nullable public ValueObject getValue(Bundle bundle) {
         BundleField field = checkAndGet(bundle);
         return bundle.getValue(field);
     }
 
-    @Override public void setValue(Bundle bundle, @Nullable ValueObject<?> value) {
+    @Override public void setValue(Bundle bundle, @Nullable ValueObject value) {
         BundleField field = checkAndGet(bundle);
         bundle.setValue(field, value);
     }

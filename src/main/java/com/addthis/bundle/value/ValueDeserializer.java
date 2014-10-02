@@ -21,14 +21,14 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
-public class ValueDeserializer extends StdDeserializer<ValueObject<?>> {
+public class ValueDeserializer extends StdDeserializer<ValueObject> {
 
     public ValueDeserializer() {
         super(ValueObject.class);
     }
 
     @Override
-    public ValueObject<?> deserialize(JsonParser jp, DeserializationContext ctxt)
+    public ValueObject deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
         JsonToken t = jp.getCurrentToken();
         switch (t) {

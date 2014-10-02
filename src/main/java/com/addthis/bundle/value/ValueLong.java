@@ -16,7 +16,19 @@ package com.addthis.bundle.value;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = DefaultLong.class)
-public interface ValueLong extends ValueNumber<Long, ValueLong> {
+public interface ValueLong extends ValueNumber {
+
+    @Override public Long asNative();
+
+    @Override ValueLong sum(Numeric val);
+
+    @Override ValueLong diff(Numeric val);
+
+    @Override ValueLong avg(int count);
+
+    @Override ValueLong min(Numeric val);
+
+    @Override ValueLong max(Numeric val);
 
     public long getLong();
 }

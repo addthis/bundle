@@ -32,7 +32,7 @@ public abstract class AbstractCustom<T> implements ValueCustom<T> {
     }
 
     @Override
-    public ValueSimple<?> asSimple() {
+    public ValueSimple asSimple() {
         try {
             return asLong();
         } catch (ValueTranslationException ignored) {
@@ -55,7 +55,7 @@ public abstract class AbstractCustom<T> implements ValueCustom<T> {
     }
 
     @Override
-    public Numeric<?> asNumeric() throws ValueTranslationException {
+    public Numeric asNumeric() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 

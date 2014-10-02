@@ -13,47 +13,26 @@
  */
 package com.addthis.bundle.value;
 
-public interface Numeric<T> extends ValueObject<T> {
-    /**
-     * calculate the sum of the objects and return
-     * a new ValueNumber of the same type as this object.
-     *
-     * @return the sum of this and the param val
-     */
-    <P extends Numeric<?>> Numeric<?> sum(P val);
+public interface Numeric extends ValueObject {
+
+    /** calculate the sum of the objects and return a new ValueNumber of the same type as this object. */
+    Numeric sum(Numeric val);
 
     /**
-     * calculate the difference of the two objects
-     * by subtracting val from this object's value
-     * and returning a new ValueNumber of the same
-     * type as this object.
-     *
-     * @return this value less the param val
+     * calculate the difference of the two objects by subtracting val from this object's value
+     * and returning a new ValueNumber of the same type as this object.
      */
-    <P extends Numeric<?>> Numeric<?> diff(P val);
+    Numeric diff(Numeric val);
 
     /**
-     * calculate the average this numnber's value
-     * over a denominator returning a new ValueNumber
+     * calculate the average this number's value over a denominator returning a new ValueNumber
      * of the same type as this object.
-     *
-     * @return the average of this over count
      */
-    Numeric<?> avg(int count);
+    Numeric avg(int count);
 
-    /**
-     * calculate the minimum of two numbers returning
-     * a new ValueNumber of the same type as this object.
-     *
-     * @return the lesser of this and the param val
-     */
-    <P extends Numeric<?>> Numeric<?> min(P val);
+    /** calculate the minimum of two numbers returning a new ValueNumber of the same type as this object. */
+    Numeric min(Numeric val);
 
-    /**
-     * calculate the maximum of two numbers returning
-     * a new ValueNumber of the same type as this object.
-     *
-     * @return the greater of this and the param val
-     */
-    <P extends Numeric<?>> Numeric<?> max(P val);
+    /** calculate the maximum of two numbers returning a new ValueNumber of the same type as this object. */
+    Numeric max(Numeric val);
 }

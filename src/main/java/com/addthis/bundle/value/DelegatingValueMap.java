@@ -19,11 +19,11 @@ import java.util.Map;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Maps;
 
-public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>> implements ValueMap<V> {
+public class DelegatingValueMap extends ForwardingMap<String, ValueObject> implements ValueMap {
 
-    private final Map<String, ValueObject<V>> delegatee;
+    private final Map<String, ValueObject> delegatee;
 
-    public DelegatingValueMap(Map<String, ValueObject<V>> m) {
+    public DelegatingValueMap(Map<String, ValueObject> m) {
         delegatee = m;
     }
 
@@ -33,8 +33,8 @@ public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>>
     }
 
     @Override
-    public Map<String, V> asNative() {
-        return Maps.transformValues(this, AsNative.<V>getInstance());
+    public Map<String, Object> asNative() {
+        return Maps.transformValues(this, AsNative.INSTANCE);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>>
     }
 
     @Override
-    public Numeric<Map<String, ValueObject<V>>> asNumeric() throws ValueTranslationException {
+    public Numeric asNumeric() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
@@ -73,9 +73,9 @@ public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>>
     }
 
     @Override
-    public Iterator<ValueMapEntry<V>> iterator() {
-        return new Iterator<ValueMapEntry<V>>() {
-            private final Iterator<Map.Entry<String, ValueObject<V>>> iter =
+    public Iterator<ValueMapEntry> iterator() {
+        return new Iterator<ValueMapEntry>() {
+            private final Iterator<Map.Entry<String, ValueObject>> iter =
                     DelegatingValueMap.super.entrySet().iterator();
 
             @Override
@@ -84,9 +84,9 @@ public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>>
             }
 
             @Override
-            public ValueMapEntry<V> next() {
-                return new ValueMapEntry<V>() {
-                    final Map.Entry<String, ValueObject<V>> next = iter.next();
+            public ValueMapEntry next() {
+                return new ValueMapEntry() {
+                    final Map.Entry<String, ValueObject> next = iter.next();
 
                     @Override
                     public String getKey() {
@@ -94,12 +94,12 @@ public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>>
                     }
 
                     @Override
-                    public ValueObject<V> getValue() {
+                    public ValueObject getValue() {
                         return next.getValue();
                     }
 
                     @Override
-                    public ValueObject<V> setValue(ValueObject<V> val) {
+                    public ValueObject setValue(ValueObject val) {
                         return next.setValue(val);
                     }
                 };
@@ -113,11 +113,11 @@ public class DelegatingValueMap<V> extends ForwardingMap<String, ValueObject<V>>
     }
 
     @Override
-    public ValueCustom<Map<String, V>> asCustom() throws ValueTranslationException {
+    public ValueCustom<Map<String, Object>> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
-    @Override protected Map<String, ValueObject<V>> delegate() {
+    @Override protected Map<String, ValueObject> delegate() {
         return delegatee;
     }
 }

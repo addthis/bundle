@@ -34,10 +34,7 @@ public final class DefaultDouble implements ValueDouble {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof DefaultDouble)) {
-            return false;
-        }
-        return ((DefaultDouble) obj).value == value;
+        return (obj instanceof DefaultDouble) && (((DefaultDouble) obj).value == value);
     }
 
     @Override
@@ -46,23 +43,26 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public <P extends Numeric<?>> ValueDouble diff(P val) {
+    public ValueDouble diff(Numeric val) {
         return new DefaultDouble(value - val.asDouble().getDouble());
     }
 
     @Override
-    public <P extends Numeric<?>> ValueDouble max(P val) {
+    public ValueDouble max(Numeric val) {
         return new DefaultDouble(Math.max(value, val.asDouble().getDouble()));
     }
 
     @Override
-    public <P extends Numeric<?>> ValueDouble min(P val) {
-        return value > 0 ?
-               new DefaultDouble(Math.min(value, val.asDouble().getDouble())) : val.asDouble();
+    public ValueDouble min(Numeric val) {
+        if (value > 0) {
+            return new DefaultDouble(Math.min(value, val.asDouble().getDouble()));
+        } else {
+            return val.asDouble();
+        }
     }
 
     @Override
-    public <P extends Numeric<?>> ValueDouble sum(P val) {
+    public ValueDouble sum(Numeric val) {
         if (val != null) {
             return new DefaultDouble(value + val.asDouble().getDouble());
         } else {
@@ -98,7 +98,7 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueMap<?> asMap() throws ValueTranslationException {
+    public ValueMap asMap() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 

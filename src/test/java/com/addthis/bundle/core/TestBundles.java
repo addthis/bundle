@@ -69,7 +69,7 @@ public class TestBundles {
         bundleMap.put("arrayField", list);
         assertEquals(JSONObject.wrap(bundleMap).toString(), Bundles.toJsonString(bundle));
 
-        ValueMap<List<?>> valueMap = ValueFactory.createMap();
+        ValueMap valueMap = ValueFactory.createMap();
         valueMap.put("arrayKey", array);
         bundle.setValue(bundle.getFormat().getField("mapField"), valueMap);
         Map<String, Object> nestedMap = Maps.newHashMap();

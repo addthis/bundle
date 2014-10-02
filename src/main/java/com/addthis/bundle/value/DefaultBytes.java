@@ -53,7 +53,7 @@ public class DefaultBytes implements ValueBytes {
     }
 
     @Override
-    public Numeric<?> asNumeric() {
+    public Numeric asNumeric() {
         return asLong();
     }
 

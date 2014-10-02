@@ -22,9 +22,9 @@ import com.addthis.codec.annotations.Pluggable;
 @Pluggable("value-field")
 public interface AutoField {
 
-    @Nullable public ValueObject<?> getValue(Bundle bundle);
+    @Nullable public ValueObject getValue(Bundle bundle);
 
-    public void setValue(Bundle bundle, @Nullable ValueObject<?> value);
+    public void setValue(Bundle bundle, @Nullable ValueObject value);
 
     public void removeValue(Bundle bundle);
 }

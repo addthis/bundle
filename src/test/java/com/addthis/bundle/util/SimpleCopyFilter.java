@@ -15,15 +15,12 @@ package com.addthis.bundle.util;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.codec.annotations.FieldConfig;
-import com.addthis.hydra.data.filter.bundle.BundleFilter;
 
-class SimpleCopyFilter extends BundleFilter {
+class SimpleCopyFilter {
     @FieldConfig(required = true) private AutoField from;
     @FieldConfig(required = true) private AutoField to;
 
-    @Override public void initialize() {}
-
-    @Override public boolean filterExec(Bundle row) {
+    public boolean filter(Bundle row) {
         to.setValue(row, from.getValue(row));
         return true;
     }

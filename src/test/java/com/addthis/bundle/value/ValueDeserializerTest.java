@@ -31,7 +31,11 @@ public class ValueDeserializerTest {
 
     @Test
     public void mapCreation() throws IOException {
-        ValueMap<?> map = Jackson.defaultCodec().decodeObject(
+        ValueDouble valueDouble = new DefaultDouble(1);
+        ValueArray array = valueDouble.asArray();
+        ValueObject object = array.get(0);
+        array.set(0, object);
+        ValueMap map = Jackson.defaultCodec().decodeObject(
                 ValueMap.class, ConfigValueFactory.fromMap(Collections.singletonMap("hello", 12)));
         ValueLong valueLong = (ValueLong) map.get("hello");
         assertEquals(12, valueLong.getLong());

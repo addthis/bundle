@@ -194,10 +194,10 @@ public final class DataChannelCodec {
                 encodeValue(custom.asMap(), out, classIndex);
                 break;
             case MAP:
-                ValueMap<?> map = val.asMap();
+                ValueMap map = val.asMap();
                 out.write(TYPE.MAP.val);
                 Bytes.writeLength(map.size(), out);
-                for (ValueMapEntry<?> e : map) {
+                for (ValueMapEntry e : map) {
                     encodeValue(ValueFactory.create(e.getKey()), out, classIndex);
                     encodeValue(e.getValue(), out, classIndex);
                 }

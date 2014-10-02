@@ -35,26 +35,26 @@ public class FullAutoField extends CachingField {
         this.subNames = subNames;
     }
 
-    @Override public ValueObject<?> getValue(Bundle bundle) {
-        ValueObject<?> field = super.getValue(bundle);
+    @Override public ValueObject getValue(Bundle bundle) {
+        ValueObject field = super.getValue(bundle);
         for (int i = 0; (field != null) && (i < subNames.length); i++) {
             field = getSubField(field, subNames[i]);
         }
         return field;
     }
 
-    @Override public void setValue(Bundle bundle, @Nullable ValueObject<?> value) {
-        ValueObject<?> field = getLastSubField(bundle);
+    @Override public void setValue(Bundle bundle, @Nullable ValueObject value) {
+        ValueObject field = getLastSubField(bundle);
         setSubField(field, subNames[subNames.length - 1], value);
     }
 
     @Override public void removeValue(Bundle bundle) {
-        ValueObject<?> field = getLastSubField(bundle);
+        ValueObject field = getLastSubField(bundle);
         removeSubField(field, subNames[subNames.length - 1]);
     }
 
-    private ValueObject<?> getLastSubField(Bundle bundle) {
-        ValueObject<?> field = super.getValue(bundle);
+    private ValueObject getLastSubField(Bundle bundle) {
+        ValueObject field = super.getValue(bundle);
         checkNotNull(field, "missing top level field {}", super.name);
         for (int i = 0; i < (subNames.length - 1); i++) {
             field = getSubField(field, subNames[i]);
@@ -63,7 +63,7 @@ public class FullAutoField extends CachingField {
         return field;
     }
 
-    @Nullable private static ValueObject<?> getSubField(@Nonnull ValueObject<?> field, String name) {
+    @Nullable private static ValueObject getSubField(@Nonnull ValueObject field, String name) {
         if (field.getObjectType() == ValueObject.TYPE.ARRAY) {
             return field.asArray().get(Integer.parseInt(name));
         } else {
@@ -71,7 +71,7 @@ public class FullAutoField extends CachingField {
         }
     }
 
-    private static void removeSubField(@Nonnull ValueObject<?> field, String name) {
+    private static void removeSubField(@Nonnull ValueObject field, String name) {
         if (field.getObjectType() == ValueObject.TYPE.ARRAY) {
             field.asArray().set(Integer.parseInt(name), null);
         } else {
@@ -80,7 +80,7 @@ public class FullAutoField extends CachingField {
     }
 
     @SuppressWarnings("unchecked")
-    private static void setSubField(@Nonnull ValueObject<?> field, String name, @Nullable ValueObject<?> value) {
+    private static void setSubField(@Nonnull ValueObject field, String name, @Nullable ValueObject value) {
         if (field.getObjectType() == ValueObject.TYPE.ARRAY) {
             field.asArray().set(Integer.parseInt(name), value);
         } else {

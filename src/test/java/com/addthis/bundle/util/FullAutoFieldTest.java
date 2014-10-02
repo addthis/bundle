@@ -21,8 +21,6 @@ import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueMap;
 import com.addthis.codec.config.Configs;
-import com.addthis.hydra.data.filter.bundle.BundleFilter;
-import com.addthis.hydra.data.filter.bundle.BundleFilterField;
 
 import com.google.common.collect.ImmutableList;
 
@@ -32,11 +30,11 @@ import static org.junit.Assert.assertEquals;
 
 public class FullAutoFieldTest extends AutoFieldTest {
 
-    @Override protected BundleFilter createSampleFilter() throws IOException {
+    @Override protected SimpleCopyFilter createSampleFilter() throws IOException {
         return Configs.decodeObject(SimpleCopyFilter.class, "from = [a, 0], to = [b, sub-b]");
     }
 
-    @Override protected void setAndFilterBundle(Bundle bundle, BundleFilter filter) {
+    @Override protected void setAndFilterBundle(Bundle bundle, SimpleCopyFilter filter) {
         BundleField a = bundle.getFormat().getField("a");
         BundleField b = bundle.getFormat().getField("b");
         bundle.setValue(a, ValueFactory.createValueArray(ImmutableList.of("SANDWICH")));
@@ -49,9 +47,9 @@ public class FullAutoFieldTest extends AutoFieldTest {
 
     @Test
     public void setKey() throws Exception {
-        BundleFilter filter = Configs.decodeObject(BundleFilterField.class, "from: MYFIELD, to: MAP.mykey");
+        SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from: MYFIELD, to: MAP.mykey");
         Bundle b = new ListBundle();
-        ValueMap<String> map = ValueFactory.createMap();
+        ValueMap map = ValueFactory.createMap();
         b.setValue(b.getFormat().getField("MAP"), map);
         b.setValue(b.getFormat().getField("MYFIELD"), ValueFactory.create("foobar"));
         filter.filter(b);
@@ -60,9 +58,9 @@ public class FullAutoFieldTest extends AutoFieldTest {
 
     @Test
     public void replaceKey() throws Exception {
-        BundleFilter filter = Configs.decodeObject(BundleFilterField.class, "from: MYFIELD, to: MAP.mykey");
+        SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from: MYFIELD, to: MAP.mykey");
         Bundle b = new ListBundle();
-        ValueMap<String> map = ValueFactory.createMap();
+        ValueMap map = ValueFactory.createMap();
         map.put("mykey",ValueFactory.create("abc"));
         b.setValue(b.getFormat().getField("MAP"), map);
         b.setValue(b.getFormat().getField("MYFIELD"), ValueFactory.create("foobar"));
@@ -72,7 +70,7 @@ public class FullAutoFieldTest extends AutoFieldTest {
 
     @Test(expected = Exception.class)
     public void notMap() throws Exception {
-        BundleFilter filter = Configs.decodeObject(BundleFilterField.class, "from: MYFIELD, to:MAP.mykey");
+        SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from: MYFIELD, to:MAP.mykey");
         Bundle b = new ListBundle();
         b.setValue(b.getFormat().getField("MYFIELD"), ValueFactory.create("blah"));
         filter.filter(b);

@@ -51,11 +51,11 @@ public class ValueFactory {
         return defaultMap;
     }
 
-    public static <T> ValueMap<T> createMap() {
+    public static ValueMap createMap() {
         if (DEFAULT_TO_SORTED_MAPS) {
-            return new TreeValueMap<>();
+            return new TreeValueMap();
         } else {
-            return new HashValueMap<>();
+            return new HashValueMap();
         }
     }
 
@@ -80,7 +80,7 @@ public class ValueFactory {
         return c;
     }
 
-    public static <T> ValueObject<T> copyValue(ValueObject<T> valueObject) {
+    public static ValueObject copyValue(ValueObject valueObject) {
         ValueObject newValueObject = null;
         if (valueObject != null) {
             ValueObject.TYPE type = valueObject.getObjectType();
@@ -106,13 +106,13 @@ public class ValueFactory {
                     break;
                 case MAP:
                     ValueMap valueMap = ValueFactory.createMap();
-                    for (ValueMapEntry<?> vo : valueObject.asMap()) {
+                    for (ValueMapEntry vo : valueObject.asMap()) {
                         valueMap.put(vo.getKey(), vo.getValue());
                     }
                     newValueObject = valueMap;
                     break;
                 case CUSTOM:
-                    ValueCustom<T> custom = (ValueCustom<T>) valueObject;
+                    ValueCustom<?> custom = (ValueCustom<?>) valueObject;
                     try {
                         newValueObject = ValueFactory.createCustom(custom.getClass(), valueObject.asMap());
                     } catch (Exception e) {

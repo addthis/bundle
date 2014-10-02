@@ -21,12 +21,12 @@ import java.util.TreeMap;
 
 import com.google.common.collect.Maps;
 
-public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements ValueMap<V> {
+public class TreeValueMap extends TreeMap<String, ValueObject> implements ValueMap {
 
     public TreeValueMap() { super(); }
     public TreeValueMap(Comparator<? super String> comparator) { super(comparator); }
-    public TreeValueMap(Map<String, ? extends ValueObject<V>> m) { super(m); }
-    public TreeValueMap(SortedMap<String, ? extends ValueObject<V>> m) { super(m); }
+    public TreeValueMap(Map<String, ? extends ValueObject> m) { super(m); }
+    public TreeValueMap(SortedMap<String, ? extends ValueObject> m) { super(m); }
 
     @Override
     public TYPE getObjectType() {
@@ -34,8 +34,8 @@ public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements 
     }
 
     @Override
-    public Map<String, V> asNative() {
-        return Maps.transformValues(this, AsNative.<V>getInstance());
+    public Map<String, Object> asNative() {
+        return Maps.transformValues(this, AsNative.INSTANCE);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements 
     }
 
     @Override
-    public Numeric<Map<String, ValueObject<V>>> asNumeric() throws ValueTranslationException {
+    public Numeric asNumeric() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
@@ -74,9 +74,9 @@ public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements 
     }
 
     @Override
-    public Iterator<ValueMapEntry<V>> iterator() {
-        return new Iterator<ValueMapEntry<V>>() {
-            private final Iterator<Map.Entry<String, ValueObject<V>>> iter =
+    public Iterator<ValueMapEntry> iterator() {
+        return new Iterator<ValueMapEntry>() {
+            private final Iterator<Map.Entry<String, ValueObject>> iter =
                     TreeValueMap.super.entrySet().iterator();
 
             @Override
@@ -85,9 +85,9 @@ public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements 
             }
 
             @Override
-            public ValueMapEntry<V> next() {
-                return new ValueMapEntry<V>() {
-                    final Map.Entry<String, ValueObject<V>> next = iter.next();
+            public ValueMapEntry next() {
+                return new ValueMapEntry() {
+                    final Map.Entry<String, ValueObject> next = iter.next();
 
                     @Override
                     public String getKey() {
@@ -95,12 +95,12 @@ public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements 
                     }
 
                     @Override
-                    public ValueObject<V> getValue() {
+                    public ValueObject getValue() {
                         return next.getValue();
                     }
 
                     @Override
-                    public ValueObject<V> setValue(ValueObject<V> val) {
+                    public ValueObject setValue(ValueObject val) {
                         return next.setValue(val);
                     }
                 };
@@ -114,7 +114,7 @@ public class TreeValueMap<V> extends TreeMap<String, ValueObject<V>> implements 
     }
 
     @Override
-    public ValueCustom<Map<String, V>> asCustom() throws ValueTranslationException {
+    public ValueCustom<Map<String, Object>> asCustom() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 }

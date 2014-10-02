@@ -21,18 +21,18 @@ import com.addthis.bundle.value.ValueObject;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ConstantField implements AutoField {
-    private final ValueObject<?> value;
+    private final ValueObject value;
 
     @JsonCreator
-    public ConstantField(ValueObject<?> value) {
+    public ConstantField(ValueObject value) {
         this.value = value;
     }
 
-    @Nullable @Override public ValueObject<?> getValue(Bundle bundle) {
+    @Nullable @Override public ValueObject getValue(Bundle bundle) {
         return value;
     }
 
-    @Override public void setValue(Bundle bundle, @Nullable ValueObject<?> value) {
+    @Override public void setValue(Bundle bundle, @Nullable ValueObject value) {
         throw new UnsupportedOperationException("cannot meaningfully change a static constant");
     }
 

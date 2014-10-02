@@ -22,9 +22,8 @@ import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.codec.config.Configs;
 import com.addthis.codec.jackson.Jackson;
-import com.addthis.hydra.data.filter.bundle.BundleFilter;
 
-import org.junit.Assert;import org.junit.Test;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,21 +37,21 @@ public class AutoFieldTest {
 
     @Test
     public void createAndAccess() throws IOException {
-        BundleFilter filter = createSampleFilter();
+        SimpleCopyFilter filter = createSampleFilter();
         Bundle bundle = new ListBundle();
         setAndFilterBundle(bundle, filter);
     }
 
     @Test
     public void kvBundles() throws IOException {
-        BundleFilter filter = createSampleFilter();
+        SimpleCopyFilter filter = createSampleFilter();
         Bundle bundle = new KVBundle();
         setAndFilterBundle(bundle, filter);
     }
 
     @Test
     public void changingFormats() throws IOException {
-        BundleFilter filter = createSampleFilter();
+        SimpleCopyFilter filter = createSampleFilter();
         Bundle bundle = new KVBundle();
         setAndFilterBundle(bundle, filter);
         bundle = new ListBundle();
@@ -62,11 +61,11 @@ public class AutoFieldTest {
         setAndFilterBundle(bundle, filter);
     }
 
-    protected BundleFilter createSampleFilter() throws IOException {
+    protected SimpleCopyFilter createSampleFilter() throws IOException {
         return Configs.decodeObject(SimpleCopyFilter.class, "from = a, to = b");
     }
 
-    protected void setAndFilterBundle(Bundle bundle, BundleFilter filter) {
+    protected void setAndFilterBundle(Bundle bundle, SimpleCopyFilter filter) {
         BundleField a = bundle.getFormat().getField("a");
         BundleField b = bundle.getFormat().getField("b");
         bundle.setValue(a, ValueFactory.create("SANDWICH"));

@@ -18,8 +18,7 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = HashValueMap.class)
-public interface ValueMap<V> extends ValueObject<Map<String, V>>,
-                                     Map<String, ValueObject<V>>,
-                                     Iterable<ValueMapEntry<V>> {
+public interface ValueMap extends ValueObject, Map<String, ValueObject>, Iterable<ValueMapEntry> {
 
+    @Override public Map<String, Object> asNative();
 }

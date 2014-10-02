@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * protect calls to them with a getObjectType call first.
  */
 @JsonDeserialize(using = ValueDeserializer.class)
-public interface ValueObject<T> {
+public interface ValueObject {
 
     public static enum TYPE {
         STRING, INT, FLOAT, BYTES, ARRAY, MAP, CUSTOM
@@ -28,15 +28,15 @@ public interface ValueObject<T> {
 
     public TYPE getObjectType();
 
-    public T asNative();
+    public Object asNative();
 
     public ValueBytes asBytes() throws ValueTranslationException;
 
     public ValueArray asArray() throws ValueTranslationException;
 
-    public ValueMap<?> asMap() throws ValueTranslationException;
+    public ValueMap asMap() throws ValueTranslationException;
 
-    public Numeric<?> asNumeric() throws ValueTranslationException;
+    public Numeric asNumeric() throws ValueTranslationException;
 
     public ValueLong asLong() throws ValueTranslationException;
 
@@ -44,5 +44,5 @@ public interface ValueObject<T> {
 
     public ValueString asString() throws ValueTranslationException;
 
-    public ValueCustom<T> asCustom() throws ValueTranslationException;
+    public ValueCustom<?> asCustom() throws ValueTranslationException;
 }
