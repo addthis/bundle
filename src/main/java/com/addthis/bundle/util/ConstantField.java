@@ -16,6 +16,7 @@ package com.addthis.bundle.util;
 import javax.annotation.Nullable;
 
 import com.addthis.bundle.core.Bundle;
+import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -29,7 +30,7 @@ public class ConstantField implements AutoField {
     }
 
     @Nullable @Override public ValueObject getValue(Bundle bundle) {
-        return value;
+        return ValueFactory.copyValue(value);
     }
 
     @Override public void setValue(Bundle bundle, @Nullable ValueObject value) {

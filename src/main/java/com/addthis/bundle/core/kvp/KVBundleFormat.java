@@ -13,17 +13,20 @@
  */
 package com.addthis.bundle.core.kvp;
 
-import java.util.HashMap;
+import javax.annotation.concurrent.NotThreadSafe;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
 
+@NotThreadSafe
 public class KVBundleFormat implements BundleFormat {
 
-    private final HashMap<String, KVBundleField> fields = new LinkedHashMap<>();
+    private final Map<String, KVBundleField> fields = new LinkedHashMap<>();
     private Object version = new Object();
 
     @Override

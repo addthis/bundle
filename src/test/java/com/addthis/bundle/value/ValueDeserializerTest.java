@@ -15,13 +15,10 @@ package com.addthis.bundle.value;
 
 import java.io.IOException;
 
-import java.util.Collections;
-
-import com.addthis.codec.jackson.Jackson;
-
-import com.google.common.collect.ImmutableList;
-
-import com.typesafe.config.ConfigValueFactory;
+import com.addthis.bundle.core.Bundle;
+import com.addthis.bundle.core.Bundles;
+import com.addthis.bundle.util.AutoField;
+import com.addthis.bundle.util.CachingField;
 
 import org.junit.Test;
 
@@ -30,29 +27,31 @@ import static org.junit.Assert.assertEquals;
 public class ValueDeserializerTest {
 
     @Test
+    public void bundleCreation() throws IOException {
+        Bundle bundle = Bundles.decode("a = 5, b = hello");
+        AutoField a = new CachingField("a");
+        AutoField b = new CachingField("b");
+        assertEquals(5, a.getValue(bundle).asLong().getLong());
+        assertEquals("hello", b.getValue(bundle).asString().asNative());
+    }
+
+    @Test
     public void mapCreation() throws IOException {
-        ValueDouble valueDouble = new DefaultDouble(1);
-        ValueArray array = valueDouble.asArray();
-        ValueObject object = array.get(0);
-        array.set(0, object);
-        ValueMap map = Jackson.defaultCodec().decodeObject(
-                ValueMap.class, ConfigValueFactory.fromMap(Collections.singletonMap("hello", 12)));
+        ValueMap map = ValueFactory.decodeMap("hello = 12");
         ValueLong valueLong = (ValueLong) map.get("hello");
         assertEquals(12, valueLong.getLong());
     }
 
     @Test
     public void arrayCreation() throws IOException {
-        ValueArray array = Jackson.defaultCodec().decodeObject(
-                ValueArray.class, ConfigValueFactory.fromAnyRef(ImmutableList.of("hey", "friend")));
-        ValueString string = (ValueString) array.get(0);
+        ValueArray array = ValueFactory.decodeValue("[hey, friend]").asArray();
+        ValueObject string = array.get(0);
         assertEquals("hey", string.asNative());
     }
 
     @Test
     public void stringCreation() throws IOException {
-        ValueString string = Jackson.defaultCodec().decodeObject(
-                ValueString.class, ConfigValueFactory.fromAnyRef("heyo"));
+        ValueString string = ValueFactory.decodeValue("heyo").asString();
         assertEquals("heyo", string.asNative());
     }
 }

@@ -51,18 +51,18 @@ public class TestTable {
      * @param table empty table to be filled and tested
      * @param data  table as string array of arrays with first array as header
      */
-    public static void testFillTable(DataTable table, String data[][]) {
+    public static void testFillTable(DataTable table, String[][] data) {
         BundleFormat format = table.getFormat();
         Assert.assertEquals(0, count(format));
-        String title[] = data[0];
-        BundleField cols[] = new BundleField[title.length];
+        String[] title = data[0];
+        BundleField[] cols = new BundleField[title.length];
         for (int i = 0; i < title.length; i++) {
             cols[i] = format.getField(title[i]);
         }
         // insert data
         for (int i = 1; i < data.length; i++) {
             Bundle bundle = table.createBundle();
-            String row[] = data[i];
+            String[] row = data[i];
             int nonNull = 0;
             for (int j = 0; j < row.length; j++) {
                 bundle.setValue(cols[j], ValueFactory.create(row[j]));
@@ -76,7 +76,7 @@ public class TestTable {
         Assert.assertEquals(4, count(format));
         // check table data
         for (int i = 1; i < data.length; i++) {
-            String row[] = data[i];
+            String[] row = data[i];
             Bundle bundle = table.get(i - 1);
             // check row values knowing column field
             int nonNull = 0;

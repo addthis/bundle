@@ -13,6 +13,10 @@
  */
 package com.addthis.bundle.core;
 
+import javax.annotation.Syntax;
+
+import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -22,12 +26,17 @@ import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueMap;
 import com.addthis.bundle.value.ValueObject;
+import com.addthis.codec.config.Configs;
 import com.addthis.maljson.JSONArray;
 import com.addthis.maljson.JSONException;
 import com.addthis.maljson.JSONObject;
 
 public final class Bundles {
     private Bundles() {}
+
+    public static Bundle decode(@Syntax("HOCON") String config) throws IOException {
+        return Configs.decodeObject(Bundle.class, config);
+    }
 
     /**
      * Create a new {@link JSONObject} as if calling the Bundle were a map passed to

@@ -23,7 +23,10 @@ import com.addthis.bundle.value.ValueObject;
 
 /**
  * bundle to column mapper that re-maps fields to columns if the backing format changes
+ *
+ * @deprecated Use {@link AutoField} instead
  */
+@Deprecated
 public class BundleColumnBinder {
 
     private final String[] fieldNames;
@@ -102,7 +105,7 @@ public class BundleColumnBinder {
         if (bundle.getCount() < fields.length) {
             field = fields[bundle.getCount()];
         } else {
-            BundleField newFields[] = new BundleField[fields.length + 1];
+            BundleField[] newFields = new BundleField[fields.length + 1];
             System.arraycopy(fields, 0, newFields, 0, fields.length);
             newFields[newFields.length - 1] = bundle.getFormat().getField(Integer.toString(fields.length));
             fields = newFields;

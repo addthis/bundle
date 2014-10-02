@@ -13,6 +13,8 @@
  */
 package com.addthis.bundle.core.kvp;
 
+import javax.annotation.concurrent.NotThreadSafe;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -25,12 +27,15 @@ import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
 import com.addthis.bundle.value.ValueObject;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * Bundle wrapper around KVPairs
  */
+@NotThreadSafe
 public final class KVBundle implements Bundle {
 
-    private final LinkedHashMap<String, ValueObject> values = new LinkedHashMap<String, ValueObject>();
+    private final LinkedHashMap<String, ValueObject> values;
     private final KVBundleFormat format;
 
     public KVBundle() {
@@ -38,7 +43,17 @@ public final class KVBundle implements Bundle {
     }
 
     public KVBundle(KVBundleFormat format) {
+        this(format, new LinkedHashMap<String, ValueObject>());
+    }
+
+    @JsonCreator
+    public KVBundle(LinkedHashMap<String, ValueObject> values) {
+        this(new KVBundleFormat(), values);
+    }
+
+    public KVBundle(KVBundleFormat format, LinkedHashMap<String, ValueObject> values) {
         this.format = format;
+        this.values = values;
     }
 
     @Override

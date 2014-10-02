@@ -32,15 +32,15 @@ public class TestBundle {
         });
     }
 
-    public static Bundle testBundle(Bundle bundle, String kv[][]) {
+    public static Bundle testBundle(Bundle bundle, String[][] kv) {
         return testBundle(bundle, kv, true);
     }
 
-    public static Bundle testBundle(Bundle bundle, String kv[][], boolean clear) {
+    public static Bundle testBundle(Bundle bundle, String[][] kv, boolean clear) {
         assertEquals(0, bundle.getCount());
         BundleFormat format = bundle.getFormat();
-        BundleField field[] = new BundleField[kv.length];
-        ValueObject value[] = new ValueObject[kv.length];
+        BundleField[] field = new BundleField[kv.length];
+        ValueObject[] value = new ValueObject[kv.length];
         for (int i = 0; i < kv.length; i++) {
             field[i] = format.getField(kv[i][0]);
             value[i] = ValueFactory.create(kv[i][1]);

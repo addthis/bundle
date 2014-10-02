@@ -16,6 +16,7 @@ package com.addthis.bundle.core.list;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import com.addthis.bundle.core.Bundle;
@@ -25,6 +26,8 @@ import com.addthis.bundle.core.BundleFormat;
 import com.addthis.bundle.core.Bundles;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ListBundle implements Bundle {
 
@@ -37,6 +40,15 @@ public class ListBundle implements Bundle {
 
     public ListBundle() {
         this(new ListBundleFormat(), 1);
+    }
+
+    @JsonCreator
+    public ListBundle(Map<String, ValueObject> valueMap) {
+        this(new ListBundleFormat(), valueMap.size());
+        for (Map.Entry<String, ValueObject> entry : valueMap.entrySet()) {
+            BundleField field = this.format.getField(entry.getKey());
+            set(field, entry.getValue());
+        }
     }
 
     public ListBundle(ListBundleFormat format) {

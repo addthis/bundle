@@ -16,11 +16,15 @@ package com.addthis.bundle.core;
 import java.util.Iterator;
 
 import com.addthis.bundle.value.ValueObject;
+import com.addthis.codec.annotations.Pluggable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
  * Represents one "line" or "packet" of data having multiple fields.
  */
+@Pluggable("bundle")
 public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFactory {
 
     /** Gets the specified field. */
@@ -33,9 +37,11 @@ public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFa
     public void removeValue(BundleField field);
 
     /** Returns the number of values in this bundle. */
+    @JsonIgnore
     public int getCount();
 
     /** Returns the format for this bundle. This value should never change. */
+    @JsonIgnore
     @Override public BundleFormat getFormat();
 
     /** Returns a new bundle from the same factory. Usually the same as getFormat().createBundle(). */

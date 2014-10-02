@@ -13,14 +13,32 @@
  */
 package com.addthis.bundle.value;
 
+import javax.annotation.Syntax;
+
+import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
+import com.addthis.codec.config.Configs;
+import com.addthis.codec.jackson.Jackson;
+
 import com.typesafe.config.ConfigFactory;
 
-public class ValueFactory {
+public final class ValueFactory {
+    private ValueFactory() {}
+
     private static final boolean DEFAULT_TO_SORTED_MAPS =
             ConfigFactory.load().getBoolean("com.addthis.bundle.value.ValueFactory.sorted-maps");
+
+    public static ValueMap decodeMap(@Syntax("HOCON") String config) throws IOException {
+        return Configs.decodeObject(ValueMap.class, config);
+    }
+
+    public static ValueObject decodeValue(String config) throws IOException {
+        return Jackson.defaultCodec().decodeObject(
+                ValueObject.class, ConfigFactory.parseString("wrapperValue = " + config).getValue("wrapperValue"));
+    }
 
     public static ValueString create(String val) {
         return val != null ? new DefaultString(val) : null;
@@ -59,12 +77,7 @@ public class ValueFactory {
         }
     }
 
-    /**
-     * Returns a Value Array from String Array
-     *
-     * @param array
-     * @return
-     */
+    /** Returns a Value Array from String Array */
     public static ValueArray createValueArray(List<String> array) {
         ValueArray out = ValueFactory.createArray(array.size());
         for (String val : array) {
@@ -73,54 +86,45 @@ public class ValueFactory {
         return out;
     }
 
-    public static <C extends ValueCustom<T>, T> C createCustom(
-            Class<C> clazz, ValueMap map) throws InstantiationException, IllegalAccessException {
+    public static <C extends ValueCustom<T>, T> C createCustom(Class<C> clazz, ValueMap map)
+            throws InstantiationException, IllegalAccessException {
         C c = clazz.newInstance();
         c.setValues(map);
         return c;
     }
 
     public static ValueObject copyValue(ValueObject valueObject) {
-        ValueObject newValueObject = null;
-        if (valueObject != null) {
-            ValueObject.TYPE type = valueObject.getObjectType();
-            switch (type) {
-                case STRING:
-                    newValueObject = ValueFactory.create(valueObject.asString().asNative());
-                    break;
-                case INT:
-                    newValueObject = ValueFactory.create(valueObject.asLong().getLong());
-                    break;
-                case FLOAT:
-                    newValueObject = ValueFactory.create(valueObject.asDouble().getDouble());
-                    break;
-                case BYTES:
-                    newValueObject = ValueFactory.create(valueObject.asBytes().asNative());
-                    break;
-                case ARRAY:
-                    ValueArray valueArray = ValueFactory.createArray(valueObject.asArray().size());
-                    for (ValueObject vo : valueObject.asArray()) {
-                        valueArray.add(ValueFactory.copyValue(vo));
-                    }
-                    newValueObject = valueArray;
-                    break;
-                case MAP:
-                    ValueMap valueMap = ValueFactory.createMap();
-                    for (ValueMapEntry vo : valueObject.asMap()) {
-                        valueMap.put(vo.getKey(), vo.getValue());
-                    }
-                    newValueObject = valueMap;
-                    break;
-                case CUSTOM:
-                    ValueCustom<?> custom = (ValueCustom<?>) valueObject;
-                    try {
-                        newValueObject = ValueFactory.createCustom(custom.getClass(), valueObject.asMap());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-            }
+        if (valueObject == null) {
+            return null;
         }
-        return newValueObject;
+        ValueObject.TYPE type = valueObject.getObjectType();
+        switch (type) {
+            // immutable types can simply return themselves
+            case STRING: return valueObject;
+            case INT:    return valueObject;
+            case FLOAT:  return valueObject;
+            case BYTES:  return ValueFactory.create(valueObject.asBytes().asNative().clone());
+            case ARRAY:
+                ValueArray valueArray = ValueFactory.createArray(valueObject.asArray().size());
+                for (ValueObject vo : valueObject.asArray()) {
+                    valueArray.add(ValueFactory.copyValue(vo));
+                }
+                return valueArray;
+            case MAP:
+                ValueMap valueMap = ValueFactory.createMap();
+                for (ValueMapEntry vo : valueObject.asMap()) {
+                    valueMap.put(vo.getKey(), vo.getValue());
+                }
+                return valueMap;
+            case CUSTOM:
+                ValueCustom<?> custom = (ValueCustom<?>) valueObject;
+                try {
+                    return ValueFactory.createCustom(custom.getClass(), valueObject.asMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            default: throw new AssertionError("no other known value object types");
+        }
     }
 }

@@ -16,5 +16,5 @@ package com.addthis.bundle.io.chunk;
 
 public interface ChunkOutput {
 
-    public void send(byte chunk[]);
+    public void send(byte[] chunk);
 }

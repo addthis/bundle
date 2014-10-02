@@ -13,6 +13,8 @@
  */
 package com.addthis.bundle.core.kvp;
 
+import java.util.Objects;
+
 import com.addthis.bundle.core.BundleField;
 
 class KVBundleField implements BundleField {
@@ -39,21 +41,16 @@ class KVBundleField implements BundleField {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(obj instanceof KVBundleField)) {
             return false;
         }
 
-        KVBundleField that = (KVBundleField) o;
-
-        if (name != null ? !name.equals(that.name) : that.name != null) {
-            return false;
-        }
-
-        return true;
+        KVBundleField that = (KVBundleField) obj;
+        return Objects.equals(name, that.name);
     }
 
     @Override

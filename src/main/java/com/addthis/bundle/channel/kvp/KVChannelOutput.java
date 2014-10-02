@@ -48,7 +48,7 @@ public class KVChannelOutput implements DataChannelOutput {
         }
         try {
             if (binary) {
-                byte data[] = kv.toBinArray();
+                byte[] data = kv.toBinArray();
                 Bytes.writeInt(data.length, out);
                 out.write(data);
             } else {

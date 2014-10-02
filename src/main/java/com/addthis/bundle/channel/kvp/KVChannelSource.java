@@ -60,7 +60,7 @@ public class KVChannelSource implements DataChannelSource {
             return ret;
         }
         try {
-            byte next[] = in.next();
+            byte[] next = in.next();
             if (next == null) {
                 return null;
             }
@@ -85,7 +85,7 @@ public class KVChannelSource implements DataChannelSource {
     /**
      * ported from code in KVPairs.class
      */
-    public static KVBundle fromText(byte text[], KVBundleFormat format) {
+    public static KVBundle fromText(byte[] text, KVBundleFormat format) {
         if (text.length == 0) {
             return null;
         }
@@ -113,7 +113,7 @@ public class KVChannelSource implements DataChannelSource {
     /**
      * copied from KVPairs.class and modified
      */
-    public static KVBundle fromBin(byte bin[], KVBundleFormat format) {
+    public static KVBundle fromBin(byte[] bin, KVBundleFormat format) {
         KVBundle bundle = new KVBundle(format);
         int pos = 0;
         while (pos < bin.length) {
