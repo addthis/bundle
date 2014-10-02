@@ -13,7 +13,9 @@
  */
 package com.addthis.bundle.value;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+@JsonDeserialize(as = DefaultBytes.class)
 public interface ValueBytes extends ValueObject<byte[]> {
 
     public int size();

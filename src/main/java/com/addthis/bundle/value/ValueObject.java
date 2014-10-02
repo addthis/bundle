@@ -13,10 +13,13 @@
  */
 package com.addthis.bundle.value;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * translation exceptions are runtime exceptions since you should
  * protect calls to them with a getObjectType call first.
  */
+@JsonDeserialize(using = ValueDeserializer.class)
 public interface ValueObject<T> {
 
     public static enum TYPE {

@@ -13,6 +13,9 @@
  */
 package com.addthis.bundle.value;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = DefaultDouble.class)
 public interface ValueDouble extends ValueNumber<Double, ValueDouble> {
 
     public double getDouble();

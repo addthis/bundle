@@ -15,6 +15,9 @@ package com.addthis.bundle.value;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = DefaultArray.class)
 public interface ValueArray extends ValueObject<List<?>>, List<ValueObject<?>> {
 
 }

@@ -13,6 +13,9 @@
  */
 package com.addthis.bundle.value;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = DefaultLong.class)
 public interface ValueLong extends ValueNumber<Long, ValueLong> {
 
     public long getLong();

@@ -13,6 +13,9 @@
  */
 package com.addthis.bundle.value;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = DefaultString.class)
 public interface ValueString extends ValueSimple<String> {
 
 }

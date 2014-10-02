@@ -15,6 +15,9 @@ package com.addthis.bundle.value;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = HashValueMap.class)
 public interface ValueMap<V> extends ValueObject<Map<String, V>>,
                                      Map<String, ValueObject<V>>,
                                      Iterable<ValueMapEntry<V>> {

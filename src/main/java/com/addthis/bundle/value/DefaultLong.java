@@ -17,9 +17,11 @@ import com.addthis.basis.util.Bytes;
 
 import com.google.common.primitives.Longs;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public final class DefaultLong implements ValueLong {
 
-    DefaultLong(long value) {
+    @JsonCreator DefaultLong(long value) {
         this.value = value;
     }
 

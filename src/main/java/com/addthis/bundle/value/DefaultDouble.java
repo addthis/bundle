@@ -17,9 +17,11 @@ import com.addthis.basis.util.Bytes;
 
 import com.google.common.primitives.Doubles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public final class DefaultDouble implements ValueDouble {
 
-    DefaultDouble(double value) {
+    @JsonCreator DefaultDouble(double value) {
         this.value = value;
     }
 

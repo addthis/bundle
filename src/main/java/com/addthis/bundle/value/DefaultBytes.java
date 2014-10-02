@@ -15,11 +15,13 @@ package com.addthis.bundle.value;
 
 import com.addthis.basis.util.Bytes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class DefaultBytes implements ValueBytes {
 
     private final byte[] value;
 
-    protected DefaultBytes(byte[] value) {
+    @JsonCreator protected DefaultBytes(byte[] value) {
         this.value = value;
     }
 

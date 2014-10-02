@@ -14,16 +14,19 @@
 package com.addthis.bundle.value;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class DefaultArray extends ArrayList<ValueObject<?>> implements ValueArray {
 
-    protected DefaultArray(int size) {
-        super(size);
-    }
+    @JsonCreator protected DefaultArray() { super(); }
+    @JsonCreator protected DefaultArray(int size) { super(size); }
+    @JsonCreator protected DefaultArray(Collection<ValueObject<?>> c) { super(c); }
 
     @Override
     public TYPE getObjectType() {
