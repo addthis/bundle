@@ -15,6 +15,8 @@ package com.addthis.bundle.value;
 
 public interface ValueCustom<T> extends ValueObject {
 
+    @Override public T asNative();
+
     /**
      * custom objects MUST be able to represent themselves as a ValueMap object
      * and have a class that can be re-hydrated by supplying a map.
