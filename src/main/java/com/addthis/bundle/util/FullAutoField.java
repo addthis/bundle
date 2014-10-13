@@ -79,12 +79,11 @@ public class FullAutoField extends CachingField {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private static void setSubField(@Nonnull ValueObject field, String name, @Nullable ValueObject value) {
         if (field.getObjectType() == ValueObject.TYPE.ARRAY) {
             field.asArray().set(Integer.parseInt(name), value);
         } else {
-            field.asMap().put(name, (ValueObject) value);
+            field.asMap().put(name, value);
         }
     }
 }
