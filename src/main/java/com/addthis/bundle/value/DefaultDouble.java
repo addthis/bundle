@@ -37,11 +37,11 @@ public final class DefaultDouble implements ValueDouble {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof ValueObject)) {
+        if (!(obj instanceof DefaultDouble)) {
             return false;
         }
-        ValueObject asValueObject = (ValueObject) obj;
-        return asValueObject.asDouble().getDouble() == value;
+        DefaultDouble asDefaultDouble = (DefaultDouble) obj;
+        return asDefaultDouble.getDouble() == value;
     }
 
     @Override

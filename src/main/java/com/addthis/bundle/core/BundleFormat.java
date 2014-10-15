@@ -22,32 +22,17 @@ package com.addthis.bundle.core;
  */
 public interface BundleFormat extends Iterable<BundleField>, BundleFactory {
 
-    /**
-     * returns a field for the given name.  creates a new field
-     * position if that field does not exist.
-     *
-     * @param name requested field
-     * @return a field bound to this name
-     */
+    /** Returns a field for the given name. Creates a new field position if that field does not exist. */
     public BundleField getField(String name);
 
     public boolean hasField(String name);
 
-    /**
-     * return a field by position if it exists, null otherwise
-     *
-     * @param pos position of desired field in format
-     * @return a bound field
-     */
+    /** Return a field by position if it exists, null otherwise */
     public BundleField getField(int pos);
 
-    /**
-     * @return numnber of bound fields in this format
-     */
+    /** Numnber of bound fields in this format. */
     public int getFieldCount();
 
-    /**
-     * @return an object that changes only when the format changes
-     */
+    /** Object that changes only when the format changes. */
     public Object getVersion();
 }

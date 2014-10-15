@@ -37,11 +37,11 @@ public final class DefaultLong implements ValueLong {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof ValueObject)) {
+        if (!(obj instanceof DefaultLong)) {
             return false;
         }
-        ValueObject asValueObject = (ValueObject) obj;
-        return asValueObject.asLong().getLong() == value;
+        DefaultLong asDefaultLong = (DefaultLong) obj;
+        return asDefaultLong.getLong() == value;
     }
 
     @Override

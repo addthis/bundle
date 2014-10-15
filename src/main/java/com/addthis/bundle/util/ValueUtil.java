@@ -13,6 +13,8 @@
  */
 package com.addthis.bundle.util;
 
+import java.util.Objects;
+
 import com.addthis.bundle.value.Numeric;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
@@ -21,7 +23,7 @@ import com.addthis.bundle.value.ValueString;
 
 public final class ValueUtil {
 
-    /** @deprecated Use {@link java.util.Objects#equals(Object, Object)} */
+    /** @deprecated Use {@link Objects#equals(Object, Object)} */
     @Deprecated
     public static boolean isEqual(ValueObject v1, ValueObject v2) {
         if (v1 == v2) {
