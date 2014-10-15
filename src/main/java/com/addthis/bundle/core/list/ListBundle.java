@@ -182,6 +182,10 @@ public class ListBundle implements Bundle {
             return false;
         }
         ListBundle other = (ListBundle) obj;
-        return this.bundle.equals(other.bundle);
+        if (this.format == other.format) {
+            return this.bundle.equals(other.bundle);
+        } else {
+            return Bundles.equals(this, other);
+        }
     }
 }

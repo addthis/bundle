@@ -34,7 +34,14 @@ public final class DefaultDouble implements ValueDouble {
 
     @Override
     public boolean equals(Object obj) {
-        return (obj instanceof DefaultDouble) && (((DefaultDouble) obj).value == value);
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ValueObject)) {
+            return false;
+        }
+        ValueObject asValueObject = (ValueObject) obj;
+        return asValueObject.asDouble().getDouble() == value;
     }
 
     @Override

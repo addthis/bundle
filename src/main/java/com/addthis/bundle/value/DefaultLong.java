@@ -33,11 +33,15 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof DefaultLong)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ValueObject)) {
             return false;
         }
-        return ((DefaultLong) o).value == value;
+        ValueObject asValueObject = (ValueObject) obj;
+        return asValueObject.asLong().getLong() == value;
     }
 
     @Override
