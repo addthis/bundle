@@ -172,4 +172,16 @@ public class ListBundle implements Bundle {
     public Bundle createBundle() {
         return new ListBundle(format);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ListBundle)) {
+            return false;
+        }
+        ListBundle other = (ListBundle) obj;
+        return this.bundle.equals(other.bundle);
+    }
 }
