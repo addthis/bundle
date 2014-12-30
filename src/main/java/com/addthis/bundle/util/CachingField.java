@@ -25,6 +25,7 @@ import com.addthis.bundle.core.BundleFormatted;
 import com.addthis.bundle.value.ValueObject;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -108,5 +109,12 @@ public class CachingField implements AutoField {
             String[] subNames = names.subList(1, names.size()).toArray(new String[names.size() - 1]);
             return new FullAutoField(name, subNames);
         }
+    }
+
+    @Override public String toString() {
+        return Objects.toStringHelper(this)
+                      .add("name", name)
+                      .add("cachedField", cachedField)
+                      .toString();
     }
 }

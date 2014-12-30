@@ -19,6 +19,8 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
 
+import com.google.common.base.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ConstantField implements AutoField {
@@ -39,5 +41,11 @@ public class ConstantField implements AutoField {
 
     @Override public void removeValue(Bundle bundle) {
         throw new UnsupportedOperationException("cannot meaningfully delete a static constant");
+    }
+
+    @Override public String toString() {
+        return Objects.toStringHelper(this)
+                      .add("value", value)
+                      .toString();
     }
 }
