@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FullAutoField implements AutoField {
 
     @Nonnull public final String[] subNames;
-    @Nonnull private final AutoField baseAutoField;
+    @Nonnull public final AutoField baseAutoField;
 
     public FullAutoField(@Nonnull AutoField baseAutoField, @Nonnull String... subNames) {
         this.baseAutoField = checkNotNull(baseAutoField);
