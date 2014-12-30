@@ -47,7 +47,7 @@ public class ConstantFieldTest extends AutoFieldTest {
         SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from.const: {}, to: some-field");
         Bundle b = new ListBundle();
         filter.filter(b);
-        assertEquals(Configs.newDefault(ValueMap.class), CachingField.newAutoField("some-field").getValue(b));
+        assertEquals(Configs.newDefault(ValueMap.class), AutoField.newAutoField("some-field").getValue(b));
     }
 
     @Test

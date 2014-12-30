@@ -26,19 +26,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @ThreadSafe
-public class FullAutoField extends CachingField {
+public class FullAutoField implements AutoField {
 
     @Nonnull public final String[] subNames;
+    @Nonnull private final AutoField baseAutoField;
 
-    public FullAutoField(@Nonnull String name, @Nonnull String... subNames) {
-        super(name);
-        checkNotNull(subNames);
+    public FullAutoField(@Nonnull AutoField baseAutoField, @Nonnull String... subNames) {
+        this.baseAutoField = checkNotNull(baseAutoField);
+        this.subNames = checkNotNull(subNames);
         checkArgument(subNames.length > 0, "list of sub names must not be empty (try using a plain AutoField)");
-        this.subNames = subNames;
     }
 
     @Override public ValueObject getValue(Bundle bundle) {
-        ValueObject field = super.getValue(bundle);
+        ValueObject field = baseAutoField.getValue(bundle);
         for (int i = 0; (field != null) && (i < subNames.length); i++) {
             field = getSubField(field, subNames[i]);
         }
@@ -56,8 +56,8 @@ public class FullAutoField extends CachingField {
     }
 
     private ValueObject getLastSubField(Bundle bundle) {
-        ValueObject field = super.getValue(bundle);
-        checkNotNull(field, "missing top level field {}", super.name);
+        ValueObject field = baseAutoField.getValue(bundle);
+        checkNotNull(field, "missing top level field {}", baseAutoField);
         for (int i = 0; i < (subNames.length - 1); i++) {
             field = getSubField(field, subNames[i]);
             checkNotNull(field, "missing mid level container value {}", subNames[i]);
@@ -91,7 +91,7 @@ public class FullAutoField extends CachingField {
 
     @Override public String toString() {
         return Objects.toStringHelper(this)
-                      .add("(super)", super.toString())
+                      .add("baseAutoField", baseAutoField)
                       .add("subNames", subNames)
                       .toString();
     }

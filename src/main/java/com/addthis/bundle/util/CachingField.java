@@ -17,21 +17,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import java.util.List;
-
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormatted;
 import com.addthis.bundle.value.ValueObject;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
-import com.google.common.base.Splitter;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -48,7 +40,7 @@ public class CachingField implements AutoField {
 
     @Nonnull public final String name;
 
-    public CachingField(@Nonnull @JsonProperty("name") String name) {
+    public CachingField(@Nonnull String name) {
         this.name = checkNotNull(name);
     }
 
@@ -80,34 +72,6 @@ public class CachingField implements AutoField {
             BundleField newField = bundle.getFormat().getField(name);
             cachedField = newField;
             return newField;
-        }
-    }
-
-    private static final CharMatcher FIELD_NAME_DELIMITER = CharMatcher.anyOf("./");
-    private static final Splitter    FIELD_NAME_SPLITTER  = Splitter.on(FIELD_NAME_DELIMITER)
-                                                                    .trimResults()
-                                                                    .omitEmptyStrings();
-
-    @JsonCreator
-    public static CachingField newAutoField(String nameOrJoinedArray) {
-        checkNotNull(nameOrJoinedArray);
-        if (FIELD_NAME_DELIMITER.matchesAnyOf(nameOrJoinedArray)) {
-            return newAutoField(FIELD_NAME_SPLITTER.splitToList(nameOrJoinedArray));
-        } else {
-            return new CachingField(nameOrJoinedArray);
-        }
-    }
-
-    @JsonCreator
-    public static CachingField newAutoField(List<String> names) {
-        checkNotNull(names);
-        checkArgument(!names.isEmpty(), "list of field names must not be empty (usually >=2)");
-        String name = names.get(0);
-        if (names.size() == 1) {
-            return new CachingField(name);
-        } else {
-            String[] subNames = names.subList(1, names.size()).toArray(new String[names.size() - 1]);
-            return new FullAutoField(name, subNames);
         }
     }
 
