@@ -43,6 +43,14 @@ public class ConstantFieldTest extends AutoFieldTest {
     }
 
     @Test
+    public void setEmptyMap() throws Exception {
+        SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from.const: {}, to: some-field");
+        Bundle b = new ListBundle();
+        filter.filter(b);
+        assertEquals(Configs.newDefault(ValueMap.class), CachingField.newAutoField("some-field").getValue(b));
+    }
+
+    @Test
     public void setKeyFromValue() throws Exception {
         SimpleCopyFilter filter = Configs.decodeObject(SimpleCopyFilter.class, "from.const: foobar, to: MAP/mykey");
         Bundle b = new ListBundle();

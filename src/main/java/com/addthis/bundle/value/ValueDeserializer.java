@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ValueDeserializer extends StdDeserializer<ValueObject> {
 
@@ -44,8 +45,14 @@ public class ValueDeserializer extends StdDeserializer<ValueObject> {
                 return jp.readValueAs(ValueArray.class);
             case START_OBJECT:
             case FIELD_NAME:
-            case END_OBJECT:
                 return jp.readValueAs(ValueMap.class);
+            case END_OBJECT:
+                // calling jp.readValueAs here will return null rather than an empty map, so make empty map in tokens
+                jp.nextToken();
+                ObjectNode objectNode = ctxt.getNodeFactory().objectNode();
+                JsonParser emptyObjectParser = jp.getCodec().treeAsTokens(objectNode);
+                emptyObjectParser.nextToken();
+                return emptyObjectParser.readValueAs(ValueMap.class);
             case VALUE_EMBEDDED_OBJECT:
             default:
                 throw ctxt.mappingException(handledType());
