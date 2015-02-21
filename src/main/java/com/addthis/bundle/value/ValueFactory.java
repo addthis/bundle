@@ -17,6 +17,7 @@ import javax.annotation.Syntax;
 
 import java.io.IOException;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public final class ValueFactory {
     }
 
     /** Returns a Value Array from String Array */
-    public static ValueArray createValueArray(List<String> array) {
+    public static ValueArray createValueArray(Collection<String> array) {
         ValueArray out = ValueFactory.createArray(array.size());
         for (String val : array) {
             out.add(ValueFactory.create(val));
