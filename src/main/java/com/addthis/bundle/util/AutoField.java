@@ -16,6 +16,10 @@ package com.addthis.bundle.util;
 import javax.annotation.Nullable;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.value.ValueObject;
@@ -38,6 +42,38 @@ public interface AutoField {
     public void setValue(Bundle bundle, @Nullable ValueObject value);
 
     public void removeValue(Bundle bundle);
+
+    default Optional<String> getString(Bundle bundle) {
+        ValueObject valueObject = getValue(bundle);
+        if (valueObject == null) {
+            return Optional.empty();
+        }
+        return Optional.of(valueObject.asString().asNative());
+    }
+
+    default OptionalDouble getDouble(Bundle bundle) {
+        ValueObject valueObject = getValue(bundle);
+        if (valueObject == null) {
+            return OptionalDouble.empty();
+        }
+        return OptionalDouble.of(ValueUtil.asNumberOrParse(valueObject).asDouble().asNative());
+    }
+
+    default OptionalLong getLong(Bundle bundle) {
+        ValueObject valueObject = getValue(bundle);
+        if (valueObject == null) {
+            return OptionalLong.empty();
+        }
+        return OptionalLong.of(ValueUtil.asNumberOrParse(valueObject).asLong().asNative());
+    }
+
+    default OptionalInt getInt(Bundle bundle) {
+        ValueObject valueObject = getValue(bundle);
+        if (valueObject == null) {
+            return OptionalInt.empty();
+        }
+        return OptionalInt.of(ValueUtil.asNumberOrParse(valueObject).asLong().asNative().intValue());
+    }
 
 
     // static construction and deserialization utilities
