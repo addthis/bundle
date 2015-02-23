@@ -13,6 +13,7 @@
  */
 package com.addthis.bundle.value;
 
+import javax.annotation.Nullable;
 import javax.annotation.Syntax;
 
 import java.io.IOException;
@@ -94,7 +95,7 @@ public final class ValueFactory {
         return c;
     }
 
-    public static ValueObject copyValue(ValueObject valueObject) {
+    public static ValueObject copyValue(@Nullable ValueObject valueObject) {
         if (valueObject == null) {
             return null;
         }

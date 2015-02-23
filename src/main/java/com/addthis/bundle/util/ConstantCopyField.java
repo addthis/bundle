@@ -19,33 +19,19 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
 
-import com.google.common.base.Objects;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public class ConstantField implements AutoField {
-    private final ValueObject value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ConstantCopyField extends ConstantField {
 
     @JsonCreator
-    public ConstantField(ValueObject value) {
-        this.value = value;
+    public ConstantCopyField(ValueObject value) {
+        super(value);
     }
 
     @Nullable @Override public ValueObject getValue(Bundle bundle) {
-        return value;
-    }
-
-    @Override public void setValue(Bundle bundle, @Nullable ValueObject value) {
-        throw new UnsupportedOperationException("cannot meaningfully change a static constant");
-    }
-
-    @Override public void removeValue(Bundle bundle) {
-        throw new UnsupportedOperationException("cannot meaningfully delete a static constant");
-    }
-
-    @Override public String toString() {
-        return Objects.toStringHelper(this)
-                      .add("value", value)
-                      .toString();
+        return ValueFactory.copyValue(super.getValue(bundle));
     }
 }
