@@ -16,7 +16,9 @@ package com.addthis.bundle.util;
 import javax.annotation.Nullable;
 
 import com.addthis.bundle.core.Bundle;
+import com.addthis.codec.annotations.Pluggable;
 
+@Pluggable("typed-field")
 public interface TypedField<T> {
     @Nullable T getValue(Bundle bundle);
 
