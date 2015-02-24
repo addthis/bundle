@@ -13,8 +13,6 @@
  */
 package com.addthis.bundle.util;
 
-import javax.annotation.Nullable;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -35,13 +33,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Pluggable("value-field")
-public interface AutoField {
-
-    @Nullable public ValueObject getValue(Bundle bundle);
-
-    public void setValue(Bundle bundle, @Nullable ValueObject value);
-
-    public void removeValue(Bundle bundle);
+public interface AutoField extends TypedField<ValueObject> {
 
     default Optional<String> getString(Bundle bundle) {
         ValueObject valueObject = getValue(bundle);
