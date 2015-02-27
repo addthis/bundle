@@ -15,13 +15,15 @@ package com.addthis.bundle.util;
 
 import javax.annotation.Nullable;
 
+import java.util.function.Supplier;
+
 import com.addthis.bundle.core.Bundle;
 
 import com.google.common.base.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public class ConstantTypedField<T> implements TypedField<T> {
+public class ConstantTypedField<T> implements TypedField<T>, Supplier<T> {
     private final T value;
 
     @JsonCreator
@@ -45,5 +47,9 @@ public class ConstantTypedField<T> implements TypedField<T> {
         return Objects.toStringHelper(this)
                       .add("value", value)
                       .toString();
+    }
+
+    @Override public T get() {
+        return value;
     }
 }

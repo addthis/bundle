@@ -15,15 +15,16 @@ package com.addthis.bundle.util;
 
 import javax.annotation.Nullable;
 
+import java.util.function.Supplier;
+
 import com.addthis.bundle.core.Bundle;
-import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
 
 import com.google.common.base.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public class ConstantField implements AutoField {
+public class ConstantField implements AutoField, Supplier<ValueObject> {
     private final ValueObject value;
 
     @JsonCreator
@@ -47,5 +48,9 @@ public class ConstantField implements AutoField {
         return Objects.toStringHelper(this)
                       .add("value", value)
                       .toString();
+    }
+
+    @Override public ValueObject get() {
+        return value;
     }
 }
