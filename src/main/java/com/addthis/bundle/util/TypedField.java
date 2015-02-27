@@ -25,4 +25,10 @@ public interface TypedField<T> {
     void setValue(Bundle bundle, @Nullable T value);
 
     void removeValue(Bundle bundle);
+
+    /**
+     * Return true iff the result of {@link #getValue(Bundle)}
+     * is invariant with respect to the input bundle.
+     */
+    boolean isConstant();
 }

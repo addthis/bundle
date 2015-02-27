@@ -38,4 +38,6 @@ public class NoopField implements AutoField {
         return Objects.toStringHelper(this)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return true; }
 }

@@ -57,4 +57,6 @@ public class DerivedTypedField<T> implements TypedField<T> {
                       .add("type", type)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return false; }
 }

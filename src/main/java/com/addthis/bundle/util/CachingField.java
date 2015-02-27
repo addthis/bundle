@@ -81,4 +81,6 @@ public class CachingField implements AutoField {
                       .add("cachedField", cachedField)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return false; }
 }
