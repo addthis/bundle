@@ -48,4 +48,6 @@ public class ConstantField implements AutoField {
                       .add("value", value)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return true; }
 }

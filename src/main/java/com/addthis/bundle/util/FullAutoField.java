@@ -95,4 +95,6 @@ public class FullAutoField implements AutoField {
                       .add("subNames", subNames)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return false; }
 }

@@ -67,4 +67,6 @@ public class IndexField implements AutoField {
                       .add("index", index)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return false; }
 }

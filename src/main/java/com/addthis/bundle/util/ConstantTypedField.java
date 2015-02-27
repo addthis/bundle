@@ -46,4 +46,6 @@ public class ConstantTypedField<T> implements TypedField<T> {
                       .add("value", value)
                       .toString();
     }
+
+    @Override public boolean isConstant() { return true; }
 }
