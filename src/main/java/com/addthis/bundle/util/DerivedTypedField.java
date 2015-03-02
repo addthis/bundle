@@ -39,6 +39,9 @@ public class DerivedTypedField<T> implements TypedField<T> {
 
     @Nullable @Override public T getValue(Bundle bundle) {
         ValueObject valueObject = field.getValue(bundle);
+        if (valueObject == null) {
+            return null;
+        }
         return Jackson.defaultMapper().convertValue(valueObject.asNative(), type);
     }
 
