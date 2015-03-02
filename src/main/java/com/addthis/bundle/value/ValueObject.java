@@ -30,19 +30,35 @@ public interface ValueObject {
 
     public Object asNative();
 
-    public ValueBytes asBytes() throws ValueTranslationException;
+    public default ValueBytes asBytes() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public ValueArray asArray() throws ValueTranslationException;
+    public default ValueArray asArray() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public ValueMap asMap() throws ValueTranslationException;
+    public default ValueMap asMap() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public Numeric asNumeric() throws ValueTranslationException;
+    default public Numeric asNumeric() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public ValueLong asLong() throws ValueTranslationException;
+    default public ValueLong asLong() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public ValueDouble asDouble() throws ValueTranslationException;
+    default public ValueDouble asDouble() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public ValueString asString() throws ValueTranslationException;
+    default public ValueString asString() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 
-    public ValueCustom<?> asCustom() throws ValueTranslationException;
+    default public ValueCustom<?> asCustom() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
 }

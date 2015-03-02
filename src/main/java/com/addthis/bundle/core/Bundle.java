@@ -14,12 +14,18 @@
 package com.addthis.bundle.core;
 
 import java.util.Iterator;
+import java.util.Map;
 
+import com.addthis.bundle.value.BundleValueArray;
+import com.addthis.bundle.value.BundleValueMap;
+import com.addthis.bundle.value.ValueArray;
+import com.addthis.bundle.value.ValueMap;
 import com.addthis.bundle.value.ValueObject;
 import com.addthis.codec.annotations.Pluggable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.annotations.Beta;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Represents one "line" or "packet" of data having multiple fields.
@@ -49,4 +55,19 @@ public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFa
 
     /** Iterates over the list of fields set in this bundle. May differ from getFormat().iterator(). */
     @Override public Iterator<BundleField> iterator();
+
+    /** Returns a view of this bundle as a {@link Map}. Changes to one are reflected in the other. */
+    @Beta default Map<BundleField, ValueObject> asMap() {
+        return new BundleMapView<>(this);
+    }
+
+    /** Returns a view of this bundle as a {@link ValueMap}. Changes to one are reflected in the other. */
+    @Beta default ValueMap asValueMap() {
+        return new BundleValueMap(this);
+    }
+
+    /** Returns a view of this bundle as a {@link ValueArray}. Changes to one are reflected in the other. */
+    @Beta default ValueArray asValueArray() {
+        return new BundleValueArray(this);
+    }
 }

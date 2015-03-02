@@ -14,12 +14,9 @@
 package com.addthis.bundle.value;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import com.google.common.collect.Maps;
 
 public class TreeValueMap extends TreeMap<String, ValueObject> implements ValueMap {
 
@@ -27,94 +24,4 @@ public class TreeValueMap extends TreeMap<String, ValueObject> implements ValueM
     public TreeValueMap(Comparator<? super String> comparator) { super(comparator); }
     public TreeValueMap(Map<String, ? extends ValueObject> m) { super(m); }
     public TreeValueMap(SortedMap<String, ? extends ValueObject> m) { super(m); }
-
-    @Override
-    public TYPE getObjectType() {
-        return TYPE.MAP;
-    }
-
-    @Override
-    public Map<String, Object> asNative() {
-        return Maps.transformValues(this, AsNative.INSTANCE);
-    }
-
-    @Override
-    public ValueBytes asBytes() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueArray asArray() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueMap asMap() throws ValueTranslationException {
-        return this;
-    }
-
-    @Override
-    public Numeric asNumeric() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueLong asLong() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueDouble asDouble() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueString asString() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public Iterator<ValueMapEntry> iterator() {
-        return new Iterator<ValueMapEntry>() {
-            private final Iterator<Map.Entry<String, ValueObject>> iter =
-                    TreeValueMap.super.entrySet().iterator();
-
-            @Override
-            public boolean hasNext() {
-                return iter.hasNext();
-            }
-
-            @Override
-            public ValueMapEntry next() {
-                return new ValueMapEntry() {
-                    final Map.Entry<String, ValueObject> next = iter.next();
-
-                    @Override
-                    public String getKey() {
-                        return next.getKey();
-                    }
-
-                    @Override
-                    public ValueObject getValue() {
-                        return next.getValue();
-                    }
-
-                    @Override
-                    public ValueObject setValue(ValueObject val) {
-                        return next.setValue(val);
-                    }
-                };
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }
-
-    @Override
-    public ValueCustom<Map<String, Object>> asCustom() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
 }

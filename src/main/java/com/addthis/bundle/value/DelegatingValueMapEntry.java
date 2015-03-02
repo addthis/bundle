@@ -13,12 +13,19 @@
  */
 package com.addthis.bundle.value;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class HashValueMap extends HashMap<String, ValueObject> implements ValueMap {
+import com.google.common.collect.ForwardingMapEntry;
 
-    public HashValueMap() { super(); }
-    public HashValueMap(int initialCapacity) { super(initialCapacity); }
-    public HashValueMap(Map<String, ? extends ValueObject> m) { super(m); }
+public class DelegatingValueMapEntry extends ForwardingMapEntry<String, ValueObject> implements ValueMapEntry {
+
+    private final Map.Entry<String, ValueObject> delegate;
+
+    public DelegatingValueMapEntry(Map.Entry<String, ValueObject> delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override protected Map.Entry<String, ValueObject> delegate() {
+        return delegate;
+    }
 }

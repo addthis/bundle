@@ -13,12 +13,30 @@
  */
 package com.addthis.bundle.value;
 
+import java.util.Iterator;
 import java.util.Map;
+
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = HashValueMap.class)
 public interface ValueMap extends ValueObject, Map<String, ValueObject>, Iterable<ValueMapEntry> {
 
-    @Override public Map<String, Object> asNative();
+    @Override public default Iterator<ValueMapEntry> iterator() {
+        return Iterators.transform(entrySet().iterator(), DelegatingValueMapEntry::new);
+    }
+
+    @Override public default ValueMap asMap() throws ValueTranslationException {
+        return this;
+    }
+
+    @Override public default TYPE getObjectType() {
+        return TYPE.MAP;
+    }
+
+    @Override public default Map<String, Object> asNative() {
+        return Maps.transformValues(this, AsNative.INSTANCE);
+    }
 }

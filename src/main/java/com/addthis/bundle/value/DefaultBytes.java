@@ -48,11 +48,6 @@ public class DefaultBytes implements ValueBytes {
     }
 
     @Override
-    public ValueMap asMap() {
-        throw new ValueTranslationException();
-    }
-
-    @Override
     public Numeric asNumeric() {
         return asLong();
     }
@@ -76,11 +71,6 @@ public class DefaultBytes implements ValueBytes {
     }
 
     @Override
-    public ValueString asString() {
-        throw new ValueTranslationException();
-    }
-
-    @Override
     public ValueBytes asBytes() throws ValueTranslationException {
         return this;
     }
@@ -88,10 +78,5 @@ public class DefaultBytes implements ValueBytes {
     @Override
     public int size() {
         return value.length;
-    }
-
-    @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
-        throw new ValueTranslationException();
     }
 }

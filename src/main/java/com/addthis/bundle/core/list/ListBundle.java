@@ -13,7 +13,10 @@
  */
 package com.addthis.bundle.core.list;
 
+import javax.annotation.Nullable;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +26,16 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleException;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
+import com.addthis.bundle.core.BundleMapView;
 import com.addthis.bundle.core.Bundles;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
 
+import com.google.common.collect.Collections2;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public class ListBundle implements Bundle {
 
@@ -56,7 +64,7 @@ public class ListBundle implements Bundle {
     }
 
     public ListBundle(ListBundleFormat format, int size) {
-        this(format, new ArrayList<ValueObject>(size));
+        this(format, new ArrayList<>(size));
     }
 
     public ListBundle (ListBundleFormat format, List<ValueObject> list) {
@@ -74,6 +82,7 @@ public class ListBundle implements Bundle {
         return new Iterator<BundleField>() {
             private final Iterator<BundleField> iter = format.iterator();
             private BundleField peek = null;
+            private BundleField prev = null;
 
             @Override
             public boolean hasNext() {
@@ -93,6 +102,7 @@ public class ListBundle implements Bundle {
             public BundleField next() {
                 if (hasNext()) {
                     BundleField next = peek;
+                    prev = next;
                     peek = null;
                     return next;
                 }
@@ -101,14 +111,14 @@ public class ListBundle implements Bundle {
 
             @Override
             public void remove() {
-                throw new UnsupportedOperationException("Field iterator is read-only");
+                checkState(prev != null, "Next has not yet been called or remove already has");
+                removeValue(prev);
+                prev = null;
             }
-
         };
     }
 
-    @Override
-    public ValueObject getValue(BundleField field) throws BundleException {
+    @Nullable @Override public ValueObject getValue(BundleField field) throws BundleException {
         ValueObject value = getRawValue(field);
         if (value == SKIP) {
             return null;
@@ -116,7 +126,7 @@ public class ListBundle implements Bundle {
         return value;
     }
 
-    private ValueObject getRawValue(BundleField field) throws BundleException {
+    @Nullable private ValueObject getRawValue(BundleField field) throws BundleException {
         if (field != null) {
             Integer index = field.getIndex();
             if (index < bundle.size()) {
@@ -148,10 +158,6 @@ public class ListBundle implements Bundle {
         }
     }
 
-    public int size() {
-        return bundle.size();
-    }
-
     @Override
     public void removeValue(BundleField field) throws BundleException {
         set(field, SKIP);
@@ -171,5 +177,34 @@ public class ListBundle implements Bundle {
     @Override
     public Bundle createBundle() {
         return new ListBundle(format);
+    }
+
+    @Override public Map<BundleField, ValueObject> asMap() {
+        return new ListBundleMapView(this);
+    }
+
+    // optimized map methods
+
+    private static class ListBundleMapView extends BundleMapView<ListBundle> {
+        public ListBundleMapView(ListBundle bundle) {
+            super(bundle);
+        }
+
+        @Override public Collection<ValueObject> values() {
+            return Collections2.filter(super.bundle.bundle, value -> value != SKIP);
+        }
+
+        @Override public boolean containsValue(Object value) {
+            //noinspection SuspiciousMethodCalls
+            return super.bundle.bundle.contains(value);
+        }
+
+        @Override public boolean containsKey(Object key) {
+            if (key instanceof BundleField) {
+                return super.bundle.getRawValue((BundleField) key) != SKIP;
+            } else {
+                return super.containsKey(key);
+            }
+        }
     }
 }

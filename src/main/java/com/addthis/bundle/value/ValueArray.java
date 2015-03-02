@@ -15,10 +15,24 @@ package com.addthis.bundle.value;
 
 import java.util.List;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = DefaultArray.class)
 public interface ValueArray extends ValueObject, List<ValueObject> {
 
-    @Override public List<Object> asNative();
+    @Override public default TYPE getObjectType() {
+        return TYPE.ARRAY;
+    }
+
+    @Override public default List<Object> asNative() {
+        Function<ValueObject, Object> transformer = AsNative.INSTANCE;
+        return Lists.transform(this, transformer);
+    }
+
+    @Override public default ValueArray asArray() throws ValueTranslationException {
+        return this;
+    }
 }

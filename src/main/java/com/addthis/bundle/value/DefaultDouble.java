@@ -105,11 +105,6 @@ public final class DefaultDouble implements ValueDouble {
     }
 
     @Override
-    public ValueMap asMap() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
     public ValueDouble asNumeric() throws ValueTranslationException {
         return this;
     }
@@ -132,10 +127,5 @@ public final class DefaultDouble implements ValueDouble {
     @Override
     public double getDouble() {
         return value;
-    }
-
-    @Override
-    public ValueCustom<Double> asCustom() throws ValueTranslationException {
-        throw new ValueTranslationException();
     }
 }

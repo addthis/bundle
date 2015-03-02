@@ -55,11 +55,6 @@ public class DefaultString implements ValueString {
     }
 
     @Override
-    public ValueMap asMap() {
-        throw new ValueTranslationException();
-    }
-
-    @Override
     public Numeric asNumeric() {
         return value == null ? new DefaultLong(0) : value.indexOf(".") >= 0 ? asDouble() : asLong();
     }
@@ -99,10 +94,5 @@ public class DefaultString implements ValueString {
         } catch (Exception ex) {
             throw new ValueTranslationException(ex);
         }
-    }
-
-    @Override
-    public ValueCustom asCustom() throws ValueTranslationException {
-        throw new ValueTranslationException();
     }
 }

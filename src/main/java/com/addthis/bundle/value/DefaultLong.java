@@ -109,11 +109,6 @@ public final class DefaultLong implements ValueLong {
     }
 
     @Override
-    public ValueMap asMap() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
     public ValueLong asNumeric() throws ValueTranslationException {
         return this;
     }
@@ -136,10 +131,5 @@ public final class DefaultLong implements ValueLong {
     @Override
     public long getLong() {
         return value;
-    }
-
-    @Override
-    public ValueCustom<Long> asCustom() throws ValueTranslationException {
-        throw new ValueTranslationException();
     }
 }

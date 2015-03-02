@@ -45,36 +45,6 @@ public abstract class AbstractCustom<T> implements ValueCustom<T> {
     }
 
     @Override
-    public ValueBytes asBytes() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueArray asArray() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public Numeric asNumeric() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueLong asLong() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueDouble asDouble() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
-    public ValueString asString() throws ValueTranslationException {
-        throw new ValueTranslationException();
-    }
-
-    @Override
     public ValueCustom<T> asCustom() throws ValueTranslationException {
         return this;
     }
