@@ -16,7 +16,7 @@ package com.addthis.bundle.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.io.DataChannelCodec.ClassIndexMap;
@@ -34,7 +34,7 @@ public class DataChannelWriter implements BundleWriter {
     }
 
     @Override public void write(Bundle row) throws IOException {
-        Bytes.writeBytes(DataChannelCodec.encodeBundle(row, fieldMap, classMap), out);
+        LessBytes.writeBytes(DataChannelCodec.encodeBundle(row, fieldMap, classMap), out);
     }
 
     @Override

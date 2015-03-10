@@ -13,7 +13,7 @@
  */
 package com.addthis.bundle.value;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.google.common.primitives.Doubles;
 
@@ -94,7 +94,7 @@ public final class DefaultDouble implements ValueDouble {
 
     @Override
     public ValueBytes asBytes() throws ValueTranslationException {
-        return ValueFactory.create(Bytes.toBytes(Double.doubleToLongBits(value)));
+        return ValueFactory.create(LessBytes.toBytes(Double.doubleToLongBits(value)));
     }
 
     @Override

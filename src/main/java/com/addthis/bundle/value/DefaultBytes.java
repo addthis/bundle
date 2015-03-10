@@ -13,7 +13,7 @@
  */
 package com.addthis.bundle.value;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -55,7 +55,7 @@ public class DefaultBytes implements ValueBytes {
     @Override
     public ValueLong asLong() {
         try {
-            return ValueFactory.create(Bytes.toLong(value));
+            return ValueFactory.create(LessBytes.toLong(value));
         } catch (Exception ex) {
             throw new ValueTranslationException(ex);
         }
@@ -64,7 +64,7 @@ public class DefaultBytes implements ValueBytes {
     @Override
     public ValueDouble asDouble() {
         try {
-            return ValueFactory.create(Double.longBitsToDouble(Bytes.toLong(value)));
+            return ValueFactory.create(Double.longBitsToDouble(LessBytes.toLong(value)));
         } catch (Exception ex) {
             throw new ValueTranslationException(ex);
         }

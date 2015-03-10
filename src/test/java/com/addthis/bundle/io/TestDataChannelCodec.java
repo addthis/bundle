@@ -13,8 +13,8 @@
  */
 package com.addthis.bundle.io;
 
-import com.addthis.basis.util.Bytes;
-import com.addthis.basis.util.Strings;
+import com.addthis.basis.util.LessBytes;
+import com.addthis.basis.util.LessStrings;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.Bundles;
@@ -42,10 +42,10 @@ public class TestDataChannelCodec {
 
     public void paranoidAssertBundlesEqual(Bundle b1, Bundle b2) throws Exception {
         assertEquals(Bundles.getAsStringMapSlowly(b1), Bundles.getAsStringMapSlowly(b2));
-        assertEquals(Strings.printable(DataChannelCodec.encodeBundle(b1)),
-                Strings.printable(DataChannelCodec.encodeBundle(b2)));
-        assertTrue(Bytes.equals(DataChannelCodec.encodeBundle(b1),
-                DataChannelCodec.encodeBundle(b2)));
+        assertEquals(LessStrings.printable(DataChannelCodec.encodeBundle(b1)),
+                LessStrings.printable(DataChannelCodec.encodeBundle(b2)));
+        assertTrue(LessBytes.equals(DataChannelCodec.encodeBundle(b1),
+                                    DataChannelCodec.encodeBundle(b2)));
     }
 
 

@@ -13,7 +13,7 @@
  */
 package com.addthis.bundle.value;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.google.common.primitives.Longs;
 
@@ -98,7 +98,7 @@ public final class DefaultLong implements ValueLong {
 
     @Override
     public ValueBytes asBytes() throws ValueTranslationException {
-        return ValueFactory.create(Bytes.toBytes(value));
+        return ValueFactory.create(LessBytes.toBytes(value));
     }
 
     @Override

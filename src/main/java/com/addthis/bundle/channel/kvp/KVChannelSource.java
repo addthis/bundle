@@ -14,7 +14,7 @@
 package com.addthis.bundle.channel.kvp;
 
 import com.addthis.basis.kv.KVPair;
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.kvp.KVBundle;
@@ -90,7 +90,7 @@ public class KVChannelSource implements DataChannelSource {
             return null;
         }
         KVBundle bundle = new KVBundle(format);
-        String s = Bytes.toString(text);
+        String s = LessBytes.toString(text);
         int i = 0;
         int j = s.indexOf('&');
         while (j >= 0) {

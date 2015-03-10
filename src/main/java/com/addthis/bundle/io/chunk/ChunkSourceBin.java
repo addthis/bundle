@@ -16,7 +16,7 @@ package com.addthis.bundle.io.chunk;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 public class ChunkSourceBin implements ChunkSource {
 
@@ -32,9 +32,9 @@ public class ChunkSourceBin implements ChunkSource {
     public byte[] next() {
         try {
             if (varLength) {
-                return Bytes.readBytes(in);
+                return LessBytes.readBytes(in);
             } else {
-                return Bytes.readBytes(in, Bytes.readInt(in));
+                return LessBytes.readBytes(in, LessBytes.readInt(in));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

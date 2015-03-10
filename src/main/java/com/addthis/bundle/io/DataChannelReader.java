@@ -16,7 +16,7 @@ package com.addthis.bundle.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleFactory;
@@ -36,7 +36,7 @@ public class DataChannelReader implements BundleReader {
     }
 
     @Override public Bundle read() throws IOException {
-        return DataChannelCodec.decodeBundle(factory.createBundle(), Bytes.readBytes(in), fieldMap, classMap);
+        return DataChannelCodec.decodeBundle(factory.createBundle(), LessBytes.readBytes(in), fieldMap, classMap);
     }
 
     @Override

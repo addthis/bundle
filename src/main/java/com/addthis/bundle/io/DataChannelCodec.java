@@ -21,7 +21,7 @@ import java.io.OutputStream;
 
 import java.util.HashMap;
 
-import com.addthis.basis.util.Bytes;
+import com.addthis.basis.util.LessBytes;
 
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
@@ -156,11 +156,11 @@ public final class DataChannelCodec {
             if (fieldIndex == null) {
                 fieldIndex = fieldMap.createObjectIndex(field);
                 out.write(TYPE.BUNDLE_FIELD_NAME.val);
-                Bytes.writeLength(fieldIndex, out);
-                Bytes.writeString(field.getName(), out);
+                LessBytes.writeLength(fieldIndex, out);
+                LessBytes.writeString(field.getName(), out);
             } else {
                 out.write(TYPE.BUNDLE_FIELD_INDEX.val);
-                Bytes.writeLength(fieldIndex, out);
+                LessBytes.writeLength(fieldIndex, out);
             }
             ValueObject val = row.getValue(field);
             encodeValue(val, out, classMap);
@@ -185,18 +185,18 @@ public final class DataChannelCodec {
                 if (classID == null) {
                     classID = classIndex.createObjectIndex(type);
                     out.write(TYPE.CUSTOM_CLASS.val);
-                    Bytes.writeLength(classID, out);
-                    Bytes.writeString(type.getName(), out);
+                    LessBytes.writeLength(classID, out);
+                    LessBytes.writeString(type.getName(), out);
                 } else {
                     out.write(TYPE.CUSTOM_INDEX.val);
-                    Bytes.writeLength(classID, out);
+                    LessBytes.writeLength(classID, out);
                 }
                 encodeValue(custom.asMap(), out, classIndex);
                 break;
             case MAP:
                 ValueMap map = val.asMap();
                 out.write(TYPE.MAP.val);
-                Bytes.writeLength(map.size(), out);
+                LessBytes.writeLength(map.size(), out);
                 for (ValueMapEntry e : map) {
                     encodeValue(ValueFactory.create(e.getKey()), out, classIndex);
                     encodeValue(e.getValue(), out, classIndex);
@@ -205,25 +205,25 @@ public final class DataChannelCodec {
             case ARRAY:
                 out.write(TYPE.ARRAY.val);
                 ValueArray arr = val.asArray();
-                Bytes.writeLength(arr.size(), out);
+                LessBytes.writeLength(arr.size(), out);
                 for (ValueObject vo : arr) {
                     encodeValue(vo, out, classIndex);
                 }
                 break;
             case STRING:
                 out.write(TYPE.STRING.val);
-                Bytes.writeString(val.asString().asNative(), out);
+                LessBytes.writeString(val.asString().asNative(), out);
                 break;
             case BYTES:
                 out.write(TYPE.BYTES.val);
-                Bytes.writeBytes(val.asBytes().asNative(), out);
+                LessBytes.writeBytes(val.asBytes().asNative(), out);
                 break;
             case INT:
                 long lv = val.asLong().getLong();
                 // over 2^48, direct bytes are more efficient
                 if (lv > 281474976710656L) {
                     out.write(TYPE.LONG_BIG.val);
-                    Bytes.writeLong(lv, out);
+                    LessBytes.writeLong(lv, out);
                     break;
                 }
                 if (lv >= 0) {
@@ -232,12 +232,12 @@ public final class DataChannelCodec {
                     out.write(TYPE.LONG_NEG.val);
                     lv = -lv;
                 }
-                Bytes.writeLength(lv, out);
+                LessBytes.writeLength(lv, out);
                 break;
             case FLOAT:
                 long dv = Double.doubleToLongBits(val.asDouble().getDouble());
                 out.write(TYPE.DOUBLE.val);
-                Bytes.writeLong(dv, out);
+                LessBytes.writeLong(dv, out);
                 break;
             default:
                 log.error("Unknown object type " + objectType);
@@ -298,8 +298,8 @@ public final class DataChannelCodec {
                         }
                         break;
                     case BUNDLE_FIELD_NAME:
-                        int index = (int) Bytes.readLength(in);
-                        field = bundle.getFormat().getField(Bytes.readString(in));
+                        int index = (int) LessBytes.readLength(in);
+                        field = bundle.getFormat().getField(LessBytes.readString(in));
                         fieldMap.setObjectIndex(index, field);
                         bundle.setValue(field, decodeValue(in, classMap));
                         break;
@@ -332,19 +332,19 @@ public final class DataChannelCodec {
             case NULL:
                 return null;
             case BYTES:
-                return ValueFactory.create(Bytes.readBytes(in));
+                return ValueFactory.create(LessBytes.readBytes(in));
             case LONG:
-                return ValueFactory.create(Bytes.readLength(in));
+                return ValueFactory.create(LessBytes.readLength(in));
             case LONG_NEG:
-                return ValueFactory.create(-Bytes.readLength(in));
+                return ValueFactory.create(-LessBytes.readLength(in));
             case LONG_BIG:
-                return ValueFactory.create(Bytes.readLong(in));
+                return ValueFactory.create(LessBytes.readLong(in));
             case DOUBLE:
-                return ValueFactory.create(Double.longBitsToDouble(Bytes.readLong(in)));
+                return ValueFactory.create(Double.longBitsToDouble(LessBytes.readLong(in)));
             case STRING:
-                return ValueFactory.create(Bytes.readString(in));
+                return ValueFactory.create(LessBytes.readString(in));
             case ARRAY:
-                int len = (int) Bytes.readLength(in);
+                int len = (int) LessBytes.readLength(in);
                 ValueArray arr = ValueFactory.createArray(len);
                 for (int i = 0; i < len; i++) {
                     arr.add(decodeValue(in, classMap));
@@ -352,7 +352,7 @@ public final class DataChannelCodec {
                 return arr;
             case MAP:
                 ValueMap map = ValueFactory.createMap();
-                long count = Bytes.readLength(in);
+                long count = LessBytes.readLength(in);
                 while (count-- > 0) {
                     ValueObject key = decodeValue(in, classMap);
                     ValueObject val = decodeValue(in, classMap);
@@ -360,13 +360,13 @@ public final class DataChannelCodec {
                 }
                 return map;
             case CUSTOM_INDEX:
-                Class<? extends ValueObject> ci = classMap.getObject((int) Bytes.readLength(in));
+                Class<? extends ValueObject> ci = classMap.getObject((int) LessBytes.readLength(in));
                 return rehydrate(ci, in, classMap);
             case CUSTOM_CLASS:
-                int index = (int) Bytes.readLength(in);
+                int index = (int) LessBytes.readLength(in);
                 Class<? extends ValueObject> cc;
                 try {
-                    cc = (Class<? extends ValueObject>) Class.forName(Bytes.readString(in));
+                    cc = (Class<? extends ValueObject>) Class.forName(LessBytes.readString(in));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -399,7 +399,7 @@ public final class DataChannelCodec {
         FieldIndexMap fieldMap = createFieldIndexMap();
 
         try {
-            Bytes.writeLength(result.size(), out);
+            LessBytes.writeLength(result.size(), out);
             for (Bundle row : result) {
                 encodeBundle(row, out, fieldMap, classMap);
             }
@@ -433,7 +433,7 @@ public final class DataChannelCodec {
         FieldIndexMap fieldMap = createFieldIndexMap();
 
         try {
-            long rows = Bytes.readLength(in);
+            long rows = LessBytes.readLength(in);
             while (rows-- > 0) {
                 Bundle row = result.createBundle();
                 decodeBundle(row, in, fieldMap, classMap);
