@@ -13,6 +13,8 @@
  */
 package com.addthis.bundle.io;
 
+import java.util.List;
+
 import com.addthis.basis.util.LessBytes;
 import com.addthis.basis.util.LessStrings;
 
@@ -21,10 +23,14 @@ import com.addthis.bundle.core.Bundles;
 import com.addthis.bundle.core.TestBundle;
 import com.addthis.bundle.core.kvp.KVBundle;
 import com.addthis.bundle.core.list.ListBundle;
+import com.addthis.bundle.util.AutoField;
+
+import com.google.common.collect.ImmutableList;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestDataChannelCodec {
@@ -90,6 +96,20 @@ public class TestDataChannelCodec {
         paranoidAssertBundlesEqual(b, b2);
     }
 
+    @Test
+    public void unicode() throws Exception {
+        Bundle input = Bundles.decode("abc : Ах чудна българска земьо полюшвай цъфтящи жита, " +
+                       "ghi : Ταχίστη αλώπηξ βαφής ψημένη γη δρασκελίζει υπέρ, " +
+                       "mno : νωθρού κυνός");
+        Bundle output = DataChannelCodec.decodeBundle(new ListBundle(), DataChannelCodec.encodeBundle(input));
+        List<AutoField> fields = ImmutableList.of(AutoField.newAutoField("abc"),
+                                                  AutoField.newAutoField("ghi"),
+                                                  AutoField.newAutoField("mno"));
+        for (AutoField field : fields) {
+            assertNotNull(field.getValue(input));
+            assertEquals(field.getString(input), field.getString(output));
+        }
+    }
 
     @Test
     public void multiTest2() throws Exception {
