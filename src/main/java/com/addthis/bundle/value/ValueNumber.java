@@ -21,6 +21,10 @@ public interface ValueNumber extends ValueSimple, Numeric {
 
     @Override ValueNumber diff(Numeric val);
 
+    @Override ValueNumber prod(Numeric val);
+
+    @Override ValueNumber divide(Numeric val);
+
     @Override ValueNumber avg(int count);
 
     @Override ValueNumber min(Numeric val);

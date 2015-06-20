@@ -24,6 +24,15 @@ public interface Numeric extends ValueObject {
      */
     Numeric diff(Numeric val);
 
+    /** calculate the product of the objects and return a new ValueNumber of the same type as this object. */
+    Numeric prod(Numeric val);
+
+    /**
+     * calculate the division operation with this object is the numerator and val as the denominator
+     * and return a new ValueNumber of the same type as this object.
+     */
+    Numeric divide(Numeric val);
+
     /**
      * calculate the average this number's value over a denominator returning a new ValueNumber
      * of the same type as this object.

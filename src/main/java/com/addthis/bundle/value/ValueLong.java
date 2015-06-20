@@ -24,6 +24,10 @@ public interface ValueLong extends ValueNumber {
 
     @Override ValueLong diff(Numeric val);
 
+    @Override ValueLong prod(Numeric val);
+
+    @Override ValueLong divide(Numeric val);
+
     @Override ValueLong avg(int count);
 
     @Override ValueLong min(Numeric val);

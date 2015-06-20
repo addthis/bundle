@@ -73,7 +73,25 @@ public final class DefaultDouble implements ValueDouble {
         if (val != null) {
             return new DefaultDouble(value + val.asDouble().getDouble());
         } else {
-            return new DefaultDouble(value + 0);
+            return new DefaultDouble(value);
+        }
+    }
+
+    @Override
+    public ValueDouble prod(Numeric val) {
+        if (val != null) {
+            return new DefaultDouble(value * val.asDouble().getDouble());
+        } else {
+            return new DefaultDouble(value);
+        }
+    }
+
+    @Override
+    public ValueDouble divide(Numeric val) {
+        if (val != null) {
+            return new DefaultDouble(value / val.asDouble().getDouble());
+        } else {
+            return new DefaultDouble(value);
         }
     }
 

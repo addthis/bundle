@@ -77,7 +77,25 @@ public final class DefaultLong implements ValueLong {
         if (val != null) {
             return new DefaultLong(value + val.asLong().getLong());
         } else {
-            return new DefaultLong(value + 0);
+            return new DefaultLong(value);
+        }
+    }
+
+    @Override
+    public ValueLong prod(Numeric val) {
+        if (val != null) {
+            return new DefaultLong(value * val.asLong().getLong());
+        } else {
+            return new DefaultLong(value);
+        }
+    }
+
+    @Override
+    public ValueLong divide(Numeric val) {
+        if (val != null) {
+            return new DefaultLong(value / val.asLong().getLong());
+        } else {
+            return new DefaultLong(value);
         }
     }
 

@@ -24,6 +24,10 @@ public interface ValueDouble extends ValueNumber {
 
     @Override ValueDouble diff(Numeric val);
 
+    @Override ValueDouble prod(Numeric val);
+
+    @Override ValueDouble divide(Numeric val);
+
     @Override ValueDouble avg(int count);
 
     @Override ValueDouble min(Numeric val);
