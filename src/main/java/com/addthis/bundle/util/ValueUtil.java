@@ -71,9 +71,8 @@ public final class ValueUtil {
         return arr;
     }
 
-    /**
-     * @return null if null or a number otherwise.
-     */
+    /** @deprecated although enforcing a bit of type safety is nice, this causes more trouble than it is worth. **/
+    @Deprecated
     public static Numeric asNumber(ValueObject v) {
         if (v != null) {
             if (v instanceof Numeric) {
