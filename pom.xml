@@ -55,7 +55,7 @@
     <dependency>
       <groupId>com.addthis</groupId>
       <artifactId>basis</artifactId>
-      <version>3.0.0</version>
+      <version>3.0.1</version>
     </dependency>
     <dependency>
       <groupId>com.addthis</groupId>

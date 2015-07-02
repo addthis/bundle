@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.addthis.basis.annotations.Scaling;
+
 import com.addthis.bundle.util.ValueUtil;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
@@ -31,9 +33,12 @@ import com.addthis.maljson.JSONArray;
 import com.addthis.maljson.JSONException;
 import com.addthis.maljson.JSONObject;
 
+import static com.addthis.basis.annotations.Scaling.Scale.SETUP;
+
 public final class Bundles {
     private Bundles() {}
 
+    @Scaling(SETUP)
     public static Bundle decode(@Syntax("HOCON") String config) throws IOException {
         return Configs.decodeObject(Bundle.class, config);
     }
