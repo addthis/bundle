@@ -20,7 +20,6 @@ import java.util.List;
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.Bundles;
-import com.addthis.bundle.core.kvp.KVBundle;
 import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.codec.config.Configs;
@@ -69,18 +68,9 @@ public class AutoFieldTest {
     }
 
     @Test
-    public void kvBundles() throws IOException {
-        SimpleCopyFilter filter = createSampleFilter();
-        Bundle bundle = new KVBundle();
-        setAndFilterBundle(bundle, filter);
-    }
-
-    @Test
     public void changingFormats() throws IOException {
         SimpleCopyFilter filter = createSampleFilter();
-        Bundle bundle = new KVBundle();
-        setAndFilterBundle(bundle, filter);
-        bundle = new ListBundle();
+        Bundle bundle = new ListBundle();
         bundle.getFormat().getField("c");
         setAndFilterBundle(bundle, filter);
         bundle = new ListBundle();

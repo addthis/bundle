@@ -13,7 +13,6 @@
  */
 package com.addthis.bundle.core;
 
-import com.addthis.bundle.core.kvp.KVBundle;
 import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueObject;
@@ -64,11 +63,6 @@ public class TestBundle {
             assertEquals(null, bundle.getValue(field[i]));
         }
         return bundle;
-    }
-
-    @Test
-    public void testKVBundle() {
-        fillBundle(new KVBundle());
     }
 
     @Test

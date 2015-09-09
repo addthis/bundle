@@ -16,14 +16,12 @@ package com.addthis.bundle.core;
 import java.util.List;
 import java.util.Map;
 
-import com.addthis.bundle.core.kvp.KVBundle;
 import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.value.ValueArray;
 import com.addthis.bundle.value.ValueFactory;
 import com.addthis.bundle.value.ValueMap;
 import com.addthis.maljson.JSONObject;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -32,9 +30,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestBundles {
 
@@ -78,17 +74,6 @@ public class TestBundles {
         assertEquals(JSONObject.wrap(bundleMap).toString(), Bundles.toJsonString(bundle));
     }
 
-    @Test
-    public void testGettingStringsSlowly() throws Exception {
-        Bundle b = TestBundle.testBundle(new KVBundle(), new String[][]{
-                new String[]{"abc", "def"},
-                new String[]{"ghi", "jkl"},
-                new String[]{"mno", "pqr"},
-        }, false);
-        Map<String, String> im = ImmutableMap.of("abc", "def", "ghi", "jkl", "mno", "pqr");
-        assertEquals(im, Bundles.getAsStringMapSlowly(b));
-    }
-    
     @Test
     public void testaddAllReplace() {
         Bundle c = Bundles.addAll(a, b, true);

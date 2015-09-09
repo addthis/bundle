@@ -21,7 +21,6 @@ import com.addthis.basis.util.LessStrings;
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.Bundles;
 import com.addthis.bundle.core.TestBundle;
-import com.addthis.bundle.core.kvp.KVBundle;
 import com.addthis.bundle.core.list.ListBundle;
 import com.addthis.bundle.util.AutoField;
 
@@ -54,46 +53,9 @@ public class TestDataChannelCodec {
                                     DataChannelCodec.encodeBundle(b2)));
     }
 
-
-    @Test
-    public void roundTripKV() throws Exception {
-        singleRoundTripTest(new ListBundle(), new KVBundle());
-    }
-
     @Test
     public void roundTripList() throws Exception {
         singleRoundTripTest(new ListBundle(), new ListBundle());
-    }
-
-
-    @Test
-    public void roundTripKV2List() throws Exception {
-        singleRoundTripTest(new KVBundle(), new ListBundle());
-    }
-
-    @Test
-    public void roundTripList2KV() throws Exception {
-        singleRoundTripTest(new ListBundle(), new KVBundle());
-    }
-
-    @Test
-    public void multiTest() throws Exception {
-        Bundle b = TestBundle.testBundle(new KVBundle(), new String[][]{
-                new String[]{"abc", "def"},
-                new String[]{"ghi", "jkl"},
-                new String[]{"mno", "pqr"},
-        }, false);
-        Bundle b2 = DataChannelCodec.decodeBundle(new KVBundle(), DataChannelCodec.encodeBundle(b));
-        paranoidAssertBundlesEqual(b, b2);
-
-        b = TestBundle.testBundle(new KVBundle(), new String[][]{
-                new String[]{"123", "def"},
-                new String[]{"456", "jkl"},
-                new String[]{"789", "pqr"},
-        }, false);
-        b2 = DataChannelCodec.decodeBundle(new KVBundle(), DataChannelCodec.encodeBundle(b));
-        //System.out.println(Strings.printable(DataChannelCodec.encodeBundle(b)));
-        paranoidAssertBundlesEqual(b, b2);
     }
 
     @Test
@@ -110,24 +72,4 @@ public class TestDataChannelCodec {
             assertEquals(field.getString(input), field.getString(output));
         }
     }
-
-    @Test
-    public void multiTest2() throws Exception {
-        Bundle b = TestBundle.testBundle(new KVBundle(), new String[][]{
-                new String[]{"abc", "def"},
-                new String[]{"ghi", "jkl"},
-                new String[]{"mno", "pqr"},
-        }, false);
-        Bundle b2 = DataChannelCodec.decodeBundle(new ListBundle(), DataChannelCodec.encodeBundle(b));
-        paranoidAssertBundlesEqual(b, b2);
-
-        b = TestBundle.testBundle(new ListBundle(), new String[][]{
-                new String[]{"123", "def"},
-                new String[]{"456", "jkl"},
-                new String[]{"789", "pqr"},
-        }, false);
-        b2 = DataChannelCodec.decodeBundle(new KVBundle(), DataChannelCodec.encodeBundle(b));
-        paranoidAssertBundlesEqual(b, b2);
-    }
-
 }
