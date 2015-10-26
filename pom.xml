@@ -53,14 +53,14 @@
       <version>0.2.0</version>
     </dependency>
     <dependency>
-      <groupId>com.addthis</groupId>
-      <artifactId>basis</artifactId>
-      <version>3.0.1</version>
+      <groupId>com.addthis.basis</groupId>
+      <artifactId>basis-core</artifactId>
+      <version>4.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.addthis</groupId>
       <artifactId>codec</artifactId>
-      <version>3.4.4</version>
+      <version>3.5.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
