@@ -36,11 +36,25 @@ public interface Bundle extends Iterable<BundleField>, BundleFormatted, BundleFa
     /** Gets the specified field. */
     public ValueObject getValue(BundleField field);
 
+    /** Looks up a field by name, then gets the specified field.  Prefer the BundleField overload when possible */
+    default ValueObject getValue(String fieldName) {
+        return this.getValue(this.getFormat().getField(fieldName));
+    }
+
     /** Sets the specified field. */
     public void setValue(BundleField field, ValueObject value);
 
+    /** Looks up a field by name, then sets the specified field.  Prefer the BundleField overload when possible */
+    default void setValue(String fieldName, ValueObject value) {
+        this.setValue(this.getFormat().getField(fieldName), value);
+    }
+
     /** Removes a field from a bundle. */
     public void removeValue(BundleField field);
+
+    default void removeValue(String fieldName) {
+        this.removeValue(this.getFormat().getField(fieldName));
+    }
 
     /** Returns the number of values in this bundle. */
     @JsonIgnore

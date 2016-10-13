@@ -23,12 +23,13 @@ import static org.junit.Assert.assertEquals;
 
 public class TestBundle {
 
+    public static String[][] KV_ARRAY = new String[][]{
+            new String[]{"abc", "def"},
+            new String[]{"ghi", "jkl"},
+            new String[]{"mno", "pqr"}};
+
     public static Bundle fillBundle(Bundle bundle) {
-        return testBundle(bundle, new String[][]{
-                new String[]{"abc", "def"},
-                new String[]{"ghi", "jkl"},
-                new String[]{"mno", "pqr"},
-        });
+        return testBundle(bundle, KV_ARRAY);
     }
 
     public static Bundle testBundle(Bundle bundle, String[][] kv) {
@@ -65,8 +66,38 @@ public class TestBundle {
         return bundle;
     }
 
+    public static Bundle testBundleHelpers(Bundle bundle, String[][] kv, boolean clear) {
+        assertEquals(0, bundle.getCount());
+        ValueObject[] value = new ValueObject[kv.length];
+        for (int i = 0; i < kv.length; i++) {
+            value[i] = ValueFactory.create(kv[i][1]);
+            bundle.setValue(kv[i][0], value[i]);
+        }
+        for (int i = 0; i < kv.length; i++) {
+            assertEquals(kv[i][0], bundle.getFormat().getField(kv[i][0]).getName());
+            assertEquals(value[i], bundle.getValue(kv[i][0]));
+        }
+        assertEquals(kv.length, bundle.getCount());
+        if (!clear) {
+            return bundle;
+        }
+        for (int i = 0; i < kv.length; i++) {
+            bundle.removeValue(kv[i][0]);
+        }
+        assertEquals(0, bundle.getCount());
+        for (int i = 0; i < kv.length; i++) {
+            assertEquals(null, bundle.getValue(kv[i][0]));
+        }
+        return bundle;
+    }
+
     @Test
     public void testListBundle() {
         fillBundle(new ListBundle());
+    }
+
+    @Test
+    public void testListBundleHelpers() {
+        testBundleHelpers(new ListBundle(), KV_ARRAY, true);
     }
 }
