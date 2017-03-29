@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public interface ValueObject {
 
     public static enum TYPE {
-        STRING, INT, FLOAT, BYTES, ARRAY, MAP, CUSTOM
+        STRING, INT, FLOAT, BOOLEAN, BYTES, ARRAY, MAP, CUSTOM
     }
 
     public TYPE getObjectType();
@@ -35,6 +35,10 @@ public interface ValueObject {
     }
 
     public default ValueArray asArray() throws ValueTranslationException {
+        throw new ValueTranslationException();
+    }
+
+    public default ValueBoolean asBoolean() throws ValueTranslationException {
         throw new ValueTranslationException();
     }
 
