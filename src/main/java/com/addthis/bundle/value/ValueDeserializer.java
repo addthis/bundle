@@ -34,7 +34,9 @@ public class ValueDeserializer extends StdDeserializer<ValueObject> {
         JsonToken t = jp.getCurrentToken();
         switch (t) {
             case VALUE_TRUE:
+                return jp.readValueAs(ValueBoolean.class);
             case VALUE_FALSE:
+                return jp.readValueAs(ValueBoolean.class);
             case VALUE_STRING:
                 return jp.readValueAs(ValueString.class);
             case VALUE_NUMBER_INT:
