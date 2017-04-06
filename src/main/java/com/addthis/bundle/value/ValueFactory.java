@@ -58,6 +58,10 @@ public final class ValueFactory {
         return new DefaultDouble(val);
     }
 
+    public static ValueBoolean create(boolean val) {
+        return new DefaultBoolean(val);
+    }
+
     public static ValueArray createArray(int size) {
         return new DefaultArray(size);
     }
@@ -105,6 +109,7 @@ public final class ValueFactory {
             case STRING: return valueObject;
             case INT:    return valueObject;
             case FLOAT:  return valueObject;
+            case BOOLEAN: return valueObject;
             case BYTES:  return ValueFactory.create(valueObject.asBytes().asNative().clone());
             case ARRAY:
                 ValueArray valueArray = ValueFactory.createArray(valueObject.asArray().size());

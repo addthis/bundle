@@ -43,6 +43,14 @@ public interface AutoField extends TypedField<ValueObject> {
         return Optional.of(valueObject.asString().asNative());
     }
 
+    default Optional<Boolean> getBoolean(Bundle bundle) {
+        ValueObject valueObject = getValue(bundle);
+        if (valueObject == null) {
+            return Optional.empty();
+        }
+        return Optional.of(valueObject.asBoolean().asNative());
+    }
+
     default OptionalDouble getDouble(Bundle bundle) {
         ValueObject valueObject = getValue(bundle);
         if (valueObject == null) {
@@ -66,7 +74,6 @@ public interface AutoField extends TypedField<ValueObject> {
         }
         return OptionalInt.of(ValueUtil.asNumberOrParse(valueObject).asLong().asNative().intValue());
     }
-
 
     // static construction and deserialization utilities
 
