@@ -54,11 +54,4 @@ public class ValueDeserializerTest {
         ValueString string = ValueFactory.decodeValue("heyo").asString();
         assertEquals("heyo", string.asNative());
     }
-
-    @Test
-    public void booleanCreation() throws IOException {
-        ValueBoolean b = ValueFactory.decodeValue("true").asBoolean();
-        assertEquals(true, b.asNative());
-    }
-
 }

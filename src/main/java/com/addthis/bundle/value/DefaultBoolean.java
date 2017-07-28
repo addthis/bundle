@@ -15,13 +15,10 @@ package com.addthis.bundle.value;
 
 import com.addthis.bundle.util.ValueUtil;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class DefaultBoolean implements ValueBoolean {
 
     private final boolean value;
 
-    @JsonCreator
     public DefaultBoolean(boolean value) {
         this.value = value;
     }
@@ -51,11 +48,6 @@ public class DefaultBoolean implements ValueBoolean {
     @Override
     public Boolean asNative() {
         return value;
-    }
-
-    @Override
-    public ValueBoolean asBoolean() {
-        return this;
     }
 
     @Override
