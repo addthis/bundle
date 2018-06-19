@@ -21,7 +21,7 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormat;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 /**
  * This class could do some String to Integer and vice versa auto conversion for some of its methods.
@@ -58,7 +58,7 @@ public class IndexBundleFormat implements BundleFormat {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("length", length)
                 .add("labels", labels)
                 .toString();

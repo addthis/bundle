@@ -20,7 +20,7 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.value.ValueObject;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -63,7 +63,7 @@ public class IndexField implements AutoField {
     }
 
     @Override public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                       .add("index", index)
                       .toString();
     }

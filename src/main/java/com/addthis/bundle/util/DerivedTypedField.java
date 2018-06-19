@@ -19,7 +19,7 @@ import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.value.ValueObject;
 import com.addthis.codec.jackson.Jackson;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -55,7 +55,7 @@ public class DerivedTypedField<T> implements TypedField<T> {
     }
 
     @Override public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                       .add("field", field)
                       .add("type", type)
                       .toString();

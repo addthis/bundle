@@ -20,7 +20,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.value.ValueObject;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -90,7 +90,7 @@ public class FullAutoField implements AutoField {
     }
 
     @Override public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                       .add("baseAutoField", baseAutoField)
                       .add("subNames", subNames)
                       .toString();
