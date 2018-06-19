@@ -22,7 +22,7 @@ import com.addthis.bundle.core.BundleField;
 import com.addthis.bundle.core.BundleFormatted;
 import com.addthis.bundle.value.ValueObject;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -76,7 +76,7 @@ public class CachingField implements AutoField {
     }
 
     @Override public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                       .add("name", name)
                       .add("cachedField", cachedField)
                       .toString();

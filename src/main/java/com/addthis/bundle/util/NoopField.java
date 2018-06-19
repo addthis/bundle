@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.addthis.bundle.core.Bundle;
 import com.addthis.bundle.value.ValueObject;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class NoopField implements AutoField {
 
@@ -35,7 +35,7 @@ public class NoopField implements AutoField {
     }
 
     @Override public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                       .toString();
     }
 }

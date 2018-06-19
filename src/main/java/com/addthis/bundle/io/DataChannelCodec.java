@@ -262,7 +262,7 @@ public final class DataChannelCodec {
     /**
      * used in ResultDiskBacked
      */
-    public static Bundle decodeBundle(Bundle bundle, InputStream in, FieldIndexMap fieldMap, ClassIndexMap classMap) throws IOException {
+    public static Bundle  decodeBundle(Bundle bundle, InputStream in, FieldIndexMap fieldMap, ClassIndexMap classMap) throws IOException {
         int t = in.read();
         if (t < 0) {
             return null;

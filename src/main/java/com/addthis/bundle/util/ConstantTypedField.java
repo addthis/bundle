@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 
 import com.addthis.bundle.core.Bundle;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -44,7 +44,7 @@ public class ConstantTypedField<T> implements TypedField<T>, Supplier<T> {
     }
 
     @Override public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                       .add("value", value)
                       .toString();
     }
