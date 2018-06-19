@@ -55,12 +55,12 @@
     <dependency>
       <groupId>com.addthis.basis</groupId>
       <artifactId>basis-core</artifactId>
-      <version>4.3.0</version>
+      <version>4.3.1</version>
     </dependency>
     <dependency>
       <groupId>com.addthis</groupId>
       <artifactId>codec</artifactId>
-      <version>3.8.0</version>
+      <version>3.8.2</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
