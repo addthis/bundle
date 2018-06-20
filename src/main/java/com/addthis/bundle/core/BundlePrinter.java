@@ -86,6 +86,10 @@ public class BundlePrinter {
 
     // inefficient but simple method for truncating bundle string (primarily to avoid log-spamming in debug output)
     public static String printBundle(Bundle bundle, int limit) {
-        return printBundle(bundle).substring(0, limit);
+        String output = printBundle(bundle);
+        if(output.length() > limit) {
+            output = output.substring(0, limit);
+        }
+        return output;
     }
 }
